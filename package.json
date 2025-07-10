@@ -1,0 +1,43 @@
+{
+  "name": "nexocli-basegemini",
+  "version": "0.1.0",
+  "description": "An advanced and extensible fork of Google's Gemini-CLI with multi-provider support.",
+  "main": "src/index.js",
+  "type": "module",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "jest",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "preflight": "npm run format && npm run lint && npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nsalvacao/NexoCLI_BaseGemini.git"
+  },
+  "keywords": [
+    "cli",
+    "ai",
+    "gemini",
+    "google",
+    "llm",
+    "openrouter",
+    "ollama"
+  ],
+  "author": "Nuno Salvação <nexo-modeling@outlook.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/nsalvacao/NexoCLI_BaseGemini/issues"
+  },
+  "homepage": "https://github.com/nsalvacao/NexoCLI_BaseGemini#readme",
+  "devDependencies": {
+    "eslint": "^9.30.1",
+    "jest": "^30.0.4",
+    "prettier": "^3.6.2"
+  }
+}
