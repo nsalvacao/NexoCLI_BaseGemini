@@ -137,3 +137,19 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Modelos originais
+0.ModelosOriginais/
+
+# Bases de dados locais
+*.sqlite
+*.db
+
+# Configurações de agentes
+.nefox/
+*.local
+
+# Backups/dumps temporários
+*.dump
+*.bak
+
