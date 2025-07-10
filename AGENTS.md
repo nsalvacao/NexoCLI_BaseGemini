@@ -154,6 +154,27 @@ NexoCLI_BaseGemini/
 
 ---
 
+## 7. Segurança, Gestão e Utilização de API Keys
+(Direcionado a agentes IA/humanos — colaboradores e programadores do projeto)
+
+* **É estritamente proibido incluir qualquer chave de API (ex: Gemini, OpenRouter) diretamente no código-fonte, exemplos de código, testes ou logs.**
+* Todas as credenciais devem ser lidas dinamicamente via variáveis de ambiente, preferencialmente através de um ficheiro `.env` (ver `.env.example`).
+* **Exemplo prático de acesso seguro em Node.js:**
+
+  ```js
+  const geminiKey = process.env.GEMINI_API_KEY;
+  const openRouterKey = process.env.OPENROUTER_API_KEY;
+  ```
+* Antes de iniciar o desenvolvimento, garanta:
+
+  1. Que existe um ficheiro `.env` válido na raiz do projeto (nunca versionado!).
+  2. Que o `.env` está listado no `.gitignore`!
+  3. Que existe um ficheiro `.env.example` **SEM** valores reais, para onboarding de novos agentes.
+* **Nunca escreva, partilhe ou exponha chaves reais fora do ambiente local seguro.**
+* Em caso de dúvida, consulte imediatamente o maintainer do projeto.
+
+---
+
 **Nota Final:**
 Este documento é de leitura obrigatória para qualquer pessoa (ou agente automatizado) que colabore neste projeto.
 Não cumprir estas regras pode levar à exclusão do histórico ou rejeição de contribuições.
