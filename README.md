@@ -111,6 +111,29 @@ npm run dev
 
 ---
 
+## 🟦 **Como configurar as suas Chaves de API (Gemini, OpenRouter, etc.)**
+_**(Direcionado a utilizadores finais e público geral que deseja correr o NexoCLI\_BaseGemini)**_
+
+Para utilizar o NexoCLI\_BaseGemini, é necessário fornecer as suas próprias chaves de API. Siga estes passos:
+
+1. **Copie o ficheiro `.env.example` para `.env` na raiz do projeto:**
+
+   ```bash
+   cp .env.example .env
+   ```
+2. **Edite o ficheiro `.env` e preencha com as suas chaves:**
+
+   ```env
+   GEMINI_API_KEY=sua_chave_gemini_aqui
+   OPENROUTER_API_KEY=sua_chave_openrouter_aqui
+   # Adicione outras chaves se necessário
+   ```
+3. **Nunca partilhe nem submeta o ficheiro `.env` ao GitHub ou a terceiros.**
+4. O NexoCLI\_BaseGemini irá ler automaticamente as suas chaves — não é necessário alterar o código.
+5. Para onboarding ou colaboração, utilize sempre o `.env.example` (sem valores reais) como template.
+
+---
+
 ## 🟦 **Estrutura Recomendada do Projeto**
 
 ```
