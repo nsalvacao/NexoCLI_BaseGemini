@@ -161,3 +161,19 @@ vite.config.ts.timestamp-*
 *.dump
 *.bak
 
+# Modelos locais (muito grandes)
+models/.ollama/
+models/*/model.bin
+models/*/model.safetensors
+
+# Downloads temporários
+downloads/temp/
+downloads/*/cache/
+
+# Logs de performance
+models/benchmarks/*.log
+models/benchmarks/temp/
+
+# Configurações locais específicas
+models/user-configs/
+.ollama-local-config
