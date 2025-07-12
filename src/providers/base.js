@@ -123,14 +123,30 @@ export class BaseProvider {
    */
   async healthCheck() {
     try {
-      return this.isReady() && await this.validateCredentials();
+      const isReady = this.isReady();
+      const credentialsValid = await this.validateCredentials();
+      const healthy = isReady && credentialsValid;
+      
+      // CORREÇÃO: Retornar objeto com informações detalhadas
+      return {
+        healthy: healthy,
+        ready: isReady,
+        credentials: credentialsValid,
+        timestamp: new Date().toISOString()
+      };
     } catch (error) {
       await this.logDevelopment(
         'health_check_error',
         `Health check failed: ${error.message}`,
         'High'
       );
-      return false;
+      return {
+        healthy: false,
+        ready: false,
+        credentials: false,
+        error: error.message,
+        timestamp: new Date().toISOString()
+      };
     }
   }
 

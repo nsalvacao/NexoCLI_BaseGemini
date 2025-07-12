@@ -231,10 +231,11 @@ export class CredentialValidator {
       details: {}
     };
 
-    const { credentials } = config;
+    // CORREÇÃO: Verificar apiKey diretamente no config ou em credentials
+    const apiKey = config.apiKey || config.credentials?.apiKey;
 
     // Verificar se API key existe
-    if (!credentials.apiKey) {
+    if (!apiKey) {
       result.errors.push('Missing OpenRouter API key');
       return result;
     }
@@ -244,7 +245,7 @@ export class CredentialValidator {
       const testUrl = 'https://openrouter.ai/api/v1/models';
       const testResponse = await axios.get(testUrl, {
         headers: {
-          'Authorization': `Bearer ${credentials.apiKey}`,
+          'Authorization': `Bearer ${apiKey}`,
           'Content-Type': 'application/json'
         },
         timeout: 10000
@@ -287,15 +288,16 @@ export class CredentialValidator {
       details: {}
     };
 
-    const { credentials } = config;
+    // CORREÇÃO: Verificar apiKey diretamente no config ou em credentials
+    const apiKey = config.apiKey || config.credentials?.apiKey;
 
-    if (!credentials.apiKey) {
+    if (!apiKey) {
       result.errors.push('Missing Anthropic API key');
       return result;
     }
 
     // Verificar formato da API key (começa com sk-ant-)
-    if (!credentials.apiKey.startsWith('sk-ant-')) {
+    if (!apiKey.startsWith('sk-ant-')) {
       result.warnings.push('API key does not follow expected Anthropic format');
     }
 

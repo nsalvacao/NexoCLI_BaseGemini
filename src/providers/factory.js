@@ -119,6 +119,10 @@ export class ProviderFactory {
 
         const provider = await this.createProvider(providerName, config);
         
+        // CORREÇÃO CRÍTICA: Garantir inicialização completa antes de health check
+        await provider.initialize();
+        await provider.authenticate();
+        
         // Testar conectividade básica
         const healthCheck = await provider.healthCheck();
         

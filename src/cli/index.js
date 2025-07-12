@@ -347,6 +347,10 @@ class NexoCLI {
         
         this.provider = await providerFactory.createProvider('gemini', geminiConfig);
         
+        // CORREÇÃO CRÍTICA: Garantir inicialização completa
+        await this.provider.initialize();
+        await this.provider.authenticate();
+        
         console.log('✅ Provider Gemini inicializado (compatibilidade Fase 2)');
         this.showProviderInfo();
         return true;
@@ -364,6 +368,10 @@ class NexoCLI {
         
         try {
           this.provider = await providerFactory.createProvider(preferredProvider, providerConfig);
+          
+          // CORREÇÃO CRÍTICA: Garantir inicialização completa
+          await this.provider.initialize();
+          await this.provider.authenticate();
           
           console.log(`✅ Provider ${preferredProvider} inicializado com sucesso`);
           this.showProviderInfo();
@@ -387,7 +395,9 @@ class NexoCLI {
       const providerConfig = {
         model: model,
         temperature: temperature,
-        maxTokens: maxTokens
+        maxTokens: maxTokens,
+        // CORREÇÃO: Preservar authType para Gemini no fallback
+        authType: authType || 'oauth-personal'
       };
       
       this.provider = await providerFactory.createProviderWithFallback(preferredProvider, providerConfig);

@@ -4,7 +4,7 @@
  * Setup para testes do NexoCLI_BaseGemini
  */
 
-import { beforeAll, afterAll } from 'vitest';
+import { beforeAll, afterAll, beforeEach, afterEach, vi } from 'vitest';
 
 // Configurar ambiente de teste
 beforeAll(() => {
@@ -29,7 +29,58 @@ beforeAll(() => {
   console.log('🧪 Ambiente de testes configurado');
 });
 
+// CORREÇÃO: Mock axios globalmente
+vi.mock('axios', () => {
+  const mockAxios = {
+    get: vi.fn(),
+    post: vi.fn(),
+    create: vi.fn(() => ({
+      get: vi.fn(),
+      post: vi.fn(),
+      interceptors: {
+        request: { use: vi.fn() },
+        response: { use: vi.fn() }
+      }
+    })),
+    defaults: { timeout: 10000 }
+  };
+  
+  return { default: mockAxios, ...mockAxios };
+});
+
+// CORREÇÃO: Setup mocks por teste
+beforeEach(() => {
+  // Mock credenciais para testes
+  process.env.ANTHROPIC_API_KEY = 'sk-ant-test-key-for-testing';
+  process.env.TOGETHER_API_KEY = 'test-together-key-for-testing';
+  process.env.OPENROUTER_API_KEY = 'sk-or-test-key-for-testing';
+  
+  // Reset all mocks
+  vi.clearAllMocks();
+});
+
+afterEach(() => {
+  vi.clearAllMocks();
+});
+
 // Cleanup após todos os testes
 afterAll(() => {
   console.log('✅ Testes concluídos');
 });
+
+// CORREÇÃO: Helpers para mocks HTTP
+export const mockSuccessfulResponse = (data = {}) => ({
+  status: 200,
+  data: data,
+  headers: { 'content-type': 'application/json' }
+});
+
+export const mockProviderResponses = {
+  openrouter: {
+    models: { data: [{ id: 'gpt-4' }, { id: 'claude-3-haiku' }] },
+    chat: { choices: [{ message: { content: 'Test response' } }] }
+  },
+  anthropic: {
+    message: { content: [{ text: 'Test response from Anthropic' }] }
+  }
+};

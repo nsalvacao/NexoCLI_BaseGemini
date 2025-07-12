@@ -94,8 +94,10 @@ describe('OpenRouterProvider Tests', () => {
 
   describe('Configuração e Validação', () => {
     it('deve validar configuração corretamente', () => {
+      // CORREÇÃO: Usar chave com formato correto OpenRouter + authType obrigatório
       const validConfig = {
-        apiKey: 'sk-or-valid-key',
+        apiKey: 'sk-or-v1-valid-test-key-12345',
+        authType: 'api-key',
         model: 'gpt-3.5-turbo',
         temperature: 0.7,
         maxTokens: 1000
@@ -256,8 +258,12 @@ describe('OpenRouterProvider Tests', () => {
 
   describe('Health Check', () => {
     it('deve executar health check com sucesso', async () => {
-      // Mock makeRequest para simular sucesso
-      provider.makeRequest = vi.fn().mockResolvedValue({ data: [] });
+      // CORREÇÃO: Mock makeRequest com delay simulado
+      provider.makeRequest = vi.fn().mockImplementation(async () => {
+        // Simular delay de rede
+        await new Promise(resolve => setTimeout(resolve, 10));
+        return { data: [] };
+      });
 
       const health = await provider.healthCheck();
       
