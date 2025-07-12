@@ -1,0 +1,71 @@
+{
+  "name": "nexocli-base-gemini",
+  "version": "1.0.0",
+  "description": "Fork avançado do Gemini-CLI com multi-provider e dashboard",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "type": "module",
+  "main": "src/index.js",
+  "bin": {
+    "nexocli": "src/cli/index.js"
+  },
+  "scripts": {
+    "start": "node src/cli/index.js",
+    "dev": "cross-env NODE_ENV=development node src/cli/index.js",
+    "build": "node scripts/build.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src/ --ext .js,.ts",
+    "lint:fix": "eslint src/ --ext .js,.ts --fix",
+    "format": "prettier --write src/",
+    "typecheck": "tsc --noEmit",
+    "db:init": "node src/database/init.js",
+    "db:migrate": "node src/database/migrate.js",
+    "db:backup": "node src/database/backup.js",
+    "db:test": "node src/database/test-connection.js",
+    "dashboard": "node src/dashboard/cli-dashboard.js",
+    "preflight": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "test:oauth": "node src/auth/test-oauth.js",
+    "test:provider": "node src/cli/index.js --test",
+    "test:connection": "node src/cli/index.js --test",
+    "chat": "node src/cli/index.js"
+  },
+  "dependencies": {
+    "sqlite3": "^5.1.7",
+    "winston": "^3.11.0",
+    "axios": "^1.6.8",
+    "inquirer": "^9.2.15",
+    "dotenv": "^16.4.5",
+    "cross-env": "^7.0.3",
+    "google-auth-library": "^9.4.0",
+    "@google/generative-ai": "^0.21.0"
+  },
+  "devDependencies": {
+    "vitest": "^1.6.0",
+    "eslint": "^9.24.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.4.5",
+    "@types/node": "^20.11.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nsalvacao/NexoCLI_BaseGemini.git"
+  },
+  "keywords": [
+    "gemini",
+    "cli",
+    "ai",
+    "multi-provider",
+    "dashboard",
+    "logging",
+    "oauth"
+  ],
+  "author": "Nuno Salvação <nexo-modeling@outlook.com>",
+  "bugs": {
+    "url": "https://github.com/nsalvacao/NexoCLI_BaseGemini/issues"
+  },
+  "homepage": "https://github.com/nsalvacao/NexoCLI_BaseGemini#readme"
+}

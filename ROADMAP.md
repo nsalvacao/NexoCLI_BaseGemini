@@ -283,103 +283,155 @@ feat: Integração multi-provider com fallback automático
 
 ---
 
-### **Fase 5 — Menu Interativo**
-**Duração estimada:** 3-4 dias  
+### **Fase 5 — Menu Interativo + CLI Modelos**
+**Duração estimada:** 4-5 dias (expandido para incluir gestão de modelos)  
 **Dependências:** Fases 0-4 concluídas (crítico: BD funcional + providers modulares)  
 
 **Objetivos:**
 - Menu de arranque para seleção dinâmica de provider
 - Configuração de logging em runtime
+- **CLI avançada para gestão de modelos locais**
 - Interface de utilizador intuitiva e robusta
-- Validação de configurações
+- Validação de configurações e recursos de sistema
 
 **Outputs obrigatórios:**
 - Menu interativo CLI completo
 - Seleção dinâmica de providers
 - Configuração de logging runtime
+- **CLI para Ollama:** Verificação, instalação, gestão de modelos
+- **System checks:** Verificação de recursos (RAM, CPU, disco)
+- **Model recommendations:** Sugestões baseadas em recursos disponíveis
 - Help e documentação integrados
 
 **Funcionalidades do menu:**
 - Seleção de provider (lista dos disponíveis via `.env`)
 - Configuração de logging (ativar/desativar, destino)
 - Gestão de histórico (visualizar, exportar, limpar)
+- **Gestão de modelos locais:**
+  - `nexocli models list` - Listar modelos instalados
+  - `nexocli models check-system` - Verificar recursos do sistema
+  - `nexocli models recommend` - Sugerir modelos compatíveis
+  - `nexocli models install <model>` - Instalar modelo
+  - `nexocli models test <model>` - Testar modelo específico
+  - `nexocli models info <model>` - Informações detalhadas
+  - `nexocli models benchmark <model>` - Testes de performance
 - Help contextual e comandos disponíveis
 
 **Critérios de conclusão:**
 - [ ] Menu CLI interativo funcional
 - [ ] Seleção de providers dinâmica
 - [ ] Configuração de logging runtime
+- [ ] **CLI de gestão de modelos operacional**
+- [ ] **Verificações de sistema implementadas**
+- [ ] **Recomendações inteligentes funcionais**
 - [ ] Validação robusta de inputs
 - [ ] Help integrado e documentação acessível
 
 **Exemplo de commit:**
 ```
-feat: Menu interativo de arranque com seleção dinâmica
+feat: Menu interativo + CLI gestão modelos locais
 
 - Menu CLI completo para seleção de provider e configurações
 - Seleção dinâmica entre providers disponíveis
-- Configuração de logging e histórico runtime
+- Sistema de verificação de recursos implementado
+- CLI completa para gestão de modelos Ollama
+- Recomendações inteligentes baseadas em sistema
 - Validação robusta de inputs e configurações
 - Help contextual integrado
 ```
 
 ---
 
-### **Fase 6 — Modelos Locais (LLM)**
-**Duração estimada:** 4-5 dias  
-**Dependências:** Fases 0-5 concluídas  
+### **Fase 6 — Modelos Locais (LLM) + Configurações**
+**Duração estimada:** 3-4 dias  
+**Dependências:** Fases 0-5 concluídas (crítico: CLI de gestão da Fase 5)
 
 **Objetivos:**
-- Integração Ollama e outros modelos locais
-- Pasta `/models` e scripts de setup
-- Fallback local quando providers cloud falham
-- Gestão de modelos locais
+- Integração Ollama com verificações defensivas de sistema
+- **Configurações específicas por modelo** (não modelos binários - ficam em ~/.ollama/)
+- Fallback inteligente cloud → local baseado em recursos
+- **Provider local robusto** com gestão de erros
 
 **Outputs obrigatórios:**
-- Provider para modelos locais (Ollama)
-- Sistema de gestão de modelos (`/models`)
+- Provider Ollama com verificações de sistema
+- **Configurações de modelo** em `models/configs/`
+- **Prompts customizados** em `models/prompts/`
+- **Scripts de gestão** em `models/scripts/`
+- **Benchmarks e testes** em `models/benchmarks/` (não versionados)
 - Fallback inteligente cloud → local
-- Scripts de download e setup
+- **Verificações defensivas** de compatibilidade
+
+**Estrutura de models/ (Configurações apenas):**
+```
+models/                    # ❌ SEM modelos binários (ficam em ~/.ollama/)
+├── configs/              # ✅ Configurações específicas por modelo
+│   ├── deepseek-coding.json    # Config para coding
+│   ├── llama3-general.json     # Config para conversação
+│   ├── phi3-lightweight.json   # Config para testes
+│   └── mistral-balanced.json   # Config balanceado
+├── prompts/              # ✅ Prompts customizados por uso
+│   ├── coding-assistant.md     # Prompts para programação
+│   ├── documentation-writer.md # Prompts para docs
+│   ├── system-analysis.md      # Prompts para análise
+│   └── general-chat.md         # Prompts conversação
+├── scripts/              # ✅ Scripts de gestão
+│   ├── install-recommended.sh  # Auto-instalação
+│   ├── system-check.js         # Verificação recursos
+│   ├── model-test.js           # Testes automatizados
+│   └── cleanup.sh              # Limpeza de cache
+└── benchmarks/           # ❌ NÃO VERSIONADO - Dados locais
+    ├── response-times.json     # Performance tracking
+    └── resource-usage.log      # Uso de recursos
+```
 
 **Funcionalidades:**
 - Deteção automática de Ollama instalado
-- Download e gestão de modelos
+- Verificação defensiva de recursos antes de usar modelos
+- Recomendações inteligentes baseadas em sistema
 - Fallback automático para local em caso de falha cloud
 - Monitoring de performance local vs cloud
+- Gestão de configurações e prompts por modelo
 
 **Critérios de conclusão:**
-- [ ] Provider local (Ollama) funcional
-- [ ] Gestão de modelos implementada
+- [ ] Provider local (Ollama) funcional com verificações defensivas
+- [ ] Sistema de verificação de recursos implementado
+- [ ] Recomendações inteligentes de modelos baseadas em sistema
 - [ ] Fallback cloud → local a funcionar
-- [ ] Scripts de setup e download operacionais
+- [ ] CLI de gestão operacional (integrada da Fase 5)
 - [ ] Performance local testada e documentada
+- [ ] **Configurações e prompts versionados** (modelos binários em ~/.ollama/)
+- [ ] **Verificações defensivas** contra sobrecarga do sistema
 
 **Exemplo de commit:**
 ```
-feat: Suporte a modelos locais com fallback inteligente
+feat: Provider local Ollama com verificações defensivas
 
-- Provider Ollama implementado com gestão de modelos
-- Pasta /models com scripts de download e setup
-- Fallback automático cloud → local em falhas
-- Monitoring de performance local vs cloud
-- Testes de integração para modelos locais
+- Provider Ollama com verificações robustas de sistema
+- Configurações específicas por modelo implementadas
+- Prompts customizados para diferentes casos de uso
+- Fallback inteligente cloud → local funcional
+- Scripts de gestão e verificação de recursos
+- Monitoring de performance integrado com BD
+- Verificações defensivas contra sobrecarga do sistema
 ```
 
 ---
 
-### **Fase 7 — Dashboard Básico**
+### **Fase 7 — Dashboard Básico + Gestão Visual de Modelos**
 **Duração estimada:** 5-6 dias  
-**Dependências:** Fases 0-6 concluídas (crítico: BD com dados + providers funcionais)  
+**Dependências:** Fases 0-6 concluídas (crítico: BD com dados + providers funcionais + CLI de modelos)  
 
 **Objetivos:**
 - Dashboard CLI/Web para gestão e análise
 - Visualização de histórico, logs e métricas
+- **Interface visual para gestão de modelos locais**
 - Exportação e filtros básicos
 - Interface de gestão do sistema
 
 **Outputs obrigatórios:**
 - Dashboard funcional (CLI prioritário, Web opcional)
 - Visualização de dados da BD
+- **Interface visual para modelos locais**
 - Exportação em múltiplos formatos
 - Gestão de configurações
 
@@ -387,25 +439,38 @@ feat: Suporte a modelos locais com fallback inteligente
 - Visualização de histórico de chats
 - Logs técnicos filtráveis por data/agente/tipo
 - Métricas de performance por provider
+- **Interface visual para gestão de modelos locais:**
+  - Visualização de modelos instalados com status
+  - Monitorização de recursos em tempo real
+  - Gestão visual de configurações de modelo
+  - Performance comparisons entre modelos
+  - Alertas de sobrecarga de sistema
+  - Interface para instalação/remoção de modelos
 - Exportação (JSON, CSV, Markdown)
 - Gestão de configurações runtime
 
 **Critérios de conclusão:**
 - [ ] Dashboard CLI funcional
 - [ ] Visualização completa de dados da BD
+- [ ] **Interface visual de modelos operacional**
+- [ ] **Monitorização de recursos em tempo real**
 - [ ] Filtros e pesquisa implementados
 - [ ] Exportação em múltiplos formatos
 - [ ] Gestão de configurações operacional
+- [ ] **Performance comparisons entre modelos funcionais**
 
 **Exemplo de commit:**
 ```
-feat: Dashboard CLI para gestão e análise completa
+feat: Dashboard com gestão visual de modelos locais
 
 - Interface CLI para visualização de histórico e logs
+- Dashboard visual para gestão de modelos Ollama
+- Monitorização de recursos em tempo real
+- Performance comparisons entre modelos
 - Filtros avançados por data, provider, agente
 - Exportação em JSON, CSV e Markdown
 - Gestão de configurações runtime
-- Métricas de performance integradas
+- Alertas de sobrecarga de sistema
 ```
 
 ---

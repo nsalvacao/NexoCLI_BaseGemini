@@ -229,7 +229,11 @@ NexoCLI_BaseGemini/
 │   └── dashboard/          # Dashboard interativo (futuro)
 ├── logs/                   # Logs técnicos (obrigatório)
 ├── db/                     # Base de dados local (obrigatório)
-├── models/                 # Modelos locais (Ollama, etc.)
+├── models/                 # Configurações de modelos locais
+│   ├── configs/            # Configurações específicas por modelo
+│   ├── prompts/            # Prompts customizados
+│   ├── scripts/            # Scripts de gestão
+│   └── benchmarks/         # Testes de performance (não versionado)
 ├── tests/                  # Testes unitários e integração
 │   ├── unit/
 │   ├── integration/
@@ -294,6 +298,7 @@ O menu deve permitir:
 - **Seleção de Provider:** Gemini (default), OpenRouter, Local, outros do `.env`
 - **Configuração de Logging:** Ativar/desativar, destino (ficheiro/BD/ambos)
 - **Opções de Histórico:** Gravar chats, exportar sessões anteriores
+- **Gestão de Modelos Locais:** CLI para Ollama (Fase 5+)
 - **Configuração Runtime:** Alterar provider sem restart (se implementado)
 - **Help/Documentação:** Acesso rápido a comandos disponíveis
 
@@ -342,32 +347,322 @@ tests/
 
 ---
 
-## 6. Dashboard e Monitorização
+## 6. Segurança, Gestão e Autenticação
 
-### 6.1. Funcionalidades Mínimas do Dashboard
+### 6.1. Autenticação Principal - OAuth (Sem Chaves API)
+
+**O NexoCLI_BaseGemini mantém o método de autenticação original do Gemini-CLI:**
+- **OAuth com conta Google** (método principal e gratuito)
+- **60 requests/minuto + 1000/dia** sem qualquer custo
+- **Autenticação via browser** na primeira execução
+- **Credenciais armazenadas localmente** pelo próprio Gemini-CLI
+
+### 6.2. Gestão de API Keys (Apenas para Providers Externos)
+
+**É estritamente proibido incluir qualquer chave de API** diretamente no código-fonte, exemplos de código, testes ou logs.
+
+**Chaves API são OPCIONAIS e apenas para:**
+- Providers externos (OpenRouter, Anthropic, OpenAI, etc.)
+- Quotas maiores no Gemini (via Google AI Studio)
+
+**Exemplo de configuração segura em Node.js:**
+```js
+// OAuth é o método principal - SEM chaves necessárias
+const useOAuth = !process.env.GEMINI_API_KEY;
+
+// Apenas para providers externos opcionais
+const openRouterKey = process.env.OPENROUTER_API_KEY;
+const anthropicKey = process.env.ANTHROPIC_API_KEY;
+```
+
+### 6.3. Setup de Desenvolvimento
+
+**Antes de iniciar o desenvolvimento:**
+1. **Testar OAuth primeiro** - executar `npm start` e verificar login Google
+2. **Verificar `.env.example`** existe e está atualizado
+3. **Confirmar `.env` está no `.gitignore`**
+4. **SÓ configurar `.env`** se precisar de providers externos
+
+**Nunca escreva, partilhe ou exponha chaves reais** fora do ambiente local seguro.
+Em caso de dúvida, consulte imediatamente o maintainer do projeto.
+
+### 6.4. Gestão de Modelos Locais (Ollama) - Guidelines Técnicas
+
+### **Arquitetura Obrigatória**
+
+**Localização dos Componentes:**
+- **Ollama:** Instalação global do sistema (`ollama`)
+- **Modelos binários:** `~/.ollama/models/` (managed pelo Ollama)
+- **Configurações projeto:** `models/configs/` (versionado)
+- **Prompts customizados:** `models/prompts/` (versionado)
+- **Benchmarks:** `models/benchmarks/` (local, não versionado)
+
+### **Verificações Obrigatórias no Código**
+
+**Todas as implementações devem incluir:**
+```javascript
+// src/providers/local.js - Exemplo obrigatório
+async checkSystemRequirements() {
+    const system = await getSystemInfo();
+    
+    // Verificação obrigatória de recursos
+    if (system.ram < 2048) {
+        throw new Error('Mínimo 2GB RAM requerido para modelos locais');
+    }
+    
+    // Verificação de Ollama
+    const ollamaAvailable = await checkOllamaInstalled();
+    if (!ollamaAvailable) {
+        throw new Error('Ollama não instalado. Instale de https://ollama.com/');
+    }
+    
+    // Verificação de serviço
+    const serviceRunning = await checkOllamaService();
+    if (!serviceRunning) {
+        throw new Error('Serviço Ollama não está a correr. Execute: ollama serve');
+    }
+}
+
+async getModelRecommendations(systemInfo) {
+    if (systemInfo.ram < 4096) {
+        return ['phi3:mini', 'tinyllama:1.1b'];
+    } else if (systemInfo.ram < 8192) {
+        return ['deepseek-coder:6.7b', 'mistral:7b'];
+    } else {
+        return ['llama3:8b', 'deepseek-coder:14b', 'codellama:13b'];
+    }
+}
+```
+
+### **Implementação de CLI de Gestão (Fase 5)**
+
+**Comandos Obrigatórios:**
+```javascript
+// src/cli/models-commands.js
+export const modelCommands = {
+    'models list': listInstalledModels,
+    'models check-system': checkSystemResources,
+    'models recommend': recommendModels,
+    'models install <model>': installModel,
+    'models test <model>': testModel,
+    'models info <model>': getModelInfo,
+    'models benchmark <model>': benchmarkModel
+};
+
+async function checkSystemResources() {
+    const system = await getSystemInfo();
+    console.log(`💻 Sistema:`);
+    console.log(`   RAM: ${system.ram}MB (${system.ramFree}MB livre)`);
+    console.log(`   CPU: ${system.cpu.cores} cores, ${system.cpu.model}`);
+    console.log(`   Disco: ${system.disk.free}GB livres`);
+    
+    const recommended = await getModelRecommendations(system);
+    console.log(`🎯 Modelos recomendados: ${recommended.join(', ')}`);
+}
+```
+
+### **Testing Strategy para Modelos Locais**
+
+**Estrutura de Testes Obrigatória:**
+```javascript
+// tests/providers/local.test.js
+describe('LocalProvider', () => {
+    beforeAll(async () => {
+        // Verificar se Ollama está disponível para testes
+        const available = await checkOllamaInstalled();
+        if (!available) {
+            console.warn('Ollama não disponível, usando mocks');
+            mockOllama = true;
+        }
+    });
+    
+    test('should check system requirements', async () => {
+        const provider = new LocalProvider();
+        const requirements = await provider.checkSystemRequirements();
+        expect(requirements.sufficient).toBeDefined();
+    });
+    
+    test('should recommend models based on resources', async () => {
+        const provider = new LocalProvider();
+        const recommendations = await provider.getModelRecommendations({
+            ram: 8192, cpu: { cores: 4 }
+        });
+        expect(recommendations).toContain('deepseek-coder:6.7b');
+    });
+    
+    test('should handle model installation', async () => {
+        if (mockOllama) return; // Skip se não tem Ollama real
+        
+        const provider = new LocalProvider();
+        const result = await provider.installModel('phi3:mini');
+        expect(result.success).toBe(true);
+    });
+});
+```
+
+### **Configurações de Modelo - Estrutura Obrigatória**
+
+**Exemplo: models/configs/deepseek-coding.json**
+```json
+{
+    "model": "deepseek-coder:6.7b",
+    "name": "DeepSeek Coder",
+    "purpose": "coding",
+    "requirements": {
+        "ram_mb": 4096,
+        "disk_mb": 4000,
+        "cpu_cores": 2
+    },
+    "parameters": {
+        "temperature": 0.1,
+        "top_p": 0.95,
+        "max_tokens": 4096,
+        "stop_sequences": ["```", "###"]
+    },
+    "prompt_template": "coding-assistant",
+    "fallback_models": ["phi3:mini", "tinyllama:1.1b"],
+    "use_cases": ["code_generation", "code_review", "debugging"],
+    "performance": {
+        "avg_response_time_ms": 3000,
+        "tokens_per_second": 25
+    }
+}
+```
+
+### **Error Handling Defensivo**
+
+**Implementação Obrigatória:**
+```javascript
+async function safeModelExecution(modelName, prompt, options = {}) {
+    try {
+        // 1. Verificar recursos antes da execução
+        const systemCheck = await checkSystemResources();
+        if (!systemCheck.sufficient) {
+            const lighter = await suggestLighterModel(modelName);
+            throw new Error(`Recursos insuficientes. Sugestão: ${lighter}`);
+        }
+        
+        // 2. Verificar se modelo existe
+        const modelExists = await checkModelExists(modelName);
+        if (!modelExists) {
+            throw new Error(`Modelo ${modelName} não instalado. Use: nexocli models install ${modelName}`);
+        }
+        
+        // 3. Executar com timeout
+        const timeout = options.timeout || 30000;
+        const response = await Promise.race([
+            executeModel(modelName, prompt, options),
+            new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Timeout')), timeout)
+            )
+        ]);
+        
+        return response;
+        
+    } catch (error) {
+        // 4. Log error na BD
+        await logger.logProviderAction({
+            provider: 'local',
+            model: modelName,
+            action: 'execution',
+            status: 'error',
+            error_message: error.message
+        });
+        
+        // 5. Sugerir fallback
+        if (error.message.includes('Recursos insuficientes')) {
+            const fallback = await suggestFallbackProvider();
+            throw new Error(`${error.message}\n💡 Tente: ${fallback}`);
+        }
+        
+        throw error;
+    }
+}
+```
+
+### **Performance Monitoring Obrigatório**
+
+**Implementação para Dashboard:**
+```javascript
+// src/utils/model-monitor.js
+export class ModelMonitor {
+    async trackModelUsage(modelName, startTime, endTime, tokens) {
+        const usage = {
+            model: modelName,
+            response_time_ms: endTime - startTime,
+            tokens_generated: tokens,
+            timestamp: new Date(),
+            system_resources: await getCurrentSystemUsage()
+        };
+        
+        // Gravar na BD para dashboard
+        await logger.logModelPerformance(usage);
+        
+        // Alertar se performance degradada
+        if (usage.response_time_ms > 10000) {
+            console.warn(`⚠️ Modelo ${modelName} demorou ${usage.response_time_ms}ms`);
+            console.warn(`💡 Considere modelo mais leve ou verificar recursos`);
+        }
+    }
+}
+```
+
+### **Guidelines de Desenvolvimento**
+
+**Verificações Obrigatórias ANTES de implementar:**
+- [ ] Sistema tem Ollama instalado globalmente
+- [ ] Modelo de teste leve disponível (`phi3:mini`)
+- [ ] Verificações de recursos implementadas
+- [ ] Error handling defensivo implementado
+- [ ] Logging de performance implementado
+- [ ] Testes com mocks para CI/CD
+
+**Durante Desenvolvimento:**
+- [ ] Testar sempre com modelo leve primeiro
+- [ ] Verificar recursos antes de modelos pesados
+- [ ] Implementar timeouts em todas as chamadas
+- [ ] Log todas as operações na BD
+- [ ] Providenciar fallbacks inteligentes
+
+**Validação Final:**
+- [ ] CLI de gestão completamente funcional
+- [ ] Verificações de sistema robustas
+- [ ] Performance monitoring operacional
+- [ ] Error handling defensivo testado
+- [ ] Documentação atualizada (README + este ficheiro)
+
+---
+
+## 7. Dashboard e Monitorização
+
+### 7.1. Funcionalidades Mínimas do Dashboard
 
 **Visualização:**
 - Histórico de chats filtrado por data, provider, sessão
 - Logs técnicos com pesquisa e filtros
 - Métricas de performance por provider
+- **Gestão visual de modelos locais** (Fase 7)
 - Estado atual do sistema e configurações
 
 **Gestão:**
 - Exportação de dados (JSON, CSV, markdown)
 - Configuração de providers em runtime
+- **Interface visual para modelos Ollama**
 - Gestão de logs (archive, cleanup, backup)
 - Help/documentação integrada
 
 **Monitorização:**
 - Consumo de recursos (API calls, quotas)
+- **Recursos de sistema para modelos locais**
 - Alertas de falhas ou degradação
 - Performance benchmarks por provider
 
-### 6.2. Acesso à Base de Dados
+### 7.2. Acesso à Base de Dados
 
 **Queries padronizadas:**
 - Logs por agente e período
 - Performance média por provider
+- **Performance de modelos locais**
 - Sessões de chat por utilizador
 - Alertas de sistema e erros
 
@@ -378,9 +673,9 @@ tests/
 
 ---
 
-## 7. Incident Response e Manutenção
+## 8. Incident Response e Manutenção
 
-### 7.1. Procedimentos de Emergência
+### 8.1. Procedimentos de Emergência
 
 **Falha Crítica do Provider Default (Gemini):**
 1. Ativar fallback automático se configurado
@@ -400,7 +695,13 @@ tests/
 3. Audit logs para identificar exposição
 4. Documentar incident e prevenção
 
-### 7.2. Backup e Recovery
+**Sobrecarga de Sistema (Modelos Locais):**
+1. Parar execução de modelos pesados
+2. Sugerir modelos mais leves
+3. Verificar recursos disponíveis
+4. Registar incident para análise
+
+### 8.2. Backup e Recovery
 
 **Backup Automático:**
 - BD local: backup diário incremental
@@ -414,9 +715,9 @@ tests/
 
 ---
 
-## 8. Templates e Recursos
+## 9. Templates e Recursos
 
-### 8.1. Template de Feature Branch
+### 9.1. Template de Feature Branch
 
 ```bash
 # Criar branch para nova feature
@@ -432,7 +733,7 @@ git commit -m "feat: adicionar provider Anthropic com fallback automático
 - Log técnico: log_feature_agente_20250711-143022.md"
 ```
 
-### 8.2. Template de Issue/Bug Report
+### 9.2. Template de Issue/Bug Report
 
 ```markdown
 ## Bug Report
@@ -460,17 +761,18 @@ git commit -m "feat: adicionar provider Anthropic com fallback automático
 **Impacto:** [Critical/High/Medium/Low]
 ```
 
-### 8.3. Recursos de Referência
+### 9.3. Recursos de Referência
 
 - **Apache License 2.0:** http://www.apache.org/licenses/LICENSE-2.0
 - **Gemini-CLI Original:** https://github.com/google-gemini/gemini-cli
 - **Node.js Best Practices:** https://github.com/goldbergyoni/nodebestpractices
 - **Jest Testing Framework:** https://jestjs.io/docs/getting-started
 - **SQLite Documentation:** https://www.sqlite.org/docs.html
+- **Ollama Documentation:** https://ollama.com/docs
 
 ---
 
-## 9. Contactos e Suporte
+## 10. Contactos e Suporte
 
 **Maintainer Principal:** [Nuno Salvação](mailto:nexo-modeling@outlook.com)
 

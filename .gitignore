@@ -146,34 +146,111 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
+# =============================================================================
+# NexoCLI_BaseGemini Specific
+# =============================================================================
 # Informacao_Para_Desenvolvimento
 0.Informacao_Para_Desenvolvimento/
 
-# Bases de dados locais
+# Base de dados SQLite
+db/
 *.sqlite
 *.db
+*.db3
 
-# Configurações de agentes
-.nefox/
-*.local
+# Logs técnicos
+logs/
+log_*.md
 
-# Backups/dumps temporários
+# Backups
+backups/
+*.backup
 *.dump
 *.bak
 
 # Modelos locais (muito grandes)
-models/.ollama/
-models/*/model.bin
-models/*/model.safetensors
-
-# Downloads temporários
-downloads/temp/
-downloads/*/cache/
-
-# Logs de performance
-models/benchmarks/*.log
-models/benchmarks/temp/
+models/
+*.model
+*.ckpt
+*.safetensors
 
 # Configurações locais específicas
+.nexocli/
+.ollama-local-config
+
+# Outputs de AI
+outputs/
+generated/
+exports/
+
+# Testes temporários
+test_*.db
+test_*.json
+test_*.log
+
+# .gitignore - Secção Modelos Locais Atualizada
+
+# =============================================================================
+# MODELOS LOCAIS - CLARIFICAÇÃO
+# =============================================================================
+# ✅ VERSIONAR: Configurações, prompts, scripts
+# ❌ NÃO VERSIONAR: Modelos binários, benchmarks, cache
+
+# Modelos binários (ficam em ~/.ollama/ globalmente)
+models/**/*.bin
+models/**/*.gguf
+models/**/*.safetensors
+models/**/*.model
+models/**/*.ckpt
+
+# Benchmarks e logs de performance (locais)
+models/benchmarks/*.log
+models/benchmarks/*.json
+models/benchmarks/temp/
+models/performance-*.json
+
+# Cache e temporários de modelos
+models/.cache/
+models/temp/
+models/downloads/
+
+# Configurações específicas do utilizador
 models/user-configs/
 .ollama-local-config
+.model-preferences.json
+
+# Ollama específico (global, não no projeto)
+.ollama/
+ollama-data/
+
+---
+
+# Estrutura de Pastas Clarificada
+
+models/                        # Configurações apenas (não binários)
+├── configs/                   # ✅ VERSIONAR - Configurações de modelo
+│   ├── deepseek-coding.json   # Config para coding
+│   ├── llama3-general.json    # Config para conversação
+│   ├── phi3-lightweight.json  # Config para testes
+│   └── mistral-balanced.json  # Config balanceado
+├── prompts/                   # ✅ VERSIONAR - Prompts customizados
+│   ├── coding-assistant.md    # Prompts para programação
+│   ├── documentation-writer.md# Prompts para docs
+│   ├── system-analysis.md     # Prompts para análise
+│   └── general-chat.md        # Prompts conversação
+├── scripts/                   # ✅ VERSIONAR - Scripts de gestão
+│   ├── install-recommended.sh # Auto-instalação
+│   ├── system-check.js        # Verificação recursos
+│   ├── model-test.js          # Testes automatizados
+│   └── cleanup.sh             # Limpeza de cache
+├── benchmarks/                # ❌ NÃO VERSIONAR - Dados locais
+│   ├── response-times.json    # Performance tracking
+│   ├── resource-usage.log     # Uso de recursos
+│   └── comparison-reports/    # Relatórios comparativos
+└── docs/                      # ✅ VERSIONAR - Documentação
+    ├── model-selection-guide.md
+    ├── performance-tuning.md
+    └── troubleshooting.md
+
+# Nota: Modelos binários ficam em ~/.ollama/ (gestão global)
+# Projeto só mantém configurações, prompts e scripts

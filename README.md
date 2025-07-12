@@ -325,13 +325,149 @@ Ao iniciar, o utilizador pode configurar:
 - **Exportação:** Dados completos em múltiplos formatos
 - **Configuração:** Alterações runtime de providers e logging
 
-### **5. Compliance e Segurança**
+## 🤖 **Modelos Locais (Ollama) - Funcionalidade Offline**
 
-- **Atribuição Legal:** Compliance total com Apache 2.0
-- **Auditoria:** Rastreabilidade completa de alterações
-- **Segurança:** Proteção de API keys e dados sensíveis
-- **Validação:** Inputs sanitizados e verificação de credenciais
-- **Backup:** Sistema de recovery para dados críticos
+### **⚠️ Disclaimer Importante**
+**As recomendações de modelos e verificações de sistema são indicativas.** O NexoCLI_BaseGemini faz o seu melhor para avaliar os recursos disponíveis, mas:
+- **Leituras do sistema podem conter imprecisões** devido a limitações da plataforma ou configurações específicas
+- **A gestão do espaço em disco e recursos é da inteira responsabilidade do utilizador**
+- **Modelos podem consumir mais recursos** do que o estimado, dependendo da configuração do sistema
+- **É recomendado monitorizar o sistema** durante a utilização de modelos locais
+- **O utilizador deve fazer backup** dos seus dados antes de instalar modelos grandes
+- **Responsabilidade por custos** de largura de banda e armazenamento é do utilizador
+
+### **📋 Visão Geral**
+O NexoCLI_BaseGemini suporta modelos locais via **Ollama**, permitindo funcionalidade **offline** e **maior privacidade**. O sistema verifica automaticamente os recursos do seu sistema e recomenda modelos compatíveis.
+
+### **🔧 Instalação e Setup**
+
+**1. Instalar Ollama (uma única vez):**
+```bash
+# Windows: Download de https://ollama.com/download
+# macOS: brew install ollama
+# Linux: curl -fsSL https://ollama.com/install.sh | sh
+
+# Verificar instalação
+ollama --version
+```
+
+**2. Verificar Recursos do Sistema:**
+```bash
+# Após instalar NexoCLI_BaseGemini
+nexocli models check-system
+# Mostra: RAM disponível, CPU, recomendações de modelos
+```
+
+**3. Instalar Modelos Recomendados:**
+```bash
+# Instalação assistida baseada no seu sistema
+nexocli models install-recommended
+
+# Ou escolher manualmente
+nexocli models list-available
+nexocli models install deepseek-coder:6.7b
+```
+
+### **🎯 Modelos por Recursos de Sistema**
+
+| **Recursos** | **Modelos Recomendados** | **Uso Típico** |
+|--------------|--------------------------|----------------|
+| **4-8GB RAM** | `phi3:mini` (2GB)<br>`deepseek-coder:6.7b` (4GB) | Testes, coding básico |
+| **8-16GB RAM** | `llama3:8b` (5GB)<br>`mistral:7b` (4GB) | Geral, conversação |
+| **16GB+ RAM** | `deepseek-coder:14b` (8GB)<br>`codellama:13b` (7GB) | Coding avançado, análise |
+
+### **⚡ Comandos de Gestão**
+
+```bash
+# Verificar sistema e modelos
+nexocli models check-system          # Recursos disponíveis
+nexocli models list                  # Modelos instalados
+nexocli models list-available        # Modelos disponíveis para download
+
+# Gestão de modelos
+nexocli models install <model>       # Instalar modelo específico
+nexocli models remove <model>        # Remover modelo
+nexocli models test <model>          # Testar modelo com prompt simples
+
+# Informações detalhadas
+nexocli models info <model>          # Detalhes do modelo
+nexocli models benchmark <model>     # Testar performance
+```
+
+### **🔄 Fallback Automático**
+
+O sistema implementa **fallback inteligente**:
+1. **Tenta provider cloud** (Gemini, OpenRouter, etc.)
+2. **Se falhar**, muda automaticamente para **modelo local**
+3. **Se modelo local indisponível**, sugere instalação
+
+```bash
+# Exemplo de uso com fallback
+nexocli --provider gemini --fallback local "Explica esta função JavaScript"
+# Tenta Gemini primeiro, depois modelo local se falhar
+```
+
+### **📁 Estrutura de Configurações**
+
+**⚠️ Importante:** Os **modelos binários** ficam em `~/.ollama/` (global). O projeto só mantém **configurações**:
+
+```
+models/                    # Configurações apenas (não modelos binários)
+├── configs/              # Configurações específicas por modelo
+│   ├── deepseek-coding.json    # Config para coding
+│   ├── llama3-general.json     # Config para conversação
+│   └── phi3-lightweight.json   # Config para testes rápidos
+├── prompts/              # Prompts customizados
+│   ├── coding-assistant.md     # Prompts para programação
+│   ├── documentation-writer.md # Prompts para documentação
+│   └── system-analysis.md      # Prompts para análise técnica
+└── benchmarks/           # Testes de performance (local, não versionado)
+    ├── response-times.json
+    └── resource-usage.log
+```
+
+### **🛡️ Verificações de Segurança**
+
+O sistema implementa **verificações defensivas**:
+- **Recursos mínimos** antes de instalar modelos
+- **Monitorização de RAM/CPU** durante execução
+- **Alertas** se sistema sobrecarregado
+- **Sugestões automáticas** de modelos mais leves
+
+```bash
+# Verificação antes de usar modelo pesado
+nexocli models check deepseek-coder:14b
+# Output: ⚠️ Modelo requer 8GB RAM, disponível: 6GB
+#         💡 Sugestão: Use deepseek-coder:6.7b (4GB)
+```
+
+### **🔧 Troubleshooting Modelos Locais**
+
+**❌ Erro: "Ollama not found"**
+```bash
+# Verificar instalação
+ollama --version
+
+# Se não instalado, instalar de https://ollama.com/download
+```
+
+**❌ Erro: "Model not found"**
+```bash
+# Verificar modelos instalados
+ollama list
+
+# Instalar modelo
+nexocli models install deepseek-coder:6.7b
+```
+
+**❌ Erro: "Insufficient resources"**
+```bash
+# Verificar recursos
+nexocli models check-system
+
+# Usar modelo mais leve
+nexocli models recommend
+```
 
 ---
 
