@@ -31,6 +31,10 @@
     "test:oauth": "node src/auth/test-oauth.js",
     "test:provider": "node src/cli/index.js --test",
     "test:connection": "node src/cli/index.js --test",
+    "test:architecture": "vitest run tests/architecture/",
+    "diagnose": "node src/cli/diagnostic.js",
+    "diagnose:quick": "node src/cli/diagnostic.js quick",
+    "diagnose:health": "node src/cli/diagnostic.js health",
     "chat": "node src/cli/index.js"
   },
   "dependencies": {

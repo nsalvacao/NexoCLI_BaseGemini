@@ -5,6 +5,94 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] - Fase 3 (Modularidade de Providers)
+
+### Added (Fase 3 - Multi-Provider Architecture)
+
+- [ARCHITECTURE] **BaseProvider Interface Expandida**
+  - Interface abstrata completa para todos os providers
+  - Métodos obrigatórios: `initialize()`, `authenticate()`, `sendMessage()`, `listModels()`, `validateCredentials()`, `testConnection()`
+  - Métodos opcionais com implementação padrão: `changeModel()`, `getQuotaInfo()`, `healthCheck()`, `reconfigure()`
+  - Sistema de validação de configuração integrado
+  - Sanitização automática de credenciais sensíveis
+
+- [CONFIG] **Sistema de Gestão de Environment (.env)**
+  - `EnvManager` para detecção automática de providers disponíveis
+  - Suporte multi-provider: Gemini, OpenRouter, Anthropic, OpenAI
+  - Detecção inteligente de tipos de autenticação (API key, OAuth, Vertex AI)
+  - Configuração por prioridade e fallbacks automáticos
+  - Geração de ficheiros .env exemplo
+
+- [VALIDATION] **Sistema de Validação de Credenciais Robusto**
+  - `CredentialValidator` com validação real de APIs
+  - Validação específica por provider e tipo de autenticação
+  - Testes de conectividade e saúde de credenciais
+  - Validação em paralelo para múltiplos providers
+  - Tratamento defensivo de erros de rede e rate limiting
+
+- [FACTORY] **ProviderFactory Expandido**
+  - Criação automática de providers baseada em configuração .env
+  - Integração com `EnvManager` e `CredentialValidator`
+  - Sistema de diagnóstico completo para troubleshooting
+  - Conversão automática de configurações entre formatos
+  - Suporte a providers dinâmicos e lazy loading
+
+- [DIAGNOSTIC] **Sistema de Diagnóstico Avançado**
+  - Comando `npm run diagnose` para diagnóstico completo
+  - Verificação de sistema, environment, base de dados e providers
+  - Recomendações automáticas para resolução de problemas
+  - Modos: full, quick, health, ready
+  - Relatórios estruturados com sumários e estatísticas
+
+- [GEMINI] **Provider Gemini Refatorado**
+  - Implementação completa da interface `BaseProvider`
+  - Método `validateCredentials()` com testes reais de API
+  - Validação específica por tipo de autenticação
+  - Requisitos de configuração estruturados
+  - Compatibilidade total com Fase 2 mantida
+
+- [TESTS] **Testes de Arquitetura**
+  - Suite completa de testes para validar modularidade
+  - Testes de interface `BaseProvider` e implementações
+  - Testes de `ProviderFactory` e padrões de design
+  - Testes de `EnvManager` e configurações
+  - Comando `npm run test:architecture`
+
+- [CLI] **Comandos de Diagnóstico**
+  - `npm run diagnose` - Diagnóstico completo do sistema
+  - `npm run diagnose:quick` - Verificação rápida de providers
+  - `npm run diagnose:health` - Status de saúde em formato API
+  - Integração com sistema de troubleshooting
+
+### Enhanced (Melhorias na Fase 3)
+
+- [COMPATIBILITY] **Compatibilidade Mantida**
+  - Todos os comandos da Fase 2 continuam funcionais
+  - OAuth gratuito do Gemini preservado
+  - Base de dados e logging mantêm funcionalidade completa
+  - Zero breaking changes na interface existente
+
+- [EXTENSIBILITY] **Preparação para Fase 4**
+  - Arquitetura pronta para OpenRouter, Anthropic, OpenAI
+  - Sistema de configuração escalável para novos providers
+  - Factory pattern extensível com registro dinâmico
+  - Validação de credenciais preparada para APIs externas
+
+### Technical Details (Detalhes Técnicos)
+
+- **Arquitetura**: Padrão Strategy + Factory + Singleton para providers
+- **Configuração**: Sistema hierárquico .env > config > defaults
+- **Validação**: Defensiva com fallbacks e rate limit handling
+- **Logging**: Integração completa com sistema existente
+- **Testes**: Cobertura de arquitetura e integração
+
+### Migration Notes (Notas de Migração)
+
+- ✅ **Sem migração necessária** - Compatibilidade total com Fase 2
+- ✅ **Configuração opcional** - Sistema detecta automaticamente providers
+- ✅ **Comandos antigos** - Continuam funcionando normalmente
+- 💡 **Recomendado**: Execute `npm run diagnose` para verificar configuração
+
 ## [1.0.0] - 2025-07-11
 
 ### Added (Fase 1 - Base de Dados & Logging Core)

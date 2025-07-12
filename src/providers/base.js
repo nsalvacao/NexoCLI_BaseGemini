@@ -60,6 +60,81 @@ export class BaseProvider {
   }
 
   /**
+   * Valida credenciais do provider
+   * Deve ser implementado por cada provider específico
+   * @returns {Promise<boolean>} True se credenciais são válidas
+   */
+  async validateCredentials() {
+    throw new Error(`${this.name} provider must implement validateCredentials() method`);
+  }
+
+  /**
+   * Testa conexão com o provider
+   * Deve ser implementado por cada provider específico
+   * @returns {Promise<Object>} Resultado do teste
+   */
+  async testConnection() {
+    throw new Error(`${this.name} provider must implement testConnection() method`);
+  }
+
+  /**
+   * Altera modelo do provider
+   * Implementação padrão que pode ser sobrescrita
+   * @param {string} model - Novo modelo
+   * @returns {Promise<boolean>} True se alteração foi bem-sucedida
+   */
+  async changeModel(model) {
+    if (!model || typeof model !== 'string') {
+      throw new Error('Invalid model specified');
+    }
+
+    await this.logDevelopment(
+      'change_model_start',
+      `Changing model from ${this.config.model} to ${model}`,
+      'Medium'
+    );
+
+    this.config.model = model;
+
+    await this.logDevelopment(
+      'change_model_success',
+      `Model changed to ${model}`,
+      'Medium'
+    );
+
+    await this.logAction('model_change', 'success', { model });
+
+    return true;
+  }
+
+  /**
+   * Obtém informações de quota/uso do provider
+   * Implementação padrão que pode ser sobrescrita
+   * @returns {Promise<Object|null>} Informações de quota ou null se não disponível
+   */
+  async getQuotaInfo() {
+    return null; // Implementação padrão retorna null
+  }
+
+  /**
+   * Executa verificação de saúde do provider
+   * Implementação padrão que pode ser sobrescrita
+   * @returns {Promise<boolean>} True se provider está saudável
+   */
+  async healthCheck() {
+    try {
+      return this.isReady() && await this.validateCredentials();
+    } catch (error) {
+      await this.logDevelopment(
+        'health_check_error',
+        `Health check failed: ${error.message}`,
+        'High'
+      );
+      return false;
+    }
+  }
+
+  /**
    * Obtém informações do modelo atual
    * Implementação padrão que pode ser sobrescrita
    * @returns {Object} Informações do modelo
@@ -246,5 +321,161 @@ export class BaseProvider {
       'message-sending',
       'model-listing',
     ];
+  }
+
+  /**
+   * Obtém tipo de autenticação do provider
+   * Deve ser implementado por cada provider específico
+   * @returns {string} Tipo de autenticação (oauth, api-key, etc.)
+   */
+  getAuthType() {
+    return this.config.authType || 'unknown';
+  }
+
+  /**
+   * Valida configuração do provider
+   * Implementação padrão que pode ser sobrescrita
+   * @param {Object} config - Configuração a validar
+   * @returns {Object} Resultado da validação
+   */
+  validateConfig(config = this.config) {
+    const result = {
+      valid: true,
+      errors: [],
+      warnings: []
+    };
+
+    // Validação básica
+    if (!config.authType) {
+      result.errors.push('Missing authType in configuration');
+      result.valid = false;
+    }
+
+    if (!config.model) {
+      result.warnings.push('No default model specified');
+    }
+
+    // Validação de temperatura
+    if (config.temperature !== undefined) {
+      if (typeof config.temperature !== 'number' || config.temperature < 0 || config.temperature > 2) {
+        result.errors.push('Temperature must be a number between 0 and 2');
+        result.valid = false;
+      }
+    }
+
+    // Validação de topP
+    if (config.topP !== undefined) {
+      if (typeof config.topP !== 'number' || config.topP < 0 || config.topP > 1) {
+        result.errors.push('TopP must be a number between 0 and 1');
+        result.valid = false;
+      }
+    }
+
+    // Validação de maxTokens
+    if (config.maxTokens !== undefined) {
+      if (typeof config.maxTokens !== 'number' || config.maxTokens < 1) {
+        result.errors.push('MaxTokens must be a positive number');
+        result.valid = false;
+      }
+    }
+
+    return result;
+  }
+
+  /**
+   * Obtém configuração sanitizada para log/debug
+   * Remove informações sensíveis como chaves API
+   * @returns {Object} Configuração sanitizada
+   */
+  getSanitizedConfig() {
+    const sanitized = { ...this.config };
+    
+    // Remover informações sensíveis
+    const sensitiveKeys = ['apiKey', 'clientSecret', 'privateKey', 'token', 'refreshToken'];
+    
+    for (const key of sensitiveKeys) {
+      if (sanitized[key]) {
+        sanitized[key] = '[REDACTED]';
+      }
+    }
+
+    return sanitized;
+  }
+
+  /**
+   * Obtém requisitos de configuração do provider
+   * Implementação padrão que pode ser sobrescrita
+   * @returns {Object} Requisitos de configuração
+   */
+  getConfigRequirements() {
+    return {
+      required: ['authType'],
+      optional: ['model', 'temperature', 'topP', 'maxTokens'],
+      authTypes: ['oauth', 'api-key'],
+      description: `Configuration requirements for ${this.name} provider`
+    };
+  }
+
+  /**
+   * Redefine configuração do provider
+   * @param {Object} newConfig - Nova configuração
+   * @returns {Promise<boolean>} True se redefinição foi bem-sucedida
+   */
+  async reconfigure(newConfig) {
+    await this.logDevelopment(
+      'reconfigure_start',
+      'Provider reconfiguration initiated',
+      'Medium'
+    );
+
+    // Validar nova configuração
+    const validation = this.validateConfig(newConfig);
+    if (!validation.valid) {
+      const errorMessage = `Configuration validation failed: ${validation.errors.join(', ')}`;
+      await this.logDevelopment(
+        'reconfigure_error',
+        errorMessage,
+        'High'
+      );
+      throw new Error(errorMessage);
+    }
+
+    // Fazer backup da configuração antiga
+    const oldConfig = { ...this.config };
+
+    try {
+      // Aplicar nova configuração
+      this.config = { ...this.config, ...newConfig };
+
+      // Reinicializar se necessário
+      if (this.initialized) {
+        await this.cleanup();
+        await this.initialize();
+        
+        if (this.authenticated) {
+          await this.authenticate();
+        }
+      }
+
+      await this.logDevelopment(
+        'reconfigure_success',
+        'Provider reconfiguration completed successfully',
+        'Medium'
+      );
+
+      return true;
+
+    } catch (error) {
+      // Restaurar configuração antiga em caso de erro
+      this.config = oldConfig;
+      
+      await this.logDevelopment(
+        'reconfigure_error',
+        `Reconfiguration failed, restored old config: ${error.message}`,
+        'High'
+      );
+      
+      throw error;
+    }
   }
 }

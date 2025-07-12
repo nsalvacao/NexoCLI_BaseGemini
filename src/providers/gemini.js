@@ -427,4 +427,164 @@ export class GeminiProvider extends BaseProvider {
       };
     }
   }
+
+  /**
+   * Valida credenciais do Gemini
+   * @returns {Promise<boolean>} True se credenciais são válidas
+   */
+  async validateCredentials() {
+    try {
+      await this.logDevelopment(
+        'validate_credentials_start',
+        `Validating credentials for auth type: ${this.authType}`,
+        'Medium'
+      );
+
+      let isValid = false;
+
+      switch (this.authType) {
+        case AuthType.USE_GEMINI:
+          // Validar API key
+          if (this.config.apiKey) {
+            // Testar com uma chamada simples à API
+            try {
+              const testUrl = 'https://generativelanguage.googleapis.com/v1beta/models';
+              const axios = (await import('axios')).default;
+              
+              const response = await axios.get(testUrl, {
+                params: { key: this.config.apiKey },
+                timeout: 10000
+              });
+              
+              isValid = response.status === 200 && response.data.models;
+            } catch (error) {
+              if (error.response?.status === 429) {
+                // Rate limit - assumir que chave é válida
+                isValid = true;
+              } else {
+                isValid = false;
+              }
+            }
+          }
+          break;
+
+        case AuthType.LOGIN_WITH_GOOGLE:
+        case AuthType.CLOUD_SHELL:
+          // Para OAuth, verificar se o manager está configurado
+          isValid = this.oauthManager !== null;
+          
+          // Se já autenticado, verificar se ainda é válido
+          if (isValid && this.oauthManager.isAuthenticated()) {
+            try {
+              const credentials = this.oauthManager.getCredentials();
+              isValid = credentials !== null;
+            } catch {
+              isValid = true; // Assumir válido se não conseguir verificar
+            }
+          }
+          break;
+
+        case AuthType.USE_VERTEX_AI:
+          // Para Vertex AI, verificar configuração de projeto
+          isValid = !!(this.config.projectId || process.env.GOOGLE_CLOUD_PROJECT);
+          break;
+
+        default:
+          isValid = false;
+      }
+
+      await this.logDevelopment(
+        'validate_credentials_complete',
+        `Credential validation result: ${isValid}`,
+        'Medium'
+      );
+
+      return isValid;
+
+    } catch (error) {
+      await this.logDevelopment(
+        'validate_credentials_error',
+        `Credential validation failed: ${error.message}`,
+        'High'
+      );
+
+      return false;
+    }
+  }
+
+  /**
+   * Obtém requisitos específicos de configuração do Gemini
+   * @returns {Object} Requisitos de configuração
+   */
+  getConfigRequirements() {
+    const baseRequirements = super.getConfigRequirements();
+    
+    return {
+      ...baseRequirements,
+      authTypes: [
+        'oauth-personal',
+        'api-key', 
+        'oauth',
+        'vertex-ai'
+      ],
+      required: [...baseRequirements.required],
+      optional: [
+        ...baseRequirements.optional,
+        'apiKey',
+        'projectId',
+        'location'
+      ],
+      models: [
+        'gemini-1.5-flash',
+        'gemini-1.5-pro',
+        'gemini-pro',
+        'gemini-pro-vision'
+      ],
+      description: 'Google Gemini provider configuration requirements'
+    };
+  }
+
+  /**
+   * Valida configuração específica do Gemini
+   * @param {Object} config - Configuração a validar
+   * @returns {Object} Resultado da validação
+   */
+  validateConfig(config = this.config) {
+    const result = super.validateConfig(config);
+
+    // Validações específicas do Gemini
+    switch (config.authType) {
+      case AuthType.USE_GEMINI:
+        if (!config.apiKey) {
+          result.errors.push('API key is required for Gemini auth type');
+          result.valid = false;
+        } else if (!config.apiKey.startsWith('AIza')) {
+          result.warnings.push('API key should start with "AIza" for Gemini');
+        }
+        break;
+
+      case AuthType.USE_VERTEX_AI:
+        if (!config.projectId && !process.env.GOOGLE_CLOUD_PROJECT) {
+          result.errors.push('Project ID is required for Vertex AI');
+          result.valid = false;
+        }
+        break;
+
+      case AuthType.LOGIN_WITH_GOOGLE:
+      case AuthType.CLOUD_SHELL:
+        // OAuth não requer validação específica
+        break;
+
+      default:
+        result.warnings.push(`Unknown auth type for Gemini: ${config.authType}`);
+    }
+
+    // Validar modelos específicos do Gemini
+    const validModels = this.getConfigRequirements().models;
+    if (config.model && !validModels.includes(config.model)) {
+      result.warnings.push(`Model ${config.model} may not be supported by Gemini`);
+    }
+
+    return result;
+  }
 }
