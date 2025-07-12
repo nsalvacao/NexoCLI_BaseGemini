@@ -5,7 +5,152 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - Fase 3 (Modularidade de Providers)
+## [Unreleased] - Fase 4 (Providers Externos com Fallback Automático)
+
+### Added (Fase 4 - Multi-Provider with External APIs)
+
+- [PROVIDERS] **OpenRouter Provider Implementado**
+  - Gateway para 100+ modelos de IA com API unificada
+  - Suporte a GPT, Claude, Llama, Mixtral e outros modelos
+  - Cache inteligente de modelos por 1 hora
+  - Rate limiting configurável e estimativa de custos
+  - Headers customizados para site tracking
+
+- [PROVIDERS] **Anthropic Claude Provider Implementado**
+  - Suporte completo para Claude 3 (Haiku, Sonnet, Opus)
+  - Validação de API key com formato `sk-ant-*`
+  - Rate limiting específico por modelo (100/50/20 requests/min)
+  - System messages e configuração avançada
+  - Estimativa precisa de custos por token
+
+- [PROVIDERS] **Together AI Provider Implementado**
+  - Modelos open-source com inferência rápida
+  - Suporte a Llama 2, Mixtral, Nous Hermes e outros
+  - Cache de modelos por 2 horas para performance
+  - Preços competitivos e rate limiting generoso
+  - System messages e configuração flexível
+
+- [FACTORY] **Sistema de Fallback Automático**
+  - Cadeia de prioridades: Gemini → OpenRouter → Anthropic → Together
+  - Fallback inteligente com health checks
+  - Logging detalhado de tentativas e sucessos
+  - Configuração dinâmica baseada em disponibilidade
+  - Zero downtime com mudança automática de provider
+
+- [RATE-LIMITING] **Sistema Avançado de Rate Limiting**
+  - Limites específicos por provider e modelo
+  - Tracking de custos e tokens usados
+  - Rate limiting defensivo com waiting automático
+  - Estatísticas detalhadas de uso por provider
+  - Cleanup automático de dados antigos
+
+- [CLI] **Interface Multi-Provider Expandida**
+  - `--provider <name>` para seleção específica
+  - `--list-providers` para ver providers disponíveis
+  - `--diagnose` para diagnóstico rápido
+  - `--no-fallback` para desativar fallback
+  - Compatibilidade total com comandos Fase 2
+
+- [VALIDATION] **Validação Robusta de Credenciais**
+  - Testes reais de API para cada provider
+  - Validação específica de formatos de chave
+  - Defensive programming para network errors
+  - Parallel validation de múltiplos providers
+  - Relatórios detalhados de status
+
+- [TESTING] **Suite Completa de Testes**
+  - Testes de integração multi-provider
+  - Testes unitários para cada provider
+  - Testes de fallback e rate limiting
+  - Mock de APIs para testes isolados
+  - Cobertura de edge cases e error handling
+
+### Enhanced (Melhorias na Fase 4)
+
+- [FACTORY] **ProviderFactory Expandido**
+  - Registro automático de novos providers
+  - Diagnóstico avançado com recomendações
+  - Conversão inteligente de configurações
+  - Criação com validação robusta
+  - Cleanup automático de recursos
+
+- [ENV-MANAGER] **Detecção Automática Expandida**
+  - Suporte para `OPENROUTER_API_KEY`
+  - Suporte para `ANTHROPIC_API_KEY`
+  - Suporte para `TOGETHER_API_KEY`
+  - Configuração automática de prioridades
+  - Geração de .env exemplo atualizada
+
+- [CLI] **Experiência de Usuário Melhorada**
+  - Help detalhado com exemplos multi-provider
+  - Informações de provider ativo durante execução
+  - Troubleshooting expandido para novos providers
+  - Compatibilidade mantida com argumentos Fase 2
+  - Status visual da cadeia de fallback
+
+### Technical Details (Detalhes Técnicos da Fase 4)
+
+- **Arquitetura**: Factory + Strategy + Observer patterns
+- **Fallback**: Health check based com retry logic
+- **Rate Limiting**: Token bucket algorithm por provider
+- **Caching**: Modelos e configurações em memória
+- **Error Handling**: Graceful degradation e recovery
+- **Performance**: Parallel validation e lazy loading
+
+### Provider Support Matrix
+
+| Provider   | Status | Models | Auth Types | Rate Limits | Cost Tracking |
+|------------|--------|--------|------------|-------------|---------------|
+| Gemini     | ✅ Full | 3+ models | OAuth + API Key | 60-300/min | ✅ Estimated |
+| OpenRouter | ✅ Full | 100+ models | API Key | 120/min | ✅ Real-time |
+| Anthropic  | ✅ Full | 3 models | API Key | 20-100/min | ✅ Precise |
+| Together   | ✅ Full | 15+ models | API Key | 120/min | ✅ Competitive |
+
+### Migration Notes (Notas de Migração Fase 4)
+
+- ✅ **Zero Breaking Changes** - Comandos Fase 2 funcionam normalmente
+- ✅ **Fallback Automático** - Gemini como padrão sempre disponível
+- ✅ **Configuração Opcional** - Novos providers detectados automaticamente
+- 💡 **Recomendado**: Configure pelo menos 2 providers para redundância
+- 💡 **Performance**: OpenRouter como secondary para máxima cobertura
+
+### Environment Variables (Fase 4)
+
+```env
+# Providers Primários
+GEMINI_API_KEY=your_gemini_key
+OPENROUTER_API_KEY=your_openrouter_key
+
+# Providers Secundários  
+ANTHROPIC_API_KEY=your_anthropic_key
+TOGETHER_API_KEY=your_together_key
+
+# Configurações Avançadas
+NEXOCLI_DEFAULT_PROVIDER=gemini
+NEXOCLI_ENABLE_FALLBACK=true
+```
+
+### Usage Examples (Fase 4)
+
+```bash
+# Fallback automático (recomendado)
+nexocli "Explica machine learning"
+
+# Provider específico
+nexocli --provider openrouter "Compare modelos de IA"
+nexocli --provider anthropic "Analisa este código Python"
+nexocli --provider together "História da computação"
+
+# Configuração avançada
+nexocli --provider openrouter --model gpt-4 --temperature 0.3 "Análise técnica"
+
+# Diagnóstico e gestão
+nexocli --list-providers
+nexocli --diagnose
+nexocli --test
+```
+
+## [3.0.0] - 2025-07-12 - Fase 3 (Modularidade de Providers)
 
 ### Added (Fase 3 - Multi-Provider Architecture)
 

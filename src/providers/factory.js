@@ -6,6 +6,9 @@
  */
 
 import { GeminiProvider } from './gemini.js';
+import { OpenRouterProvider } from './openrouter.js';
+import { AnthropicProvider } from './anthropic.js';
+import { TogetherProvider } from './together.js';
 import { logger } from '../utils/logger-adapter.js';
 import { envManager } from '../config/env-manager.js';
 import { CredentialValidator } from './validation.js';
@@ -15,10 +18,10 @@ import { CredentialValidator } from './validation.js';
  */
 export const PROVIDER_TYPES = {
   GEMINI: 'gemini',
-  // Preparação para Fase 4
   OPENROUTER: 'openrouter',
   ANTHROPIC: 'anthropic',
-  OPENAI: 'openai',
+  TOGETHER: 'together',
+  OPENAI: 'openai', // Reservado para implementação futura
 };
 
 /**
@@ -35,8 +38,15 @@ export class ProviderFactory {
    * Inicializa a factory com providers padrão
    */
   initialize() {
-    // Registrar provider Gemini
+    // Registrar providers implementados
     this.registerProvider(PROVIDER_TYPES.GEMINI, GeminiProvider);
+    this.registerProvider(PROVIDER_TYPES.OPENROUTER, OpenRouterProvider);
+    this.registerProvider(PROVIDER_TYPES.ANTHROPIC, AnthropicProvider);
+    this.registerProvider(PROVIDER_TYPES.TOGETHER, TogetherProvider);
+    
+    // Sistema de fallback
+    this.fallbackChain = [];
+    this.setupFallbackChain();
   }
 
   /**
@@ -46,6 +56,164 @@ export class ProviderFactory {
    */
   registerProvider(type, ProviderClass) {
     this.registeredProviders.set(type, ProviderClass);
+  }
+
+  /**
+   * Configura cadeia de fallback baseada em prioridades e disponibilidade
+   */
+  setupFallbackChain() {
+    const availableProviders = envManager.getAvailableProviders();
+    
+    // Ordem de prioridade conforme ROADMAP.md
+    const priorityOrder = [
+      PROVIDER_TYPES.GEMINI,      // Prioridade 1 - Sempre disponível (OAuth gratuito)
+      PROVIDER_TYPES.OPENROUTER,  // Prioridade 2 - Gateway universal
+      PROVIDER_TYPES.ANTHROPIC,   // Prioridade 3 - Claude especializado
+      PROVIDER_TYPES.TOGETHER,    // Prioridade 4 - Open-source rápido
+      PROVIDER_TYPES.OPENAI       // Prioridade 5 - Reservado
+    ];
+
+    this.fallbackChain = priorityOrder.filter(provider => 
+      availableProviders.includes(provider) && this.registeredProviders.has(provider)
+    );
+
+    logger.logDevelopment(
+      'ProviderFactory',
+      'fallback_chain_setup',
+      `Fallback chain configured: ${this.fallbackChain.join(' → ')} (${this.fallbackChain.length} providers)`,
+      'Medium'
+    );
+  }
+
+  /**
+   * Cria provider com fallback automático
+   * @param {string} preferredProvider - Provider preferido (opcional)
+   * @param {Object} config - Configuração (opcional)
+   * @returns {BaseProvider} Provider criado
+   */
+  async createProviderWithFallback(preferredProvider = null, config = null) {
+    const startTime = Date.now();
+    
+    // Configurar cadeia de tentativas
+    const attemptChain = preferredProvider 
+      ? [preferredProvider, ...this.fallbackChain.filter(p => p !== preferredProvider)]
+      : [...this.fallbackChain];
+
+    if (attemptChain.length === 0) {
+      throw new Error('No providers available for fallback');
+    }
+
+    let lastError = null;
+    const attempts = [];
+
+    for (const providerName of attemptChain) {
+      const attemptStart = Date.now();
+      
+      try {
+        await logger.logDevelopment(
+          'ProviderFactory',
+          'fallback_attempt',
+          `Attempting to create provider: ${providerName}`,
+          'Medium'
+        );
+
+        const provider = await this.createProvider(providerName, config);
+        
+        // Testar conectividade básica
+        const healthCheck = await provider.healthCheck();
+        
+        if (healthCheck.healthy) {
+          const totalTime = Date.now() - startTime;
+          
+          console.log(`✅ Provider fallback successful: ${providerName} (${totalTime}ms)`);
+          
+          // Log sucesso na BD
+          await logger.logDevelopment(
+            'ProviderFactory',
+            'fallback_success',
+            `Provider ${providerName} selected via fallback (attempts: ${attempts.length + 1}, total_time: ${totalTime}ms)`,
+            'Medium'
+          );
+
+          // Log na BD específico para fallback
+          if (provider.logger) {
+            await provider.logger.logProviderAction({
+              provider: 'factory',
+              action: 'fallback_sequence',
+              status: 'success',
+              metadata: JSON.stringify({
+                attempted: attempts.map(a => a.provider),
+                successful: providerName,
+                fallback_reason: preferredProvider ? `${preferredProvider}_failed` : 'auto_selection',
+                total_attempts: attempts.length + 1,
+                total_time_ms: totalTime
+              })
+            });
+          }
+
+          return provider;
+        } else {
+          throw new Error(`Provider ${providerName} health check failed: ${healthCheck.error}`);
+        }
+
+      } catch (error) {
+        const attemptTime = Date.now() - attemptStart;
+        lastError = error;
+        
+        attempts.push({
+          provider: providerName,
+          error: error.message,
+          time_ms: attemptTime
+        });
+
+        console.warn(`⚠️ Provider ${providerName} failed: ${error.message} (${attemptTime}ms)`);
+        
+        // Log tentativa falhada
+        await logger.logDevelopment(
+          'ProviderFactory',
+          'fallback_attempt_failed',
+          `Provider ${providerName} failed: ${error.message} (${attemptTime}ms)`,
+          'Medium'
+        );
+
+        continue; // Tentar próximo provider
+      }
+    }
+
+    // Se chegou aqui, todos os providers falharam
+    const totalTime = Date.now() - startTime;
+    
+    await logger.logDevelopment(
+      'ProviderFactory',
+      'fallback_complete_failure',
+      `All providers failed. Attempts: ${JSON.stringify(attempts)} (total_time: ${totalTime}ms)`,
+      'High'
+    );
+
+    throw new Error(`All providers failed. Last error: ${lastError?.message}. Attempted: ${attemptChain.join(', ')}`);
+  }
+
+  /**
+   * Obtém cadeia de fallback atual
+   * @returns {Array} Lista de providers na ordem de fallback
+   */
+  getFallbackChain() {
+    return [...this.fallbackChain];
+  }
+
+  /**
+   * Recarrega cadeia de fallback (útil após mudanças no .env)
+   */
+  async reloadFallbackChain() {
+    await envManager.reload();
+    this.setupFallbackChain();
+    
+    await logger.logDevelopment(
+      'ProviderFactory',
+      'fallback_chain_reloaded',
+      `Fallback chain reloaded: ${this.fallbackChain.join(' → ')}`,
+      'Medium'
+    );
   }
 
   /**
@@ -234,8 +402,9 @@ export class ProviderFactory {
   getProviderDescription(type) {
     const descriptions = {
       [PROVIDER_TYPES.GEMINI]: 'Google Gemini - Modelo de linguagem avançado da Google',
-      [PROVIDER_TYPES.OPENROUTER]: 'OpenRouter - Gateway para múltiplos modelos de IA',
+      [PROVIDER_TYPES.OPENROUTER]: 'OpenRouter - Gateway para 100+ modelos de IA',
       [PROVIDER_TYPES.ANTHROPIC]: 'Anthropic Claude - Assistente IA seguro e útil',
+      [PROVIDER_TYPES.TOGETHER]: 'Together AI - Modelos open-source com inferência rápida',
       [PROVIDER_TYPES.OPENAI]: 'OpenAI GPT - Modelos de linguagem da OpenAI',
     };
 

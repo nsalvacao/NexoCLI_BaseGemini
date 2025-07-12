@@ -8,6 +8,9 @@
  */
 
 import { GeminiProvider } from '../providers/gemini.js';
+import { providerFactory, PROVIDER_TYPES } from '../providers/factory.js';
+import { envManager } from '../config/env-manager.js';
+import { rateLimiter } from '../utils/rate-limiter.js';
 import { AuthType } from '../auth/oauth.js';
 import { settings } from '../config/settings.js';
 import { logger } from '../utils/logger-adapter.js';
@@ -47,7 +50,7 @@ class NexoCLI {
    */
   async initialize() {
     try {
-      console.log('🚀 NexoCLI_BaseGemini - Fase 2 MVP');
+      console.log('🚀 NexoCLI_BaseGemini - Fase 4 Multi-Provider');
       console.log(`📦 Versão: ${this.version}`);
       console.log();
 
@@ -88,7 +91,26 @@ class NexoCLI {
       return { action: 'test' };
     }
 
-    // Detectar auth type
+    if (this.args.includes('--list-providers')) {
+      return { action: 'list-providers' };
+    }
+
+    if (this.args.includes('--diagnose')) {
+      return { action: 'diagnose' };
+    }
+
+    // Detectar provider específico
+    let provider = null;
+    const providerIndex = this.args.indexOf('--provider');
+    if (providerIndex !== -1 && this.args[providerIndex + 1]) {
+      provider = this.args[providerIndex + 1];
+    }
+
+    // Detectar se deve usar fallback (padrão: true)
+    const noFallback = this.args.includes('--no-fallback');
+    const fallback = !noFallback;
+
+    // Detectar auth type (para compatibilidade com Fase 2)
     let authType = AuthType.LOGIN_WITH_GOOGLE;
     if (this.args.includes('--api-key')) {
       authType = AuthType.USE_GEMINI;
@@ -105,17 +127,45 @@ class NexoCLI {
       model = this.args[modelIndex + 1];
     }
 
-    // Obter mensagem
-    const message = this.args.filter(arg => 
-      !arg.startsWith('--') && 
-      !this.args[this.args.indexOf(arg) - 1]?.startsWith('--')
-    ).join(' ');
+    // Detectar temperatura
+    let temperature = null;
+    const tempIndex = this.args.indexOf('--temperature');
+    if (tempIndex !== -1 && this.args[tempIndex + 1]) {
+      temperature = parseFloat(this.args[tempIndex + 1]);
+    }
+
+    // Detectar max tokens
+    let maxTokens = null;
+    const tokensIndex = this.args.indexOf('--max-tokens');
+    if (tokensIndex !== -1 && this.args[tokensIndex + 1]) {
+      maxTokens = parseInt(this.args[tokensIndex + 1]);
+    }
+
+    // Obter mensagem (filtrar argumentos)
+    const filteredArgs = ['--help', '-h', '--version', '-v', '--test', '--list-providers', 
+                         '--diagnose', '--provider', '--no-fallback', '--api-key', 
+                         '--vertex', '--cloud-shell', '--model', '--temperature', '--max-tokens'];
+    
+    const message = this.args.filter((arg, index) => {
+      // Se é um argumento filtrado, pular
+      if (filteredArgs.includes(arg)) return false;
+      
+      // Se é um valor de argumento (vem depois de --), pular
+      const prevArg = this.args[index - 1];
+      if (prevArg && prevArg.startsWith('--')) return false;
+      
+      return true;
+    }).join(' ');
 
     return {
       action: 'chat',
       message,
+      provider,
+      fallback,
       authType,
       model,
+      temperature,
+      maxTokens
     };
   }
 
@@ -124,32 +174,56 @@ class NexoCLI {
    */
   showHelp() {
     console.log(`NexoCLI_BaseGemini v${this.version}`);
-    console.log('Fork do Gemini-CLI com suporte multi-provider');
+    console.log('Fork do Gemini-CLI com suporte multi-provider e fallback automático');
     console.log();
     console.log('Uso:');
     console.log('  nexocli "sua mensagem aqui"');
+    console.log('  nexocli --provider openrouter "Explica IA"');
     console.log('  nexocli --test');
     console.log();
-    console.log('Opções:');
-    console.log('  --help, -h           Mostra esta ajuda');
-    console.log('  --version, -v        Mostra a versão');
-    console.log('  --test               Executa teste de conexão');
-    console.log('  --api-key            Usa Gemini API Key');
-    console.log('  --vertex             Usa Vertex AI');
-    console.log('  --cloud-shell        Usa Cloud Shell');
-    console.log('  --model <modelo>     Especifica modelo a usar');
+    console.log('Opções Gerais:');
+    console.log('  --help, -h              Mostra esta ajuda');
+    console.log('  --version, -v           Mostra a versão');
+    console.log('  --test                  Executa teste de conexão');
+    console.log('  --list-providers        Lista providers disponíveis');
+    console.log('  --diagnose              Executa diagnóstico completo');
     console.log();
-    console.log('Exemplos:');
-    console.log('  nexocli "Olá, como estás?"');
-    console.log('  nexocli --test');
-    console.log('  nexocli --api-key "Explica JavaScript"');
-    console.log('  nexocli --model gemini-1.5-pro "Código complexo"');
+    console.log('Providers Multi-Provider:');
+    console.log('  --provider <provider>   Usa provider específico (gemini, openrouter, anthropic, together)');
+    console.log('  --no-fallback          Desativa fallback automático');
+    console.log('  --model <modelo>       Especifica modelo a usar');
+    console.log('  --temperature <0-2>    Define temperatura do modelo');
+    console.log('  --max-tokens <num>     Define máximo de tokens');
     console.log();
-    console.log('Variáveis de ambiente:');
-    console.log('  GEMINI_API_KEY       Chave API do Gemini');
-    console.log('  GOOGLE_API_KEY       Chave API do Google');
-    console.log('  GOOGLE_CLOUD_PROJECT Projeto Google Cloud');
-    console.log('  GOOGLE_CLOUD_LOCATION Localização Google Cloud');
+    console.log('Compatibilidade Gemini (Fase 2):');
+    console.log('  --api-key              Usa Gemini API Key');
+    console.log('  --vertex               Usa Vertex AI');
+    console.log('  --cloud-shell          Usa Cloud Shell');
+    console.log();
+    console.log('Exemplos Multi-Provider:');
+    console.log('  nexocli "Olá, como estás?"                                   # Fallback automático');
+    console.log('  nexocli --provider openrouter "Explica machine learning"    # OpenRouter específico');
+    console.log('  nexocli --provider anthropic "Analisa este código"          # Claude específico');
+    console.log('  nexocli --provider together "História da IA"                # Together AI específico');
+    console.log('  nexocli --list-providers                                     # Ver providers disponíveis');
+    console.log('  nexocli --test                                               # Testar conectividade');
+    console.log();
+    console.log('Exemplos Avançados:');
+    console.log('  nexocli --provider openrouter --model gpt-4 "Análise complexa"');
+    console.log('  nexocli --provider anthropic --temperature 0.3 "Código Python"');
+    console.log('  nexocli --provider gemini --no-fallback "Só Gemini"');
+    console.log();
+    console.log('Variáveis de Ambiente:');
+    console.log('  # Gemini');
+    console.log('  GEMINI_API_KEY          Chave API do Gemini');
+    console.log('  GOOGLE_API_KEY          Chave API do Google');
+    console.log('  GOOGLE_CLOUD_PROJECT    Projeto Google Cloud');
+    console.log('  GOOGLE_CLOUD_LOCATION   Localização Google Cloud');
+    console.log();
+    console.log('  # Providers Externos');
+    console.log('  OPENROUTER_API_KEY      Chave OpenRouter (gateway)');
+    console.log('  ANTHROPIC_API_KEY       Chave Anthropic (Claude)');
+    console.log('  TOGETHER_API_KEY        Chave Together AI');
     console.log();
     console.log('Mais informações: https://github.com/user/NexoCLI_BaseGemini');
   }
@@ -160,50 +234,187 @@ class NexoCLI {
   showVersion() {
     console.log(`NexoCLI_BaseGemini v${this.version}`);
     console.log('Baseado em Gemini-CLI (Google LLC, Apache 2.0)');
-    console.log('Fase 2 MVP - Provider Gemini');
+    console.log('Fase 4 - Multi-Provider com Fallback Automático');
+    console.log();
+    console.log('Providers implementados:');
+    console.log('  ✅ Gemini (Google) - OAuth gratuito + API Key');
+    console.log('  ✅ OpenRouter - Gateway para 100+ modelos');
+    console.log('  ✅ Anthropic Claude - Assistant especializado');
+    console.log('  ✅ Together AI - Modelos open-source rápidos');
   }
 
   /**
-   * Inicializa o provider
-   * @param {Object} config - Configuração do provider
+   * Lista providers disponíveis
    */
-  async initializeProvider(config = {}) {
+  async listProviders() {
     try {
-      console.log('🔧 Inicializando provider Gemini...');
+      console.log('📋 Providers Disponíveis:');
+      console.log();
+
+      const available = providerFactory.listAvailableProviders();
+      const fallbackChain = providerFactory.getFallbackChain();
+
+      available.forEach((provider, index) => {
+        const status = provider.available ? '✅' : '❌';
+        const priority = fallbackChain.indexOf(provider.type) + 1;
+        const priorityText = priority > 0 ? ` (prioridade ${priority})` : '';
+        
+        console.log(`${status} ${provider.type.toUpperCase()}${priorityText}`);
+        console.log(`   ${provider.description}`);
+        console.log(`   Auth: ${provider.authType}`);
+        console.log(`   Modelos: ${provider.models.length > 0 ? provider.models.slice(0, 3).join(', ') : 'detectar automaticamente'}`);
+        
+        if (!provider.available) {
+          console.log(`   ⚠️ Configure: ${provider.type.toUpperCase()}_API_KEY`);
+        }
+        
+        console.log();
+      });
+
+      console.log('🔄 Cadeia de Fallback:');
+      if (fallbackChain.length > 0) {
+        console.log(`   ${fallbackChain.join(' → ')}`);
+      } else {
+        console.log('   Nenhum provider disponível');
+      }
       
-      // Preservar configurações customizadas
+      console.log();
+      console.log('💡 Use --provider <nome> para forçar um provider específico');
+      console.log('💡 Use --diagnose para verificação detalhada');
+
+    } catch (error) {
+      console.error('❌ Erro ao listar providers:', error.message);
+    }
+  }
+
+  /**
+   * Executa diagnóstico simplificado
+   */
+  async runSimpleDiagnose() {
+    try {
+      console.log('🔍 Diagnóstico Rápido:');
+      console.log();
+
+      const diagnosis = await providerFactory.diagnoseAllProviders();
+      
+      console.log(`📊 Status: ${diagnosis.summary.available}/${diagnosis.totalProviders} providers disponíveis`);
+      console.log(`⚠️ Avisos: ${diagnosis.summary.warnings}`);
+      console.log(`❌ Erros: ${diagnosis.summary.errors}`);
+      console.log();
+
+      Object.entries(diagnosis.providers).forEach(([name, diag]) => {
+        const status = diag.canCreate ? '✅' : '❌';
+        console.log(`${status} ${name.toUpperCase()}: ${diag.canCreate ? 'Pronto' : 'Indisponível'}`);
+        
+        if (diag.errors.length > 0) {
+          diag.errors.forEach(error => console.log(`     ❌ ${error}`));
+        }
+        
+        if (diag.warnings.length > 0) {
+          diag.warnings.forEach(warning => console.log(`     ⚠️ ${warning}`));
+        }
+      });
+
+      console.log();
+      console.log('💡 Use npm run diagnose para diagnóstico completo');
+
+    } catch (error) {
+      console.error('❌ Erro durante diagnóstico:', error.message);
+    }
+  }
+
+  /**
+   * Inicializa provider com sistema multi-provider
+   * @param {Object} options - Opções de configuração
+   */
+  async initializeProvider(options = {}) {
+    try {
+      const { provider: preferredProvider, fallback, authType, model, temperature, maxTokens } = options;
+      
+      // Configurar rate limiter
+      rateLimiter.setLogger(logger);
+      
+      // Modo de compatibilidade com Fase 2 (Gemini específico)
+      if (authType && !preferredProvider) {
+        console.log('🔧 Modo compatibilidade Fase 2: Inicializando provider Gemini...');
+        
+        const geminiConfig = {
+          authType: authType,
+          model: model || 'gemini-1.5-flash',
+          temperature: temperature || 0,
+          maxTokens: maxTokens || 1000
+        };
+        
+        this.provider = await providerFactory.createProvider('gemini', geminiConfig);
+        
+        console.log('✅ Provider Gemini inicializado (compatibilidade Fase 2)');
+        this.showProviderInfo();
+        return true;
+      }
+      
+      // Modo multi-provider (Fase 4)
+      if (preferredProvider) {
+        console.log(`🔧 Inicializando provider específico: ${preferredProvider}...`);
+        
+        const providerConfig = {
+          model: model,
+          temperature: temperature,
+          maxTokens: maxTokens
+        };
+        
+        try {
+          this.provider = await providerFactory.createProvider(preferredProvider, providerConfig);
+          
+          console.log(`✅ Provider ${preferredProvider} inicializado com sucesso`);
+          this.showProviderInfo();
+          return true;
+          
+        } catch (error) {
+          console.error(`❌ Erro ao inicializar ${preferredProvider}: ${error.message}`);
+          
+          if (fallback) {
+            console.log('🔄 Tentando fallback automático...');
+            // Continuar para fallback
+          } else {
+            throw error;
+          }
+        }
+      }
+      
+      // Fallback automático ou criação padrão
+      console.log('🔄 Usando fallback automático de providers...');
+      
       const providerConfig = {
-        authType: config.authType || AuthType.LOGIN_WITH_GOOGLE,
-        model: config.model || 'gemini-1.5-flash',
-        temperature: config.temperature || 0,
-        topP: config.topP || 1,
-        maxTokens: config.maxTokens || 1000,
-        ...config, // Permitir override completo
+        model: model,
+        temperature: temperature,
+        maxTokens: maxTokens
       };
       
-      this.provider = new GeminiProvider(providerConfig);
+      this.provider = await providerFactory.createProviderWithFallback(preferredProvider, providerConfig);
       
-      // Inicializar e autenticar
-      await this.provider.initialize();
-      await this.provider.authenticate();
-      
-      console.log('✅ Provider Gemini inicializado com sucesso');
-      
-      // Mostrar informações do modelo
-      const modelInfo = this.provider.getModelInfo();
-      console.log(`📊 Modelo: ${modelInfo.model}`);
-      console.log(`🔐 Autenticação: ${modelInfo.authType}`);
-      console.log();
-      
+      console.log('✅ Provider inicializado via fallback automático');
+      this.showProviderInfo();
       return true;
+      
     } catch (error) {
       console.error('❌ Erro ao inicializar provider:', error.message);
-      
-      // Mostrar dicas de troubleshooting
       this.showTroubleshootingTips(error);
-      
       throw error;
     }
+  }
+
+  /**
+   * Mostra informações do provider ativo
+   */
+  showProviderInfo() {
+    if (!this.provider) return;
+    
+    const modelInfo = this.provider.getModelInfo();
+    console.log(`📊 Provider: ${modelInfo.provider}`);
+    console.log(`🤖 Modelo: ${modelInfo.model}`);
+    console.log(`🔐 Auth: ${modelInfo.authType || 'default'}`);
+    console.log(`⚡ Status: ${modelInfo.ready ? 'Pronto' : 'Iniciando...'}`);
+    console.log();
   }
 
   /**
@@ -311,7 +522,8 @@ class NexoCLI {
       await this.initialize();
 
       // Processar argumentos
-      const { action, message, authType, model } = this.processArguments();
+      const args = this.processArguments();
+      const { action, message, provider, fallback, authType, model, temperature, maxTokens } = args;
 
       // Executar ação
       switch (action) {
@@ -320,13 +532,21 @@ class NexoCLI {
           // Já processado
           break;
 
+        case 'list-providers':
+          await this.listProviders();
+          break;
+
+        case 'diagnose':
+          await this.runSimpleDiagnose();
+          break;
+
         case 'test':
-          await this.initializeProvider({ authType, model });
+          await this.initializeProvider({ provider, fallback, authType, model, temperature, maxTokens });
           await this.runTest();
           break;
 
         case 'chat':
-          await this.initializeProvider({ authType, model });
+          await this.initializeProvider({ provider, fallback, authType, model, temperature, maxTokens });
           await this.sendMessage(message);
           break;
 
