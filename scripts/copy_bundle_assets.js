@@ -21,6 +21,7 @@ import { copyFileSync, existsSync, mkdirSync } from 'fs';
 import { dirname, join, basename } from 'path';
 import { fileURLToPath } from 'url';
 import { glob } from 'glob';
+import { execSync } from 'child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = join(__dirname, '..');
@@ -35,6 +36,25 @@ if (!existsSync(bundleDir)) {
 const sbFiles = glob.sync('packages/**/*.sb', { cwd: root });
 for (const file of sbFiles) {
   copyFileSync(join(root, file), join(bundleDir, basename(file)));
+}
+
+// Create a symbolic link or copy nexocli.js to gemini.js for backward compatibility
+const nexocliJs = join(bundleDir, 'nexocli.js');
+const geminiJs = join(bundleDir, 'gemini.js');
+
+if (existsSync(nexocliJs)) {
+  try {
+    copyFileSync(nexocliJs, geminiJs);
+  } catch (error) {
+    console.warn('Warning: Could not create gemini.js compatibility copy:', error.message);
+  }
+}
+
+// Generate Windows wrappers
+try {
+  execSync('node scripts/generate_wrappers.js', { cwd: root, stdio: 'inherit' });
+} catch (error) {
+  console.warn('Warning: Could not generate Windows wrappers:', error.message);
 }
 
 console.log('Assets copied to bundle/');
