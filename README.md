@@ -90,9 +90,21 @@ node bundle/nexocli.js "Olá! Este é o NexoCLI personalizado."
 # Se erro de execution policy:
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 
-# IMPORTANTE: No Windows, sempre usar 'node' antes do comando
-node bundle/nexocli.js --version
+# IMPORTANTE: No desenvolvimento local, usar 'node' ou os wrappers
+node bundle/nexocli.js --version        # Comando direto
+.\nexocli.bat --version                 # Via wrapper CMD
+.\nexocli.ps1 --version                 # Via wrapper PowerShell
 ```
+
+### **📝 Diferença: Desenvolvimento vs Instalação Global**
+
+**🔧 Desenvolvimento Local (Este Projeto):**
+- Execute: `node bundle/nexocli.js` ou use os wrappers `nexocli.bat`/`nexocli.ps1`
+- **Porquê:** Não há instalação npm global, os wrappers são criados manualmente
+
+**🌐 Gemini-CLI Instalado Globalmente:**
+- Execute: `gemini` diretamente
+- **Porquê:** `npm install -g` cria wrappers automáticos no PATH do sistema
 
 ---
 
@@ -131,15 +143,22 @@ node bundle/nexocli.js --version
 ./bundle/nexocli.js /theme            # Selecionar tema
 ```
 
-#### **🪟 Windows (PowerShell):**
-```powershell
-node bundle/nexocli.js "sua pergunta"    # Chat direto
+#### **🪟 Windows (CMD/PowerShell):**
+```batch
+REM Comando direto
+node bundle/nexocli.js "sua pergunta"    
+
+REM Via wrappers (mais fácil)
+nexocli.bat "sua pergunta"              # CMD
+.\nexocli.ps1 "sua pergunta"            # PowerShell
+
+REM Comandos disponíveis
 node bundle/nexocli.js --help            # Ajuda completa
-node bundle/nexocli.js --version         # Versão
-node bundle/nexocli.js /clear            # Limpar sessão
-node bundle/nexocli.js /help             # Ajuda interativa
-node bundle/nexocli.js /memory           # Gestão de memória
-node bundle/nexocli.js /theme            # Selecionar tema
+nexocli.bat --version                    # Versão via wrapper
+.\nexocli.ps1 /clear                     # Limpar sessão
+.\nexocli.ps1 /help                      # Ajuda interativa
+.\nexocli.ps1 /memory                    # Gestão de memória
+.\nexocli.ps1 /theme                     # Selecionar tema
 ```
 
 ### **🔧 Comandos Personalizados (Futuros)**
