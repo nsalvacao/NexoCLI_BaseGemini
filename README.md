@@ -42,22 +42,34 @@ Este projeto é parte de uma **solução híbrida** composta por 4 subprojetos:
 
 ## ⚡ **Quick Start NexoCLI**
 
+### **🐧 Linux/macOS:**
 ```bash
 # 1. Clonar e instalar
 git clone https://github.com/nsalvacao/NexoCLI_BaseGemini
 cd NexoCLI_BaseGemini
 npm install
 
-# 2. Build e testar localmente
+# 2. Build e testar
 npm run build
 ./bundle/nexocli.js --version
 
-# 3. Configurar alias para desenvolvimento
-echo 'alias nexocli="./bundle/nexocli.js"' >> ~/.bashrc
-source ~/.bashrc
+# 3. Primeiro uso
+./bundle/nexocli.js "Olá! Este é o NexoCLI personalizado."
+```
 
-# 4. Primeiro uso
-nexocli "Olá! Este é o NexoCLI personalizado."
+### **🪟 Windows (PowerShell):**
+```powershell
+# 1. Clonar e instalar
+git clone https://github.com/nsalvacao/NexoCLI_BaseGemini
+cd NexoCLI_BaseGemini
+npm install
+
+# 2. Build e testar
+npm run build
+node bundle/nexocli.js --version
+
+# 3. Primeiro uso
+node bundle/nexocli.js "Olá! Este é o NexoCLI personalizado."
 ```
 
 **✅ Funciona com OAuth Google gratuito** (60 requests/min + 1000/dia)
@@ -77,6 +89,9 @@ nexocli "Olá! Este é o NexoCLI personalizado."
 ```powershell
 # Se erro de execution policy:
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+
+# IMPORTANTE: No Windows, sempre usar 'node' antes do comando
+node bundle/nexocli.js --version
 ```
 
 ---
@@ -104,22 +119,45 @@ Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 ## 📚 **Comandos Disponíveis**
 
 ### **🎯 Comandos Base (Herdados)**
+
+#### **🐧 Linux/macOS:**
 ```bash
-nexocli "sua pergunta"           # Chat direto
-nexocli --help                   # Ajuda completa
-nexocli --version                # Versão
-nexocli /clear                   # Limpar sessão
-nexocli /help                    # Ajuda interativa
-nexocli /memory                  # Gestão de memória
-nexocli /theme                   # Selecionar tema
+./bundle/nexocli.js "sua pergunta"    # Chat direto
+./bundle/nexocli.js --help            # Ajuda completa
+./bundle/nexocli.js --version         # Versão
+./bundle/nexocli.js /clear            # Limpar sessão
+./bundle/nexocli.js /help             # Ajuda interativa
+./bundle/nexocli.js /memory           # Gestão de memória
+./bundle/nexocli.js /theme            # Selecionar tema
+```
+
+#### **🪟 Windows (PowerShell):**
+```powershell
+node bundle/nexocli.js "sua pergunta"    # Chat direto
+node bundle/nexocli.js --help            # Ajuda completa
+node bundle/nexocli.js --version         # Versão
+node bundle/nexocli.js /clear            # Limpar sessão
+node bundle/nexocli.js /help             # Ajuda interativa
+node bundle/nexocli.js /memory           # Gestão de memória
+node bundle/nexocli.js /theme            # Selecionar tema
 ```
 
 ### **🔧 Comandos Personalizados (Futuros)**
+
+#### **🐧 Linux/macOS:**
 ```bash
-nexocli /nexo info               # Informações do sistema Nexo
-nexocli /nexo status             # Status de todos os agentes
-nexocli /nexo config             # Configuração específica
-nexocli /nexo orchestrate        # Integrar com n8n
+./bundle/nexocli.js /nexo info           # Informações do sistema Nexo
+./bundle/nexocli.js /nexo status         # Status de todos os agentes
+./bundle/nexocli.js /nexo config         # Configuração específica
+./bundle/nexocli.js /nexo orchestrate    # Integrar com n8n
+```
+
+#### **🪟 Windows (PowerShell):**
+```powershell
+node bundle/nexocli.js /nexo info           # Informações do sistema Nexo
+node bundle/nexocli.js /nexo status         # Status de todos os agentes
+node bundle/nexocli.js /nexo config         # Configuração específica
+node bundle/nexocli.js /nexo orchestrate    # Integrar com n8n
 ```
 
 ---
@@ -127,6 +165,8 @@ nexocli /nexo orchestrate        # Integrar com n8n
 ## ⚙️ **Desenvolvimento Isolado**
 
 ### **🛡️ Ambiente Seguro**
+
+#### **🐧 Linux/macOS:**
 ```bash
 # Desenvolvimento sem afetar instalação global
 cd /path/to/NexoCLI_BaseGemini
@@ -137,7 +177,20 @@ npm run build
 alias nexocli-dev="./bundle/nexocli.js"
 ```
 
+#### **🪟 Windows (PowerShell):**
+```powershell
+# Desenvolvimento sem afetar instalação global
+cd C:\path\to\NexoCLI_BaseGemini
+npm run build
+node bundle/nexocli.js $args
+
+# Função temporária
+function nexocli-dev { node bundle/nexocli.js $args }
+```
+
 ### **🔄 Workflow de Desenvolvimento**
+
+#### **🐧 Linux/macOS:**
 ```bash
 # 1. Modificar código
 vim packages/cli/src/ui/components/AsciiArt.ts
@@ -148,6 +201,19 @@ npm run build
 
 # 3. Verificar funcionamento
 ./bundle/nexocli.js "Teste de funcionalidade"
+```
+
+#### **🪟 Windows (PowerShell):**
+```powershell
+# 1. Modificar código
+notepad packages/cli/src/ui/components/AsciiArt.ts
+
+# 2. Build e testar
+npm run build
+node bundle/nexocli.js --version
+
+# 3. Verificar funcionamento
+node bundle/nexocli.js "Teste de funcionalidade"
 ```
 
 ---
@@ -197,6 +263,8 @@ NexoCLI_BaseGemini/
 ## 🧪 **Testes**
 
 ### **🔍 Validação Básica**
+
+#### **🐧 Linux/macOS:**
 ```bash
 # Testes obrigatórios
 npm run build                   # Build success
@@ -204,13 +272,32 @@ npm run build                   # Build success
 ./bundle/nexocli.js "teste"     # Funcionalidade básica
 ```
 
+#### **🪟 Windows (PowerShell):**
+```powershell
+# Testes obrigatórios
+npm run build                        # Build success
+node bundle/nexocli.js --version     # Versão correcta
+node bundle/nexocli.js "teste"       # Funcionalidade básica
+```
+
 ### **🎯 Testes de Personalização**
+
+#### **🐧 Linux/macOS:**
 ```bash
 # Verificar rebranding
 ./bundle/nexocli.js --version | grep -i nexo
 
 # Testar comandos personalizados (futuros)
 ./bundle/nexocli.js /nexo info
+```
+
+#### **🪟 Windows (PowerShell):**
+```powershell
+# Verificar rebranding
+node bundle/nexocli.js --version | Select-String -Pattern "nexo"
+
+# Testar comandos personalizados (futuros)
+node bundle/nexocli.js /nexo info
 ```
 
 ---
@@ -220,7 +307,7 @@ npm run build                   # Build success
 ### **✅ Operações Seguras**
 - `npm install` - Dependências locais
 - `npm run build` - Build local
-- `./bundle/nexocli.js` - Execução local
+- `./bundle/nexocli.js` (Linux/macOS) ou `node bundle/nexocli.js` (Windows) - Execução local
 - Desenvolvimento em diretório isolado
 
 ### **⚠️ Evitar**
@@ -313,6 +400,7 @@ Ver [ROADMAP.md](ROADMAP.md) para cronograma completo.
 
 ## 🚀 **Começar Desenvolvimento**
 
+### **🐧 Linux/macOS:**
 ```bash
 # Setup completo
 git clone https://github.com/nsalvacao/NexoCLI_BaseGemini
@@ -328,6 +416,26 @@ npm run build
 # Configurar ambiente
 echo 'alias nexocli-dev="./bundle/nexocli.js"' >> ~/.bashrc
 source ~/.bashrc
+
+# Primeira personalização
+nexocli-dev --version
+```
+
+### **🪟 Windows (PowerShell):**
+```powershell
+# Setup completo
+git clone https://github.com/nsalvacao/NexoCLI_BaseGemini
+cd NexoCLI_BaseGemini
+npm install
+
+# Primeiro build
+npm run build
+
+# Testar funcionamento
+node bundle/nexocli.js "Olá NexoCLI!"
+
+# Configurar ambiente
+function nexocli-dev { node bundle/nexocli.js $args }
 
 # Primeira personalização
 nexocli-dev --version
