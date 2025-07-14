@@ -4,6 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+// Modificado por Nexo, 2025
+// Baseado em gemini-cli (Copyright 2025 Google LLC, Apache 2.0)
+// Parte do NexoCLI_BaseGemini - Personalização para ecossistema Nexo
+
 import React from 'react';
 import { Box, Text } from 'ink';
 import { Colors } from '../colors.js';
@@ -17,28 +21,32 @@ export const Tips: React.FC<TipsProps> = ({ config }) => {
   const geminiMdFileCount = config.getGeminiMdFileCount();
   return (
     <Box flexDirection="column" marginBottom={1}>
-      <Text color={Colors.Foreground}>Tips for getting started:</Text>
+      <Text color={Colors.Foreground}>🔧 Dicas para começar com NexoCLI:</Text>
       <Text color={Colors.Foreground}>
-        1. Ask questions, edit files, or run commands.
+        1. Faz perguntas, edita ficheiros ou executa comandos.
       </Text>
       <Text color={Colors.Foreground}>
-        2. Be specific for the best results.
+        2. Sê específico para melhores resultados.
       </Text>
       {geminiMdFileCount === 0 && (
         <Text color={Colors.Foreground}>
-          3. Create{' '}
+          3. Cria ficheiros{' '}
           <Text bold color={Colors.AccentPurple}>
             GEMINI.md
           </Text>{' '}
-          files to customize your interactions with Gemini.
+          para personalizar as interações com Gemini.
         </Text>
       )}
       <Text color={Colors.Foreground}>
-        {geminiMdFileCount === 0 ? '4.' : '3.'}{' '}
+        {geminiMdFileCount === 0 ? '4.' : '3.'} Usa{' '}
         <Text bold color={Colors.AccentPurple}>
           /help
         </Text>{' '}
-        for more information.
+        para mais informações ou{' '}
+        <Text bold color={Colors.AccentPurple}>
+          /nexo info
+        </Text>{' '}
+        para detalhes do ecossistema.
       </Text>
     </Box>
   );

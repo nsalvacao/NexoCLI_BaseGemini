@@ -1,299 +1,376 @@
-# How to Contribute
+# Contributing to NexoCLI
 
-We would love to accept your patches and contributions to this project.
+---
 
-## Before you begin
+> **NexoCLI** é um fork personalizado do [Gemini-CLI](https://github.com/google-gemini/gemini-cli) da Google LLC (Apache 2.0). Todas as contribuições devem respeitar o licenciamento original e seguir as diretrizes específicas para o ecossistema Nexo.
+>
+> **🎯 Objetivo:** Personalização mínima do Gemini-CLI mantendo 100% de compatibilidade e preparando integração com solução híbrida.
 
-### Sign our Contributor License Agreement
+---
 
-Contributions to this project must be accompanied by a
-[Contributor License Agreement](https://cla.developers.google.com/about) (CLA).
-You (or your employer) retain the copyright to your contribution; this simply
-gives us permission to use and redistribute your contributions as part of the
-project.
+## 📋 **Pré-requisitos para Contribuir**
 
-If you or your current employer have already signed the Google CLA (even if it
-was for a different project), you probably don't need to do it again.
+### **🔍 Leitura Obrigatória**
+Antes de qualquer contribuição, deve ler **integralmente**:
 
-Visit <https://cla.developers.google.com/> to see your current agreements or to
-sign a new one.
+1. **[AGENTS.md](AGENTS.md)** - Guia completo para agentes e colaboradores
+2. **[README.md](README.md)** - Documentação principal do projeto
+3. **[CHANGELOG.md](CHANGELOG.md)** - Histórico de alterações
+4. **Este documento** - Workflow de contribuição
 
-### Review our Community Guidelines
+### **📚 Contexto do Projeto**
+- **Projeto Original:** [Gemini-CLI](https://github.com/google-gemini/gemini-cli) (Google LLC)
+- **Licença:** Apache License 2.0 (mantida)
+- **Tipo:** Fork personalizado com personalização mínima
+- **Foco:** Rebranding `gemini` → `nexocli` + integração solução híbrida
 
-This project follows [Google's Open Source Community
-Guidelines](https://opensource.google/conduct/).
+### **🏗️ Arquitetura da Solução**
+O NexoCLI faz parte de um ecossistema de 4 subprojetos:
+- **NexoCLI** (Este repo) - Personalização Gemini-CLI
+- **Ollama** - Modelos LLM locais
+- **n8n Orchestrator** - Orquestração visual
+- **Interface Unificada** - Menu consolidado
 
-## Contribution Process
+---
 
-### Code Reviews
+## 🚀 **Setup de Desenvolvimento**
 
-All submissions, including submissions by project members, require review. We
-use [GitHub pull requests](https://docs.github.com/articles/about-pull-requests)
-for this purpose.
-
-### Pull Request Guidelines
-
-To help us review and merge your PRs quickly, please follow these guidelines. PRs that do not meet these standards may be closed.
-
-#### 1. Link to an Existing Issue
-
-All PRs should be linked to an existing issue in our tracker. This ensures that every change has been discussed and is aligned with the project's goals before any code is written.
-
-- **For bug fixes:** The PR should be linked to the bug report issue.
-- **For features:** The PR should be linked to the feature request or proposal issue that has been approved by a maintainer.
-
-If an issue for your change doesn't exist, please **open one first** and wait for feedback before you start coding.
-
-#### 2. Keep It Small and Focused
-
-We favor small, atomic PRs that address a single issue or add a single, self-contained feature.
-
-- **Do:** Create a PR that fixes one specific bug or adds one specific feature.
-- **Don't:** Bundle multiple unrelated changes (e.g., a bug fix, a new feature, and a refactor) into a single PR.
-
-Large changes should be broken down into a series of smaller, logical PRs that can be reviewed and merged independently.
-
-#### 3. Use Draft PRs for Work in Progress
-
-If you'd like to get early feedback on your work, please use GitHub's **Draft Pull Request** feature. This signals to the maintainers that the PR is not yet ready for a formal review but is open for discussion and initial feedback.
-
-#### 4. Ensure All Checks Pass
-
-Before submitting your PR, ensure that all automated checks are passing by running `npm run preflight`. This command runs all tests, linting, and other style checks.
-
-#### 5. Update Documentation
-
-If your PR introduces a user-facing change (e.g., a new command, a modified flag, or a change in behavior), you must also update the relevant documentation in the `/docs` directory.
-
-#### 6. Write Clear Commit Messages and a Good PR Description
-
-Your PR should have a clear, descriptive title and a detailed description of the changes. Follow the [Conventional Commits](https://www.conventionalcommits.org/) standard for your commit messages.
-
-- **Good PR Title:** `feat(cli): Add --json flag to 'config get' command`
-- **Bad PR Title:** `Made some changes`
-
-In the PR description, explain the "why" behind your changes and link to the relevant issue (e.g., `Fixes #123`).
-
-## Forking
-
-If you are forking the repository you will be able to run the Build, Test and Integration test workflows. However in order to make the integration tests run you'll need to add a [GitHub Repository Secret](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository) with a value of `GEMINI_API_KEY` and set that to a valid API key that you have available. Your key and secret are private to your repo; no one without access can see your key and you cannot see any secrets related to this repo.
-
-Additionally you will need to click on the `Actions` tab and enable workflows for your repository, you'll find it's the large blue button in the center of the screen.
-
-## Development Setup and Workflow
-
-This section guides contributors on how to build, modify, and understand the development setup of this project.
-
-### Setting Up the Development Environment
-
-**Prerequisites:**
-
-1.  **Node.js**:
-    - **Development:** Please use Node.js `~20.19.0`. This specific version is required due to an upstream development dependency issue. You can use a tool like [nvm](https://github.com/nvm-sh/nvm) to manage Node.js versions.
-    - **Production:** For running the CLI in a production environment, any version of Node.js `>=20` is acceptable.
-2.  **Git**
-
-### Build Process
-
-To clone the repository:
-
+### **1. Fork e Clone**
 ```bash
-git clone https://github.com/google-gemini/gemini-cli.git # Or your fork's URL
-cd gemini-cli
+# Fork no GitHub e clone localmente
+git clone https://github.com/YOUR_USERNAME/NexoCLI_BaseGemini
+cd NexoCLI_BaseGemini
+
+# Adicionar remote upstream
+git remote add upstream https://github.com/nsalvacao/NexoCLI_BaseGemini
 ```
 
-To install dependencies defined in `package.json` as well as root dependencies:
-
+### **2. Instalação de Dependências**
 ```bash
+# Instalar dependências
 npm install
+
+# Verificar instalação
+npm run build
+./bundle/nexocli.js --version
 ```
 
-To build the entire project (all packages):
-
+### **3. Ambiente de Desenvolvimento Isolado**
 ```bash
+# ⚠️ IMPORTANTE: Nunca usar npm link
+# Sempre executar localmente para não afetar instalação global
+
+# Criar alias para desenvolvimento
+echo 'alias nexocli-dev="./bundle/nexocli.js"' >> ~/.bashrc
+source ~/.bashrc
+
+# Testar funcionamento
+nexocli-dev "Teste de desenvolvimento"
+```
+
+---
+
+## 📝 **Workflow de Contribuição**
+
+### **1. Antes de Começar**
+```bash
+# Sincronizar com upstream
+git fetch upstream
+git checkout main
+git merge upstream/main
+
+# Criar branch para feature/fix
+git checkout -b tipo/nome-descritivo
+
+# Exemplos:
+git checkout -b feat/arte-ascii-nexo
+git checkout -b fix/comando-slash-config
+git checkout -b docs/atualizar-readme
+```
+
+### **2. Desenvolvimento**
+
+#### **2.1. Checklist Pré-Desenvolvimento**
+- [ ] Ler [AGENTS.md](AGENTS.md) para guidelines específicas
+- [ ] Verificar se alteração não quebra compatibilidade
+- [ ] Planear testes em VM Windows
+- [ ] Identificar ficheiros a modificar
+
+#### **2.2. Implementação**
+```bash
+# Fazer alterações seguindo AGENTS.md
+# Adicionar header de atribuição em ficheiros modificados:
+
+# Exemplo para TypeScript:
+// Modificado por [Seu Nome], 2025
+// Baseado em gemini-cli (Copyright 2025 Google LLC, Apache 2.0)
+// Parte do NexoCLI_BaseGemini - Personalização para ecossistema Nexo
+```
+
+#### **2.3. Testes Obrigatórios**
+```bash
+# Testes básicos locais
+npm run build                   # Build sem erros
+./bundle/nexocli.js --version   # Versão correta
+./bundle/nexocli.js "teste"     # Funcionalidade básica
+./bundle/nexocli.js --help      # Help funcional
+
+# Verificar rebranding
+./bundle/nexocli.js --version | grep -i nexo
+
+# Testar comandos específicos se aplicável
+./bundle/nexocli.js /help
+./bundle/nexocli.js /clear
+```
+
+### **3. Documentação**
+
+#### **3.1. Atualizar Documentação**
+- **README.md:** Se adicionar funcionalidades
+- **CHANGELOG.md:** OBRIGATÓRIO para todas as alterações
+- **AGENTS.md:** Se alterar workflow ou adicionar guidelines
+
+#### **3.2. Log de Desenvolvimento**
+Criar log detalhado em `0. Log_Dev_NexoCli_BaseGemini/Dev_Logs/`:
+
+**Formato:** `[Seu Nome]_[acao]_[YYYYMMDD_HHMMSS].md`
+
+**Template:**
+```markdown
+# Log de Desenvolvimento - [ACAO] - [DATA]
+
+## Contexto
+- **Feature/Bug:** [Descrição]
+- **Branch:** [nome-branch]
+- **Ficheiros Modificados:** [lista]
+
+## Alterações Implementadas
+- [Detalhe técnico 1]
+- [Detalhe técnico 2]
+
+## Testes Realizados
+- [ ] npm run build
+- [ ] ./bundle/nexocli.js --version
+- [ ] ./bundle/nexocli.js "teste"
+- [ ] Teste específico da funcionalidade
+
+## Próximos Passos
+- [Se aplicável]
+```
+
+### **4. Commit e Push**
+```bash
+# Adicionar alterações
+git add .
+
+# Commit com mensagem estruturada
+git commit -m "tipo: descrição breve
+
+- Detalhe 1 da alteração
+- Detalhe 2 da alteração
+- Log: [nome-do-log-criado].md
+
+Refs: #issue-number (se aplicável)"
+
+# Push para seu fork
+git push origin tipo/nome-descritivo
+```
+
+### **5. Pull Request**
+
+#### **5.1. Criar PR**
+- **Título:** `[TIPO] Descrição clara da alteração`
+- **Descrição:** Usar template abaixo
+
+**Template de PR:**
+```markdown
+## Alterações Implementadas
+- [ ] Funcionalidade/fix implementado
+- [ ] Testes básicos realizados
+- [ ] Documentação atualizada
+- [ ] Compliance verificado
+
+## Ficheiros Modificados
+- `path/to/file1.ts` - [descrição]
+- `path/to/file2.tsx` - [descrição]
+
+## Testes Realizados
+- [ ] Build local sem erros
+- [ ] Funcionamento básico verificado
+- [ ] Compatibilidade mantida
+- [ ] Teste em VM Windows (se aplicável)
+
+## Compliance Checklist
+- [ ] Header de atribuição adicionado
+- [ ] Apache 2.0 respeitada
+- [ ] CHANGELOG.md atualizado
+- [ ] Log de desenvolvimento criado
+
+## Log de Desenvolvimento
+`0. Log_Dev_NexoCli_BaseGemini/Dev_Logs/[nome-do-log].md`
+
+## Observações
+[Qualquer informação adicional]
+```
+
+---
+
+## ✅ **Guidelines Específicas**
+
+### **🔒 Compliance e Licenciamento**
+
+#### **Obrigatório em TODOS os Commits:**
+- [ ] Header de atribuição em ficheiros modificados
+- [ ] Nunca incluir credenciais ou chaves API
+- [ ] CHANGELOG.md atualizado
+- [ ] Log de desenvolvimento criado
+
+#### **Atribuição Legal:**
+```typescript
+// Modificado por [Seu Nome], 2025
+// Baseado em gemini-cli (Copyright 2025 Google LLC, Apache 2.0)
+// Parte do NexoCLI_BaseGemini - Personalização para ecossistema Nexo
+```
+
+### **🎯 Tipos de Contribuição Aceitas**
+
+#### **✅ Bem-vindas:**
+- **Rebranding:** `gemini` → `nexocli`
+- **Arte ASCII:** Logo personalizado Nexo
+- **Comandos slash:** `/nexo info`, `/nexo status`, etc.
+- **Interface:** Mensagens de boas-vindas personalizadas
+- **Documentação:** Melhorias e correções
+- **Bug fixes:** Correções que mantêm compatibilidade
+
+#### **⚠️ Requerem Discussão:**
+- **Arquitetura:** Mudanças significativas
+- **Dependências:** Adicionar/remover dependências
+- **API:** Alterações em interfaces públicas
+- **Integração:** Preparação para n8n/solução híbrida
+
+#### **❌ Não Aceitas:**
+- **Breaking changes** sem justificação
+- **Funcionalidades** que quebrem compatibilidade original
+- **Dependências desnecessárias**
+- **Código** sem atribuição adequada
+
+### **🧪 Testes e Validação**
+
+#### **Antes de Submeter PR:**
+```bash
+# Checklist obrigatório
+npm run build                   # ✅ Build success
+./bundle/nexocli.js --version   # ✅ Versão OK
+./bundle/nexocli.js "teste"     # ✅ Funcionalidade básica
+grep -r "API_KEY" .            # ✅ Sem credenciais em código
+```
+
+#### **Teste em VM Windows:**
+- **Obrigatório** para mudanças significativas
+- **Recomendado** para todas as contribuições
+- **Documentar** resultados no log de desenvolvimento
+
+---
+
+## 🚨 **Resolução de Problemas**
+
+### **Problemas Comuns**
+
+#### **"Command not found: nexocli"**
+```bash
+# ✅ Correto: Usar caminho local
+./bundle/nexocli.js
+
+# ❌ Incorreto: Tentar usar comando global
+nexocli
+```
+
+#### **"Build failed"**
+```bash
+# Limpar e reinstalar
+rm -rf node_modules package-lock.json
+npm install
 npm run build
 ```
 
-This command typically compiles TypeScript to JavaScript, bundles assets, and prepares the packages for execution. Refer to `scripts/build.js` and `package.json` scripts for more details on what happens during the build.
-
-### Enabling Sandboxing
-
-[Sandboxing](#sandboxing) is highly recommended and requires, at a minimum, setting `GEMINI_SANDBOX=true` in your `~/.env` and ensuring a sandboxing provider (e.g. `macOS Seatbelt`, `docker`, or `podman`) is available. See [Sandboxing](#sandboxing) for details.
-
-To build both the `gemini` CLI utility and the sandbox container, run `build:all` from the root directory:
-
+#### **"Cannot overwrite global installation"**
 ```bash
-npm run build:all
+# ⚠️ NUNCA usar npm link
+# Sempre desenvolver localmente
+cd /path/to/NexoCLI_BaseGemini
+./bundle/nexocli.js
 ```
 
-To skip building the sandbox container, you can use `npm run build` instead.
+### **Obter Ajuda**
+1. **Consultar [AGENTS.md](AGENTS.md)** - Guia completo
+2. **Verificar logs** em `Dev_Logs/` - Histórico detalhado
+3. **Abrir issue** - Para dúvidas específicas
+4. **Email direto** - [nexo-modeling@outlook.com](mailto:nexo-modeling@outlook.com)
 
-### Running
+---
 
-To start the Gemini CLI from the source code (after building), run the following command from the root directory:
+## 🎯 **Roadmap de Contribuições**
 
-```bash
-npm start
-```
+### **Fase 1: Rebranding Básico** (Atual)
+- [ ] Alterar `package.json`: `"bin": {"nexocli": "bundle/nexocli.js"}`
+- [ ] Arte ASCII personalizada em `AsciiArt.ts`
+- [ ] Mensagens de boas-vindas em `Header.tsx`
+- [ ] Build configurado para `nexocli.js`
 
-If you'd like to run the source build outside of the gemini-cli folder you can utilize `npm link path/to/gemini-cli/packages/cli` (see: [docs](https://docs.npmjs.com/cli/v9/commands/npm-link)) or `alias gemini="node path/to/gemini-cli/packages/cli"` to run with `gemini`
+### **Fase 2: Comandos Personalizados**
+- [ ] `/nexo info` - Informações do sistema
+- [ ] `/nexo status` - Status de agentes
+- [ ] `/nexo config` - Configuração específica
+- [ ] Extensão do `slashCommandProcessor.ts`
 
-### Running Tests
+### **Fase 3: Preparação Integração**
+- [ ] Endpoints para n8n
+- [ ] APIs de comunicação
+- [ ] Configuração modular
 
-This project contains two types of tests: unit tests and integration tests.
+### **Fase 4: Interface Unificada**
+- [ ] Menu consolidado
+- [ ] Integração com outros agentes
 
-#### Unit Tests
+---
 
-To execute the unit test suite for the project:
+## 👥 **Comunidade e Suporte**
 
-```bash
-npm run test
-```
+### **Maintainer Principal**
+- **Nome:** Nuno Salvação
+- **Email:** [nexo-modeling@outlook.com](mailto:nexo-modeling@outlook.com)
+- **GitHub:** [@nsalvacao](https://github.com/nsalvacao)
 
-This will run tests located in the `packages/core` and `packages/cli` directories. Ensure tests pass before submitting any changes. For a more comprehensive check, it is recommended to run `npm run preflight`.
+### **Como Contribuir**
+1. **Issues:** Para bugs e sugestões
+2. **Discussions:** Para ideias e questões gerais
+3. **Pull Requests:** Para contribuições de código
+4. **Email:** Para questões de compliance ou arquitetura
 
-#### Integration Tests
+### **Código de Conduta**
+- **Respeitoso:** Comunicação profissional
+- **Colaborativo:** Espírito de equipa
+- **Compliance:** Respeitar licenciamento
+- **Qualidade:** Código bem testado e documentado
 
-The integration tests are designed to validate the end-to-end functionality of the Gemini CLI. They are not run as part of the default `npm run test` command.
+---
 
-To run the integration tests, use the following command:
+## 📄 **Recursos Adicionais**
 
-```bash
-npm run test:e2e
-```
+### **Documentação Oficial**
+- **[Gemini-CLI Original](https://github.com/google-gemini/gemini-cli)** - Projeto base
+- **[Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0)** - Licença
+- **[Keep a Changelog](https://keepachangelog.com/)** - Formato changelog
+- **[Semantic Versioning](https://semver.org/)** - Versionamento
 
-For more detailed information on the integration testing framework, please see the [Integration Tests documentation](./docs/integration-tests.md).
+### **Ferramentas de Desenvolvimento**
+- **Node.js 20+** - Runtime necessário
+- **npm** - Gestão de dependências
+- **TypeScript** - Linguagem principal
+- **esbuild** - Sistema de build
 
-### Linting and Preflight Checks
+---
 
-To ensure code quality and formatting consistency, run the preflight check:
+**Obrigado por contribuir para o NexoCLI! 🚀**
 
-```bash
-npm run preflight
-```
-
-This command will run ESLint, Prettier, all tests, and other checks as defined in the project's `package.json`.
-
-_ProTip_
-
-after cloning create a git precommit hook file to ensure your commits are always clean.
-
-```bash
-echo "
-# Run npm build and check for errors
-if ! npm run preflight; then
-  echo "npm build failed. Commit aborted."
-  exit 1
-fi
-" > .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
-```
-
-#### Formatting
-
-To separately format the code in this project by running the following command from the root directory:
-
-```bash
-npm run format
-```
-
-This command uses Prettier to format the code according to the project's style guidelines.
-
-#### Linting
-
-To separately lint the code in this project, run the following command from the root directory:
-
-```bash
-npm run lint
-```
-
-### Coding Conventions
-
-- Please adhere to the coding style, patterns, and conventions used throughout the existing codebase.
-- Consult [GEMINI.md](https://github.com/google-gemini/gemini-cli/blob/main/GEMINI.md) (typically found in the project root) for specific instructions related to AI-assisted development, including conventions for React, comments, and Git usage.
-- **Imports:** Pay special attention to import paths. The project uses `eslint-rules/no-relative-cross-package-imports.js` to enforce restrictions on relative imports between packages.
-
-### Project Structure
-
-- `packages/`: Contains the individual sub-packages of the project.
-  - `cli/`: The command-line interface.
-  - `core/`: The core backend logic for the Gemini CLI.
-- `docs/`: Contains all project documentation.
-- `scripts/`: Utility scripts for building, testing, and development tasks.
-
-For more detailed architecture, see `docs/architecture.md`.
-
-## Debugging
-
-### VS Code:
-
-0.  Run the CLI to interactively debug in VS Code with `F5`
-1.  Start the CLI in debug mode from the root directory:
-    ```bash
-    npm run debug
-    ```
-    This command runs `node --inspect-brk dist/gemini.js` within the `packages/cli` directory, pausing execution until a debugger attaches. You can then open `chrome://inspect` in your Chrome browser to connect to the debugger.
-2.  In VS Code, use the "Attach" launch configuration (found in `.vscode/launch.json`).
-
-Alternatively, you can use the "Launch Program" configuration in VS Code if you prefer to launch the currently open file directly, but 'F5' is generally recommended.
-
-To hit a breakpoint inside the sandbox container run:
-
-```bash
-DEBUG=1 gemini
-```
-
-### React DevTools
-
-To debug the CLI's React-based UI, you can use React DevTools. Ink, the library used for the CLI's interface, is compatible with React DevTools version 4.x.
-
-1.  **Start the Gemini CLI in development mode:**
-
-    ```bash
-    DEV=true npm start
-    ```
-
-2.  **Install and run React DevTools version 4.28.5 (or the latest compatible 4.x version):**
-
-    You can either install it globally:
-
-    ```bash
-    npm install -g react-devtools@4.28.5
-    react-devtools
-    ```
-
-    Or run it directly using npx:
-
-    ```bash
-    npx react-devtools@4.28.5
-    ```
-
-    Your running CLI application should then connect to React DevTools.
-    ![](/docs/assets/connected_devtools.png)
-
-## Sandboxing
-
-### MacOS Seatbelt
-
-On MacOS, `gemini` uses Seatbelt (`sandbox-exec`) under a `permissive-open` profile (see `packages/cli/src/utils/sandbox-macos-permissive-open.sb`) that restricts writes to the project folder but otherwise allows all other operations and outbound network traffic ("open") by default. You can switch to a `restrictive-closed` profile (see `packages/cli/src/utils/sandbox-macos-restrictive-closed.sb`) that declines all operations and outbound network traffic ("closed") by default by setting `SEATBELT_PROFILE=restrictive-closed` in your environment or `.env` file. Available built-in profiles are `{permissive,restrictive}-{open,closed,proxied}` (see below for proxied networking). You can also switch to a custom profile `SEATBELT_PROFILE=<profile>` if you also create a file `.gemini/sandbox-macos-<profile>.sb` under your project settings directory `.gemini`.
-
-### Container-based Sandboxing (All Platforms)
-
-For stronger container-based sandboxing on MacOS or other platforms, you can set `GEMINI_SANDBOX=true|docker|podman|<command>` in your environment or `.env` file. The specified command (or if `true` then either `docker` or `podman`) must be installed on the host machine. Once enabled, `npm run build:all` will build a minimal container ("sandbox") image and `npm start` will launch inside a fresh instance of that container. The first build can take 20-30s (mostly due to downloading of the base image) but after that both build and start overhead should be minimal. Default builds (`npm run build`) will not rebuild the sandbox.
-
-Container-based sandboxing mounts the project directory (and system temp directory) with read-write access and is started/stopped/removed automatically as you start/stop Gemini CLI. Files created within the sandbox should be automatically mapped to your user/group on host machine. You can easily specify additional mounts, ports, or environment variables by setting `SANDBOX_{MOUNTS,PORTS,ENV}` as needed. You can also fully customize the sandbox for your projects by creating the files `.gemini/sandbox.Dockerfile` and/or `.gemini/sandbox.bashrc` under your project settings directory (`.gemini`) and running `gemini` with `BUILD_SANDBOX=1` to trigger building of your custom sandbox.
-
-#### Proxied Networking
-
-All sandboxing methods, including MacOS Seatbelt using `*-proxied` profiles, support restricting outbound network traffic through a custom proxy server that can be specified as `GEMINI_SANDBOX_PROXY_COMMAND=<command>`, where `<command>` must start a proxy server that listens on `:::8877` for relevant requests. See `docs/examples/proxy-script.md` for a minimal proxy that only allows `HTTPS` connections to `example.com:443` (e.g. `curl https://example.com`) and declines all other requests. The proxy is started and stopped automatically alongside the sandbox.
-
-## Manual Publish
-
-We publish an artifact for each commit to our internal registry. But if you need to manually cut a local build, then run the following commands:
-
-```
-npm run clean
-npm install
-npm run auth
-npm run prerelease:dev
-npm publish --workspaces
-```
+*Desenvolvido por [Nuno Salvação](mailto:nexo-modeling@outlook.com) | Baseado em Gemini-CLI (Google LLC, Apache 2.0) | Parte do ecossistema Nexo*
