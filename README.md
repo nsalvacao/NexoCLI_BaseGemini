@@ -42,7 +42,13 @@ Este projeto é parte de uma **solução híbrida** composta por 4 subprojetos:
 
 ## ⚡ **Quick Start NexoCLI**
 
-### **🐧 Linux/macOS:**
+> **💡 Escolha o tipo de instalação:**
+> - **Desenvolvimento local:** Para testar, modificar código
+> - **Instalação global:** Para usar comando `nexocli` em qualquer lugar
+
+### **📁 Opção 1: Desenvolvimento Local**
+
+#### **🐧 Linux/macOS:**
 ```bash
 # 1. Clonar e instalar
 git clone https://github.com/nsalvacao/NexoCLI_BaseGemini
@@ -51,13 +57,13 @@ npm install
 
 # 2. Build e testar
 npm run build
-./bundle/nexocli.js --version
+node bundle/nexocli.js --version
 
-# 3. Primeiro uso
-./bundle/nexocli.js "Olá! Este é o NexoCLI personalizado."
+# 3. Usar diretamente
+node bundle/nexocli.js "Olá! Este é o NexoCLI personalizado."
 ```
 
-### **🪟 Windows (PowerShell):**
+#### **🪟 Windows (PowerShell):**
 ```powershell
 # 1. Clonar e instalar
 git clone https://github.com/nsalvacao/NexoCLI_BaseGemini
@@ -68,8 +74,59 @@ npm install
 npm run build
 node bundle/nexocli.js --version
 
-# 3. Primeiro uso
-node bundle/nexocli.js "Olá! Este é o NexoCLI personalizado."
+# 3. Usar via wrappers
+.\nexocli.ps1 "Olá! Este é o NexoCLI personalizado."
+.\nexocli.bat "Olá! Este é o NexoCLI personalizado."
+```
+
+### **🌐 Opção 2: Instalação Global (Recomendada)**
+
+#### **🐧 Linux/macOS:**
+```bash
+# 1. Clonar e preparar
+git clone https://github.com/nsalvacao/NexoCLI_BaseGemini
+cd NexoCLI_BaseGemini
+npm install
+npm run build
+
+# 2. Instalar globalmente
+npm install -g .
+
+# 3. Usar em qualquer lugar
+nexocli --version
+nexocli "Olá! Este é o NexoCLI personalizado."
+```
+
+#### **🪟 Windows (PowerShell):**
+```powershell
+# 1. Clonar e preparar
+git clone https://github.com/nsalvacao/NexoCLI_BaseGemini
+cd NexoCLI_BaseGemini
+npm install
+npm run build
+
+# 2. Instalar globalmente
+npm install -g .
+
+# 3. Usar em qualquer lugar
+nexocli --version
+nexocli "Olá! Este é o NexoCLI personalizado."
+```
+
+### **🔄 Desinstalar/Reinstalar**
+
+```bash
+# Desinstalar instalação global
+npm uninstall -g nexocli
+# OU (se foi instalado com nome incorreto)
+npm uninstall -g nexocli-base-gemini
+
+# Reinstalar corretamente
+cd /path/to/NexoCLI_BaseGemini
+npm install -g .
+
+# Verificar funcionamento
+nexocli --version
 ```
 
 **✅ Funciona com OAuth Google gratuito** (60 requests/min + 1000/dia)
@@ -96,15 +153,20 @@ node bundle/nexocli.js --version        # Comando direto
 .\nexocli.ps1 --version                 # Via wrapper PowerShell
 ```
 
-### **📝 Diferença: Desenvolvimento vs Instalação Global**
+### **📝 Diferença Entre Métodos de Instalação**
 
-**🔧 Desenvolvimento Local (Este Projeto):**
-- Execute: `node bundle/nexocli.js` ou use os wrappers `nexocli.bat`/`nexocli.ps1`
-- **Porquê:** Não há instalação npm global, os wrappers são criados manualmente
+**📁 Desenvolvimento Local:**
+- **Comando:** `node bundle/nexocli.js` ou wrappers `.\nexocli.ps1`/`.\nexocli.bat`
+- **Localização:** Apenas no diretório do projeto
+- **Uso:** Desenvolvimento, testes, modificações
 
-**🌐 Gemini-CLI Instalado Globalmente:**
-- Execute: `gemini` diretamente
-- **Porquê:** `npm install -g` cria wrappers automáticos no PATH do sistema
+**🌐 Instalação Global:**
+- **Comando:** `nexocli` (em qualquer diretório)
+- **Localização:** Disponível sistema-wide via PATH
+- **Uso:** Utilização diária, produção
+
+**⚠️ Problema Comum:**
+Se o comando global `nexocli` não funcionar, use a secção **🔄 Desinstalar/Reinstalar** acima.
 
 ---
 
