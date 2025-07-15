@@ -1,537 +1,292 @@
-# NexoCLI - Personalização do Gemini CLI
+# NexoCLI - Professional Google Gemini CLI
+
+> **NexoCLI** is a professionally customized fork of [Gemini-CLI](https://github.com/google-gemini/gemini-cli) by Google LLC, maintaining full original functionality while adding specific customizations for the Nexo development ecosystem.
+
+**🎯 Focus:** Minimal customization of the original Gemini-CLI with professional branding, custom commands, and preparation for hybrid multi-agent solution integration.
+
+**Maintained by** [Nuno Salvação](mailto:nexo-modeling@outlook.com) | **Licensed under** Apache License 2.0
 
 ---
 
-> **NexoCLI** é um fork personalizado do [Gemini-CLI](https://github.com/google-gemini/gemini-cli) da Google LLC, mantendo toda a funcionalidade original enquanto adiciona personalizações específicas para o ecossistema de desenvolvimento Nexo.
->
-> **🎯 Foco:** Personalização mínima do Gemini-CLI original com rebranding, comandos customizados e preparação para integração com solução híbrida de múltiplos agentes.
->
-> **Projeto mantido por** [Nuno Salvação](mailto:nexo-modeling@outlook.com) | **Licenciado sob** Apache License 2.0
+## 📋 **Complete Solution Architecture**
 
----
+This project is part of a **hybrid solution** composed of 4 components:
 
-## 📋 **Arquitetura da Solução Completa**
-
-Este projeto é parte de uma **solução híbrida** composta por 4 subprojetos:
-
-### **1. 🔧 NexoCLI** (Este repositório)
-- **Função:** Personalização mínima do Gemini-CLI original
-- **Responsabilidade:** Interface com modelos Google Gemini
-- **Status:** Desenvolvimento ativo
-- **Comando:** `nexocli`
+### **1. 🔧 NexoCLI** (This repository)
+- **Function:** Professional customization of the original Gemini-CLI
+- **Responsibility:** Interface with Google Gemini models
+- **Status:** Active development
+- **Command:** `nexocli`
 
 ### **2. 🤖 Ollama**
-- **Função:** Modelos LLM locais
-- **Responsabilidade:** Execução offline de modelos
-- **Status:** Solução original mantida
-- **Comando:** `ollama`
+- **Function:** Local LLM models
+- **Responsibility:** Offline model execution
+- **Status:** Original solution maintained
+- **Command:** `ollama`
 
 ### **3. 🎛️ n8n Orchestrator**
-- **Função:** Orquestração visual de agentes
-- **Responsabilidade:** Workflow e routing entre agentes
-- **Status:** Planeamento
+- **Function:** Visual agent orchestration
+- **Responsibility:** Workflow and routing between agents
+- **Status:** Planned integration
 - **Interface:** Web dashboard
 
-### **4. 🖥️ Interface Unificada**
-- **Função:** Menu único para todos os agentes
-- **Responsabilidade:** UX consolidada
-- **Status:** Planeamento
-- **Tipo:** Menu terminal ou web
+### **4. 🖥️ Unified Interface**
+- **Function:** Single menu for all agents
+- **Responsibility:** Consolidated UX
+- **Status:** Planned development
+- **Type:** Terminal or web menu
 
 ---
 
-## ⚡ **Quick Start NexoCLI**
+## ⚡ **Quick Start**
 
-> **✅ READY FOR NPM PUBLICATION**
-> - **Package:** `@nsalvacao/nexo-cli`
-> - **Version:** 0.1.12
-> - **Status:** Fully functional with professional branding
-
-> **💡 Choose installation type:**
-> - **Local development:** For testing and code modification
-> - **Global installation:** For using `nexocli` command anywhere
-
-### **📁 Opção 1: Desenvolvimento Local**
-
-#### **🐧 Linux/macOS:**
-```bash
-# 1. Clonar e instalar
-git clone https://github.com/nsalvacao/NexoCLI_BaseGemini
-cd NexoCLI_BaseGemini
-npm install
-
-# 2. Build e testar
-npm run build
-node bundle/nexocli.js --version
-
-# 3. Usar diretamente
-node bundle/nexocli.js "Olá! Este é o NexoCLI personalizado."
-```
-
-#### **🪟 Windows (PowerShell):**
-```powershell
-# 1. Clonar e instalar
-git clone https://github.com/nsalvacao/NexoCLI_BaseGemini
-cd NexoCLI_BaseGemini
-npm install
-
-# 2. Build e testar
-npm run build
-node bundle/nexocli.js --version
-
-# 3. Usar via wrappers
-.\nexocli.ps1 "Olá! Este é o NexoCLI personalizado."
-.\nexocli.bat "Olá! Este é o NexoCLI personalizado."
-```
-
-### **🌐 Opção 2: Instalação Global (Recomendada)**
-
-#### **🐧 Linux/macOS:**
-```bash
-# 1. Clonar e preparar
-git clone https://github.com/nsalvacao/NexoCLI_BaseGemini
-cd NexoCLI_BaseGemini
-npm install
-npm run build
-
-# 2. Instalar globalmente
-npm install -g .
-
-# 3. Usar em qualquer lugar
-nexocli --version
-nexocli "Olá! Este é o NexoCLI personalizado."
-```
-
-#### **🪟 Windows (PowerShell):**
-```powershell
-# 1. Clonar e preparar
-git clone https://github.com/nsalvacao/NexoCLI_BaseGemini
-cd NexoCLI_BaseGemini
-npm install
-npm run build
-
-# 2. Instalar globalmente
-npm install -g .
-
-# 3. Usar em qualquer lugar
-nexocli --version
-nexocli "Olá! Este é o NexoCLI personalizado."
-```
-
-### **🔄 Desinstalar/Reinstalar**
+### **Option 1: NPM Installation (Recommended)**
 
 ```bash
-# Desinstalar instalação global
-npm uninstall -g nexocli
-# OU (se foi instalado com nome incorreto)
-npm uninstall -g nexocli-base-gemini
+# Install globally
+npm install -g @nsalvacao/nexo-cli
 
-# Reinstalar corretamente
-cd /path/to/NexoCLI_BaseGemini
-npm install -g .
-
-# Verificar funcionamento
+# Use anywhere
+nexocli "Hello! This is the professional NexoCLI."
 nexocli --version
 ```
 
-**✅ Funciona com OAuth Google gratuito** (60 requests/min + 1000/dia)
+### **Option 2: Local Development**
 
----
-
-## 🔧 **Pré-requisitos**
-
-### **📋 Essenciais**
-- **[Node.js 20+](https://nodejs.org/)**
-- **[Git](https://git-scm.com/)**
-- **Terminal compatível**
-- **Browser moderno** (OAuth)
-- **Conexão Internet**
-
-### **⚠️ Windows**
-```powershell
-# Se erro de execution policy:
-Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
-
-# IMPORTANTE: No desenvolvimento local, usar 'node' ou os wrappers
-node bundle/nexocli.js --version        # Comando direto
-.\nexocli.bat --version                 # Via wrapper CMD
-.\nexocli.ps1 --version                 # Via wrapper PowerShell
-```
-
-### **📝 Diferença Entre Métodos de Instalação**
-
-**📁 Desenvolvimento Local:**
-- **Comando:** `node bundle/nexocli.js` ou wrappers `.\nexocli.ps1`/`.\nexocli.bat`
-- **Localização:** Apenas no diretório do projeto
-- **Uso:** Desenvolvimento, testes, modificações
-
-**🌐 Instalação Global:**
-- **Comando:** `nexocli` (em qualquer diretório)
-- **Localização:** Disponível sistema-wide via PATH
-- **Uso:** Utilização diária, produção
-
-**⚠️ Problema Comum:**
-Se o comando global `nexocli` não funcionar, use a secção **🔄 Desinstalar/Reinstalar** acima.
-
----
-
-## 🚀 **Personalização Atual**
-
-### **✅ Implemented**
-- **Complete rebranding:** `gemini` → `nexocli`
-- **Professional ASCII art:** Custom NEXO logo
-- **Configuration migration:** `.gemini` → `.nexocli` with backward compatibility
-- **Professional color palette:** Tailwind-inspired professional themes
-- **English interface:** Fully internationalized user experience
-- **NPM ready:** Package configured for `@nsalvacao/nexo-cli`
-- **Coexistence tested:** Works alongside original Gemini-CLI
-
-### **🔄 In Development**
-- **Custom slash commands:** `/nexo`, `/status`, `/config`
-- **Welcome messages:** Personalized interface
-- **Orchestration preparation:** APIs for n8n integration
-
-### **📋 Planned**
-- **n8n integration:** Orchestration endpoints
-- **Unified interface:** Consolidated menu
-- **Modular configuration:** NEXO-specific settings
-
----
-
-## 📚 **Comandos Disponíveis**
-
-### **🎯 Comandos Base (Herdados)**
-
-#### **🐧 Linux/macOS:**
 ```bash
-./bundle/nexocli.js "sua pergunta"    # Chat direto
-./bundle/nexocli.js --help            # Ajuda completa
-./bundle/nexocli.js --version         # Versão
-./bundle/nexocli.js /clear            # Limpar sessão
-./bundle/nexocli.js /help             # Ajuda interativa
-./bundle/nexocli.js /memory           # Gestão de memória
-./bundle/nexocli.js /theme            # Selecionar tema
-```
+# Clone and install
+git clone https://github.com/nsalvacao/NexoCLI_BaseGemini
+cd NexoCLI_BaseGemini
+npm install
 
-#### **🪟 Windows (CMD/PowerShell):**
-```batch
-REM Comando direto
-node bundle/nexocli.js "sua pergunta"    
-
-REM Via wrappers (mais fácil)
-nexocli.bat "sua pergunta"              # CMD
-.\nexocli.ps1 "sua pergunta"            # PowerShell
-
-REM Comandos disponíveis
-node bundle/nexocli.js --help            # Ajuda completa
-nexocli.bat --version                    # Versão via wrapper
-.\nexocli.ps1 /clear                     # Limpar sessão
-.\nexocli.ps1 /help                      # Ajuda interativa
-.\nexocli.ps1 /memory                    # Gestão de memória
-.\nexocli.ps1 /theme                     # Selecionar tema
-```
-
-### **🔧 Comandos Personalizados (Futuros)**
-
-#### **🐧 Linux/macOS:**
-```bash
-./bundle/nexocli.js /nexo info           # Informações do sistema Nexo
-./bundle/nexocli.js /nexo status         # Status de todos os agentes
-./bundle/nexocli.js /nexo config         # Configuração específica
-./bundle/nexocli.js /nexo orchestrate    # Integrar com n8n
-```
-
-#### **🪟 Windows (PowerShell):**
-```powershell
-node bundle/nexocli.js /nexo info           # Informações do sistema Nexo
-node bundle/nexocli.js /nexo status         # Status de todos os agentes
-node bundle/nexocli.js /nexo config         # Configuração específica
-node bundle/nexocli.js /nexo orchestrate    # Integrar com n8n
-```
-
----
-
-## ⚙️ **Desenvolvimento Isolado**
-
-### **🛡️ Ambiente Seguro**
-
-#### **🐧 Linux/macOS:**
-```bash
-# Desenvolvimento sem afetar instalação global
-cd /path/to/NexoCLI_BaseGemini
-npm run build
-./bundle/nexocli.js "$@"
-
-# Alias temporário
-alias nexocli-dev="./bundle/nexocli.js"
-```
-
-#### **🪟 Windows (PowerShell):**
-```powershell
-# Desenvolvimento sem afetar instalação global
-cd C:\path\to\NexoCLI_BaseGemini
-npm run build
-node bundle/nexocli.js $args
-
-# Função temporária
-function nexocli-dev { node bundle/nexocli.js $args }
-```
-
-### **🔄 Workflow de Desenvolvimento**
-
-#### **🐧 Linux/macOS:**
-```bash
-# 1. Modificar código
-vim packages/cli/src/ui/components/AsciiArt.ts
-
-# 2. Build e testar
+# Build and test
 npm run build
 ./bundle/nexocli.js --version
 
-# 3. Verificar funcionamento
-./bundle/nexocli.js "Teste de funcionalidade"
-```
-
-#### **🪟 Windows (PowerShell):**
-```powershell
-# 1. Modificar código
-notepad packages/cli/src/ui/components/AsciiArt.ts
-
-# 2. Build e testar
-npm run build
-node bundle/nexocli.js --version
-
-# 3. Verificar funcionamento
-node bundle/nexocli.js "Teste de funcionalidade"
+# Use directly
+./bundle/nexocli.js "Hello! This is the professional NexoCLI."
 ```
 
 ---
 
-## 🔐 **Autenticação**
+## 🔧 **Prerequisites**
 
-### **🚀 OAuth Google (Padrão)**
-- **Método principal:** OAuth com conta Google
-- **Gratuito:** 60 requests/min + 1000/dia
-- **Setup:** Automático na primeira execução
-- **Localização:** Credenciais geridas pelo Gemini-CLI
+- **Node.js** 18.0.0 or higher
+- **npm** 8.0.0 or higher
+- **Google Account** (for OAuth authentication)
+- **Internet connection** (for Google Gemini API access)
 
-### **🔑 API Keys (Opcional)**
+### **System Requirements**
+- **Linux/macOS/Windows** (all platforms supported)
+- **RAM:** 4GB minimum (8GB recommended)
+- **Storage:** 500MB free space
+
+---
+
+## 🔐 **Authentication**
+
+NexoCLI uses **separate authentication** from the original Gemini-CLI:
+
+- **Gemini-CLI:** Uses `~/.gemini/` directory
+- **NexoCLI:** Uses `~/.nexocli/` directory
+- **Migration:** Automatic migration from existing Gemini-CLI credentials
+
+### **Authentication Methods**
+
+1. **OAuth (Recommended - Free)**
+   - 60 requests per minute
+   - No API key required
+   - Automatic browser authentication
+
+2. **API Key (Optional - Higher quotas)**
+   - Requires Google Cloud project
+   - Higher rate limits available
+   - Set via `GOOGLE_API_KEY` environment variable
+
+### **First Run**
 ```bash
-# Apenas para quotas maiores
-export GEMINI_API_KEY="sua_chave_aqui"
+nexocli "test authentication"
+# Browser will open for Google OAuth
+# Credentials stored in ~/.nexocli/
 ```
 
 ---
 
-## 📁 **Estrutura do Projeto**
+## 🚀 **Usage**
+
+### **Basic Commands**
+```bash
+# Interactive mode
+nexocli
+
+# Direct query
+nexocli "Explain quantum computing"
+
+# Help
+nexocli --help
+
+# Version
+nexocli --version
+```
+
+### **File Context**
+```bash
+# Include files in context
+nexocli "@src/app.js explain this code"
+
+# Multiple files
+nexocli "@src/*.js @docs/README.md review this project"
+```
+
+### **Shell Integration**
+```bash
+# Execute shell commands
+nexocli "!ls -la"
+nexocli "!npm run test"
+```
+
+---
+
+## 📁 **Project Structure**
 
 ```
 NexoCLI_BaseGemini/
 ├── packages/
-│   ├── cli/                    # Interface CLI personalizada
-│   │   ├── src/ui/components/
-│   │   │   ├── AsciiArt.ts    # ← Logo personalizado
-│   │   │   ├── Header.tsx     # ← Boas-vindas
-│   │   │   └── ...
-│   │   └── src/ui/hooks/
-│   │       └── slashCommandProcessor.ts # ← Comandos personalizados
-│   └── core/                   # Lógica core (mantida)
-├── 0. Log_Dev_NexoCli_BaseGemini/
-│   ├── Dev_Logs/              # Logs de desenvolvimento
-│   └── Docs_Exemplo/          # Templates de documentação
-├── bundle/                    # Build final
-├── README.md                  # ← Este ficheiro
-├── AGENTS.md                  # ← Guia para agentes
-├── CHANGELOG.md               # ← Histórico de alterações
-├── LICENSE                    # ← Apache 2.0
-└── package.json              # ← Configuração (bin: nexocli)
+│   ├── cli/                    # CLI interface
+│   │   ├── src/ui/components/  # UI components
+│   │   ├── src/ui/themes/      # Visual themes
+│   │   └── src/config/         # Configuration
+│   └── core/                   # Core functionality
+│       ├── src/tools/          # Available tools
+│       ├── src/core/           # Core logic
+│       └── src/utils/          # Utilities
+├── bundle/                     # Built application
+├── docs/                       # Documentation
+├── scripts/                    # Build scripts
+└── dev-assets/                 # Development files (excluded from NPM)
 ```
 
 ---
 
-## 🧪 **Testes**
+## 🔄 **Uninstall/Reinstall**
 
-### **🔍 Validação Básica**
-
-#### **🐧 Linux/macOS:**
+### **Uninstall**
 ```bash
-# Testes obrigatórios
-npm run build                   # Build success
-./bundle/nexocli.js --version   # Versão correcta
-./bundle/nexocli.js "teste"     # Funcionalidade básica
+# NPM installation
+npm uninstall -g @nsalvacao/nexo-cli
+
+# Local installation
+rm -rf ~/.nexocli/  # Remove user settings
 ```
 
-#### **🪟 Windows (PowerShell):**
-```powershell
-# Testes obrigatórios
-npm run build                        # Build success
-node bundle/nexocli.js --version     # Versão correcta
-node bundle/nexocli.js "teste"       # Funcionalidade básica
-```
-
-### **🎯 Testes de Personalização**
-
-#### **🐧 Linux/macOS:**
+### **Reinstall**
 ```bash
-# Verificar rebranding
-./bundle/nexocli.js --version | grep -i nexo
+# Clean reinstall
+npm uninstall -g @nsalvacao/nexo-cli
+npm install -g @nsalvacao/nexo-cli
 
-# Testar comandos personalizados (futuros)
-./bundle/nexocli.js /nexo info
-```
-
-#### **🪟 Windows (PowerShell):**
-```powershell
-# Verificar rebranding
-node bundle/nexocli.js --version | Select-String -Pattern "nexo"
-
-# Testar comandos personalizados (futuros)
-node bundle/nexocli.js /nexo info
+# Verify
+nexocli --version
 ```
 
 ---
 
-## 🗑️ **Não Afeta Instalação Global**
+## 📜 **Licensing and Compliance**
 
-### **✅ Operações Seguras**
-- `npm install` - Dependências locais
-- `npm run build` - Build local
-- `./bundle/nexocli.js` (Linux/macOS) ou `node bundle/nexocli.js` (Windows) - Execução local
-- Desenvolvimento em diretório isolado
+### **Original Attribution**
+This project is based on [Gemini-CLI](https://github.com/google-gemini/gemini-cli) by Google LLC.
 
-### **⚠️ Evitar**
-- `npm link` - Sobrescreveria comando global
-- `npm install -g .` - Substituiria instalação global
-- Publicar com mesmo nome no npm
+**Original License:** Apache License 2.0  
+**Copyright:** 2025 Google LLC  
+**Modifications:** 2025 Nuno Salvação
 
----
+### **Compliance Requirements**
+- All modified files include proper attribution headers
+- Original Apache 2.0 license maintained
+- Full source code available on GitHub
+- Transparent modification documentation
 
-## 📄 **Licenciamento e Compliance**
-
-### **📋 Origem e Atribuição**
-- **Baseado em:** [Gemini-CLI](https://github.com/google-gemini/gemini-cli) — Google LLC
-- **Licença Original:** Apache License 2.0
-- **Modificações:** Nuno Salvação, 2025
-- **Licença Final:** Apache License 2.0 (mantida)
-
-### **🔍 Modificações Documentadas**
-- **Rebranding:** `gemini` → `nexocli`
-- **Arte ASCII:** Logo personalizado
-- **Comandos:** Extensões específicas Nexo
-- **Build:** Processo mantido, output personalizado
-
-### **📚 Compliance**
-- **Atribuição:** Mantida em todos os ficheiros
-- **Licença:** Texto completo em [LICENSE](LICENSE)
-- **Histórico:** Documentado em [CHANGELOG.md](CHANGELOG.md)
-- **Transparência:** Processo documentado em [AGENTS.md](AGENTS.md)
-
----
-
-## 🛠️ **Integração com Solução Híbrida**
-
-### **🔄 Preparação n8n**
-```bash
-# Futura integração via endpoints
-nexocli --api-mode              # Modo API para n8n
-nexocli --webhook-url=URL       # Configurar webhook
+### **Legal Notice**
 ```
-
-### **🎛️ Interface Unificada**
-```bash
-# Futuro menu consolidado
-nexo                            # Menu principal
-├── 🤖 NexoCLI (Google Gemini)
-├── 🦾 Ollama (Modelos Locais)
-├── 🎛️ n8n (Orquestração)
-└── ⚙️ Configurações
+Based on Gemini-CLI (Copyright 2025 Google LLC, Apache 2.0)
+Modified by Nuno Salvação, 2025
+Part of NexoCLI_BaseGemini - Customization for Nexo ecosystem
 ```
 
 ---
 
-## 📞 **Suporte e Contribuições**
+## 🌐 **Hybrid Solution Integration**
 
-### **🤝 Contribuir**
-1. **Ler:** [AGENTS.md](AGENTS.md) - Guia obrigatório
-2. **Fork:** Criar fork do repositório
-3. **Desenvolver:** Seguir workflow documentado
-4. **Testar:** Validar funcionamento
-5. **Pull Request:** Submeter com documentação
+### **Future Integration Points**
+- **n8n Orchestrator:** Visual workflow management
+- **Unified Interface:** Single entry point for all agents
+- **API Endpoints:** REST/WebSocket communication
+- **Configuration Management:** Centralized settings
 
-### **📧 Contactos**
-- **Maintainer:** [Nuno Salvação](mailto:nexo-modeling@outlook.com)
+### **Planned Architecture**
+```
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   🔧 NexoCLI    │    │   🤖 Ollama     │    │  🎛️ n8n Orch.  │
+│ (Google Gemini) │    │ (Local Models)  │    │ (Orchestrator)  │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+         │                       │                       │
+         └───────────────────────┼───────────────────────┘
+                                 │
+                    ┌─────────────────┐
+                    │  🖥️ Unified     │
+                    │   Interface     │
+                    └─────────────────┘
+```
+
+---
+
+## 📈 **Version History**
+
+- **v0.1.14** - Complete authentication separation
+- **v0.1.13** - English internationalization
+- **v0.1.12** - NPM publication ready
+- **v0.1.11** - Professional branding
+- **v0.1.10** - Initial customization
+
+---
+
+## 🤝 **Contributing**
+
+### **Development Guidelines**
+1. Follow original Gemini-CLI patterns
+2. Maintain Apache 2.0 license compliance
+3. Include proper attribution headers
+4. Test on multiple platforms
+5. Document all changes
+
+### **Attribution Template**
+```typescript
+// Modified by [Your Name], 2025
+// Based on gemini-cli (Copyright 2025 Google LLC, Apache 2.0)
+// Part of NexoCLI_BaseGemini - Customization for Nexo ecosystem
+```
+
+---
+
+## 🔗 **Links**
+
+- **Repository:** [GitHub](https://github.com/nsalvacao/NexoCLI_BaseGemini)
+- **NPM Package:** [@nsalvacao/nexo-cli](https://www.npmjs.com/package/@nsalvacao/nexo-cli)
+- **Original Project:** [Gemini-CLI](https://github.com/google-gemini/gemini-cli)
+- **Documentation:** [GitHub Wiki](https://github.com/nsalvacao/NexoCLI_BaseGemini/wiki)
 - **Issues:** [GitHub Issues](https://github.com/nsalvacao/NexoCLI_BaseGemini/issues)
-- **Suporte:** Email direto
 
 ---
 
-## 📊 **Status do Projeto**
+## 📞 **Support**
 
-### **✅ Fase Atual: Personalização Básica**
-- ✅ Fork funcional do Gemini-CLI
-- ✅ Rebranding `gemini` → `nexocli`
-- ✅ Build isolado configurado
-- ✅ Documentação básica
-- 🔄 Arte ASCII personalizada
-- 🔄 Comandos slash customizados
-- 🔄 Mensagens de boas-vindas
+**Maintainer:** [Nuno Salvação](mailto:nexo-modeling@outlook.com)  
+**Purpose:** Professional AI development tools  
+**Ecosystem:** Nexo hybrid multi-agent solution
 
-### **📋 Próximas Fases**
-- **Fase 2:** Comandos personalizados completos
-- **Fase 3:** Preparação para integração n8n
-- **Fase 4:** Interface unificada
-- **Fase 5:** Solução híbrida completa
-
-### **🎯 Roadmap Detalhado**
-Ver [ROADMAP.md](ROADMAP.md) para cronograma completo.
+**For issues:** Please use [GitHub Issues](https://github.com/nsalvacao/NexoCLI_BaseGemini/issues)  
+**For questions:** Contact the maintainer directly
 
 ---
 
-## 🚀 **Começar Desenvolvimento**
-
-### **🐧 Linux/macOS:**
-```bash
-# Setup completo
-git clone https://github.com/nsalvacao/NexoCLI_BaseGemini
-cd NexoCLI_BaseGemini
-npm install
-
-# Primeiro build
-npm run build
-
-# Testar funcionamento
-./bundle/nexocli.js "Olá NexoCLI!"
-
-# Configurar ambiente
-echo 'alias nexocli-dev="./bundle/nexocli.js"' >> ~/.bashrc
-source ~/.bashrc
-
-# Primeira personalização
-nexocli-dev --version
-```
-
-### **🪟 Windows (PowerShell):**
-```powershell
-# Setup completo
-git clone https://github.com/nsalvacao/NexoCLI_BaseGemini
-cd NexoCLI_BaseGemini
-npm install
-
-# Primeiro build
-npm run build
-
-# Testar funcionamento
-node bundle/nexocli.js "Olá NexoCLI!"
-
-# Configurar ambiente
-function nexocli-dev { node bundle/nexocli.js $args }
-
-# Primeira personalização
-nexocli-dev --version
-```
-
-**🎉 Pronto para personalizar o futuro da interação com IA!**
-
----
-
-*Desenvolvido por [Nuno Salvação](mailto:nexo-modeling@outlook.com) | Baseado em Gemini-CLI (Google LLC, Apache 2.0) | Parte do ecossistema Nexo*
+*NexoCLI - Professional Google Gemini CLI | Based on Gemini-CLI by Google LLC | Apache License 2.0*

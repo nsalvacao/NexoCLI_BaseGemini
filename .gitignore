@@ -2,8 +2,9 @@
 .env
 .env~
 
-# gemini-cli settings
+# CLI settings
 .gemini/
+.nexocli/
 !gemini/config.yaml
 
 # Note: .gemini-clipboard/ is NOT in gitignore so Gemini can access pasted images
@@ -38,5 +39,8 @@ packages/*/coverage/
 # Generated files
 packages/cli/src/generated/
 .integration-tests/
+
+# Development assets (logs, backups, temporary files)
+dev-assets/
 
 0. Log_Dev_NexoCli_BaseGemini/
