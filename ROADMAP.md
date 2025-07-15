@@ -1,516 +1,518 @@
-# Roadmap - NexoCLI
+# NexoCLI Development Roadmap
+
+> **NexoCLI** is a professionally customized fork of [Gemini-CLI](https://github.com/google-gemini/gemini-cli) by Google LLC (Apache 2.0). This roadmap outlines the progressive development of minimal customization and preparation for hybrid solution integration.
+
+**🎯 Methodology:** Development → Windows VM Testing → GitHub Commit → Next Phase  
+**Maintained by** [Nuno Salvação](mailto:nexo-modeling@outlook.com) | **Licensed under** Apache License 2.0
 
 ---
 
-> **NexoCLI** é um fork personalizado do [Gemini-CLI](https://github.com/google-gemini/gemini-cli) da Google LLC (Apache 2.0). Este roadmap detalha o desenvolvimento progressivo de personalização mínima e preparação para integração com solução híbrida.
->
-> **🎯 Metodologia:** Desenvolvimento → Testes VM Windows → Commit GitHub → Nova Fase
->
-> **Projeto mantido por** [Nuno Salvação](mailto:nexo-modeling@outlook.com) | **Licenciado sob** Apache License 2.0
+## 📋 **Project Overview**
+
+### **Hybrid Solution Context**
+NexoCLI is part of a 4-component ecosystem:
+
+1. **🔧 NexoCLI** (This roadmap) - Professional Gemini-CLI customization
+2. **🤖 Ollama** - Local LLM models (original solution)
+3. **🎛️ n8n Orchestrator** - Visual agent orchestration
+4. **🖥️ Unified Interface** - Consolidated menu (terminal/web)
+
+### **NexoCLI Specific Objectives**
+- **Minimal customization:** Maintain 100% functional compatibility
+- **Professional branding:** `gemini` → `nexocli` without breaking changes
+- **Integration preparation:** APIs for n8n orchestration
+- **Iterative development:** Small wins → testing → commit
 
 ---
 
-## 📋 **Visão Geral do Projeto**
+## 🚀 **Development Methodology**
 
-### **Contexto da Solução Híbrida**
-O NexoCLI é parte de um ecossistema de 4 subprojetos:
-
-1. **🔧 NexoCLI** (Este roadmap) - Personalização Gemini-CLI
-2. **🤖 Ollama** - Modelos LLM locais (solução original)
-3. **🎛️ n8n Orchestrator** - Orquestração visual de agentes
-4. **🖥️ Interface Unificada** - Menu consolidado (terminal/web)
-
-### **Objetivos Específicos NexoCLI**
-- **Personalização mínima:** Manter 100% compatibilidade funcional
-- **Rebranding:** `gemini` → `nexocli` sem breaking changes
-- **Preparação integração:** APIs para orquestração n8n
-- **Desenvolvimento iterativo:** Pequenas vitórias → testes → commit
-
----
-
-## 🚀 **Metodologia de Desenvolvimento**
-
-### **Ciclo de Desenvolvimento Standard**
+### **Standard Development Cycle**
 ```
-📝 PLANEAMENTO
+📝 PLANNING
     ↓
-💻 DESENVOLVIMENTO
+💻 DEVELOPMENT
     ↓
-🧪 TESTES LOCAIS
+🧪 LOCAL TESTING
     ↓
-🖥️ TESTES VM WINDOWS
+🖥️ WINDOWS VM TESTING
     ↓
-📊 VALIDAÇÃO FUNCIONAL
+📊 FUNCTIONAL VALIDATION
     ↓
-📋 DOCUMENTAÇÃO
+📋 DOCUMENTATION
     ↓
-💾 COMMIT GITHUB
+💾 GITHUB COMMIT
     ↓
-🎯 PRÓXIMA FASE
+🎯 NEXT PHASE
 ```
 
-### **Critérios de Sucesso por Fase**
-- **✅ Build sem erros:** `npm run build`
-- **✅ Funcionalidade básica:** `./bundle/nexocli.js "teste"`
-- **✅ Compatibilidade:** Comandos originais funcionam
-- **✅ VM Windows:** Teste em ambiente real
-- **✅ Documentação:** Logs e changelog atualizados
+### **Success Criteria Per Phase**
+- **✅ Error-free build:** `npm run build`
+- **✅ Basic functionality:** `./bundle/nexocli.js "test"`
+- **✅ Compatibility:** Original commands work
+- **✅ Windows VM:** Testing in real environment
+- **✅ Documentation:** Logs and changelog updated
 
 ---
 
-## 📊 **Status Atual do Projeto**
+## 📊 **Project Status**
 
-### **✅ Fase 0: Preparação e Documentação** (COMPLETA)
-**Data:** 2025-07-14  
-**Duração:** 1 dia  
-**Status:** ✅ Concluída  
-
-#### **Objetivos Alcançados:**
-- [x] Análise completa da arquitetura Gemini-CLI
-- [x] Estrutura de projeto organizada
-- [x] Documentação personalizada (README, AGENTS, CHANGELOG, CONTRIBUTING)
-- [x] Ambiente de desenvolvimento isolado configurado
-- [x] Compliance legal verificado (Apache 2.0)
-
-#### **Entregáveis:**
-- **README.md** - Documentação principal personalizada
-- **AGENTS.md** - Guia para agentes com contexto completo
-- **CHANGELOG.md** - Tracking de modificações
-- **CONTRIBUTING.md** - Workflow de contribuição
-- **Estrutura logs** - `0. Log_Dev_NexoCli_BaseGemini/Dev_Logs/`
-
-#### **Validação:**
-- ✅ Documentação completa e estruturada
-- ✅ Compliance legal verificado
-- ✅ Ambiente isolado funcional
-- ✅ Templates para desenvolvimento futuro
+### **Current State**
+- **Version:** 0.1.14 (published on NPM)
+- **Status:** Fully functional and distributed
+- **Installation:** `npm install -g @nsalvacao/nexo-cli`
+- **Repository:** [GitHub](https://github.com/nsalvacao/NexoCLI_BaseGemini)
 
 ---
 
-## 🎯 **Fases de Desenvolvimento**
+## 🎯 **Development Phases**
 
-### **📋 Fase 1: Rebranding Básico**
-**Início:** 2025-07-14  
-**Duração Estimada:** 2-3 dias  
-**Status:** 🔄 Em Desenvolvimento  
-**Prioridade:** 🔴 Crítica
+### **✅ Phase 0: Preparation and Documentation** (COMPLETED)
+**Date:** July 14, 2025  
+**Duration:** 1 day  
+**Status:** ✅ Completed  
 
-#### **1.1. Objetivos da Fase**
-- Alterar comando global de `gemini` para `nexocli`
-- Personalizar arte ASCII com logo Nexo
-- Customizar mensagens de boas-vindas
-- Configurar build para gerar `nexocli.js`
+#### **Achievements:**
+- [x] Complete Gemini-CLI architecture analysis
+- [x] Organized project structure
+- [x] Customized documentation (README, AGENTS, CHANGELOG, CONTRIBUTING)
+- [x] Configured isolated development environment
+- [x] Verified legal compliance (Apache 2.0)
 
-#### **1.2. Tasks Específicas**
-
-##### **Task 1.1: Configuração package.json**
-```json
-// Modificar package.json
-{
-  "name": "nexocli",
-  "bin": {
-    "nexocli": "bundle/nexocli.js"
-  }
-}
-```
-- **Ficheiro:** `package.json`
-- **Estimativa:** 0.5h
-- **Testes:** `npm run build && ./bundle/nexocli.js --version`
-
-##### **Task 1.2: Arte ASCII Personalizada**
-- **Ficheiro:** `packages/cli/src/ui/components/AsciiArt.ts`
-- **Objetivo:** Logo "NEXOCLI" em ASCII art
-- **Estimativa:** 1h
-- **Testes:** Verificar visual no terminal
-
-##### **Task 1.3: Mensagens de Boas-vindas**
-- **Ficheiro:** `packages/cli/src/ui/components/Header.tsx`
-- **Objetivo:** Personalizar texto de entrada
-- **Estimativa:** 0.5h
-- **Testes:** Verificar mensagem inicial
-
-##### **Task 1.4: Build Configuration**
-- **Ficheiros:** Scripts de build
-- **Objetivo:** Output `nexocli.js` em vez de `gemini.js`
-- **Estimativa:** 1h
-- **Testes:** Verificar bundle gerado
-
-#### **1.3. Testes da Fase 1**
-```bash
-# Testes obrigatórios
-npm run build                   # Build success
-./bundle/nexocli.js --version   # Versão com "nexocli"
-./bundle/nexocli.js "teste"     # Funcionalidade básica
-./bundle/nexocli.js --help      # Help funcional
-
-# Testes específicos rebranding
-./bundle/nexocli.js --version | grep -i nexo
-./bundle/nexocli.js | head -10  # Verificar arte ASCII
-```
-
-#### **1.4. VM Windows - Teste Obrigatório**
-- **Ambiente:** VM Windows sem WSL
-- **Testes:** Todos os comandos básicos
-- **Documentação:** Resultados no log de desenvolvimento
-
-#### **1.5. Critérios de Conclusão Fase 1**
-- [ ] `package.json` configurado para `nexocli`
-- [ ] Arte ASCII personalizada implementada
-- [ ] Mensagens de boas-vindas customizadas
-- [ ] Build gera `bundle/nexocli.js`
-- [ ] Testes locais 100% funcionais
-- [ ] Teste VM Windows bem-sucedido
-- [ ] Documentação atualizada (CHANGELOG.md)
-- [ ] Log de desenvolvimento criado
-- [ ] Commit no GitHub realizado
+#### **Deliverables:**
+- **README.md** - Customized main documentation
+- **AGENTS.md** - Agent guide with complete context
+- **CHANGELOG.md** - Modification tracking
+- **CONTRIBUTING.md** - Contribution workflow
+- **Log structure** - `dev-assets/Dev_Logs/`
 
 ---
 
-### **📋 Fase 2: Comandos Personalizados**
-**Início:** Após conclusão Fase 1  
-**Duração Estimada:** 3-4 dias  
-**Status:** 📋 Planeada  
-**Prioridade:** 🟡 Alta
+### **✅ Phase 1: Professional Branding** (COMPLETED + EXCEEDED)
+**Date:** July 14-15, 2025  
+**Duration:** 2 days  
+**Status:** ✅ Completed and Exceeded  
+**Priority:** 🔴 Critical
 
-#### **2.1. Objetivos da Fase**
-- Implementar comandos slash personalizados
-- Adicionar funcionalidades específicas do ecossistema Nexo
-- Manter compatibilidade total com comandos originais
+#### **Original Objectives vs Achieved:**
 
-#### **2.2. Tasks Específicas**
+**Planned:**
+- Change global command from `gemini` to `nexocli`
+- Customize ASCII art with Nexo logo
+- Customize welcome messages
+- Configure build to generate `nexocli.js`
 
-##### **Task 2.1: Comando /nexo info**
+**Actually Achieved (Far Beyond Planned):**
+- ✅ **Global command functional:** `nexocli` installed via NPM
+- ✅ **Professional ASCII art:** "NEXO CLI" logo implemented
+- ✅ **Customized messages:** Interface fully rebranded
+- ✅ **Build configured:** Generates `bundle/nexocli.js` correctly
+- ✅ **NPM publication:** Available as `@nsalvacao/nexo-cli`
+- ✅ **Automatic migration:** From `.gemini` to `.nexocli`
+- ✅ **Complete separation:** Coexistence with original Gemini-CLI
+- ✅ **Professional palette:** Sober theme implemented
+- ✅ **Internationalization:** Interface completely in English
+- ✅ **Windows compatibility:** Tested and functional
+
+#### **NPM Versions Published:**
+1. **0.1.12** - Initial functional version
+2. **0.1.13** - Branding and configuration improvements
+3. **0.1.14** - Complete authentication separation
+
+#### **Key Achievements:**
+- **Authentication Separation:** Automatic migration from `.gemini` to `.nexocli`
+- **Professional Branding:** 94 occurrences of old references corrected
+- **Windows Compatibility:** Tested on Windows VM without WSL
+- **Coexistence:** Works alongside original Gemini-CLI
+
+#### **Phase 1 Validation:**
+- ✅ `package.json` configured for `nexocli`
+- ✅ Professional ASCII art implemented
+- ✅ Welcome messages customized
+- ✅ Build generates `bundle/nexocli.js`
+- ✅ Local tests 100% functional
+- ✅ Windows VM testing successful
+- ✅ Documentation updated (CHANGELOG.md)
+- ✅ Development logs created
+- ✅ GitHub commits completed
+- ✅ NPM publication achieved
+
+---
+
+### **📋 Phase 2: Custom Commands** (PLANNED)
+**Start:** After Phase 1 completion  
+**Estimated Duration:** 3-4 days  
+**Status:** 📋 Planned  
+**Priority:** 🟡 High
+
+#### **Phase 2 Objectives:**
+- Implement custom slash commands
+- Add Nexo ecosystem-specific functionality
+- Maintain full compatibility with original commands
+
+#### **Specific Tasks:**
+
+##### **Task 2.1: /nexo info Command**
 ```bash
 nexocli /nexo info
-# Output:
-# 🔧 NexoCLI - Personalização do Gemini-CLI
-# ├── Versão: [versão]
+# Expected Output:
+# 🔧 NexoCLI - Professional Gemini-CLI Customization
+# ├── Version: [version]
 # ├── Provider: Google Gemini (OAuth)
-# ├── Integração: n8n ready
+# ├── Integration: n8n ready
 # └── Maintainer: Nuno Salvação
 ```
-- **Ficheiro:** `packages/cli/src/ui/hooks/slashCommandProcessor.ts`
-- **Estimativa:** 2h
-- **Testes:** Comando funcional e informativo
+- **File:** `packages/cli/src/ui/hooks/slashCommandProcessor.ts`
+- **Estimate:** 2h
+- **Tests:** Functional and informative command
 
-##### **Task 2.2: Comando /nexo status**
+##### **Task 2.2: /nexo status Command**
 ```bash
 nexocli /nexo status
-# Output:
-# 📊 Status dos Agentes Nexo:
-# ├── 🔧 NexoCLI: ✅ Ativo
-# ├── 🤖 Ollama: ⚠️ Não instalado
-# ├── 🎛️ n8n: 📋 Planeado
-# └── 🖥️ Interface: 📋 Planeado
+# Expected Output:
+# 📊 Nexo Agents Status:
+# ├── 🔧 NexoCLI: ✅ Active
+# ├── 🤖 Ollama: ⚠️ Not installed
+# ├── 🎛️ n8n: 📋 Planned
+# └── 🖥️ Interface: 📋 Planned
 ```
-- **Ficheiro:** `packages/cli/src/ui/hooks/slashCommandProcessor.ts`
-- **Estimativa:** 3h
-- **Testes:** Status accurate dos componentes
+- **File:** `packages/cli/src/ui/hooks/slashCommandProcessor.ts`
+- **Estimate:** 3h
+- **Tests:** Accurate component status
 
-##### **Task 2.3: Comando /nexo config**
+##### **Task 2.3: /nexo config Command**
 ```bash
 nexocli /nexo config
-# Interface de configuração específica Nexo
+# Nexo-specific configuration interface
 ```
-- **Ficheiro:** `packages/cli/src/ui/hooks/slashCommandProcessor.ts`
-- **Estimativa:** 4h
-- **Testes:** Configuração persiste e funciona
+- **File:** `packages/cli/src/ui/hooks/slashCommandProcessor.ts`
+- **Estimate:** 4h
+- **Tests:** Configuration persists and functions
 
-#### **2.3. Testes da Fase 2**
+#### **Phase 2 Testing:**
 ```bash
-# Testes comandos originais (compatibilidade)
+# Original command compatibility tests
 ./bundle/nexocli.js /help
 ./bundle/nexocli.js /clear
 ./bundle/nexocli.js /memory
 ./bundle/nexocli.js /theme
 
-# Testes comandos novos
+# New command tests
 ./bundle/nexocli.js /nexo info
 ./bundle/nexocli.js /nexo status
 ./bundle/nexocli.js /nexo config
 ```
 
-#### **2.4. Critérios de Conclusão Fase 2**
-- [ ] `/nexo info` implementado e funcional
-- [ ] `/nexo status` mostra status accurate
-- [ ] `/nexo config` permite configuração
-- [ ] Comandos originais mantêm funcionalidade
-- [ ] Testes VM Windows bem-sucedidos
-- [ ] Documentação atualizada
-- [ ] Commit no GitHub realizado
+#### **Phase 2 Completion Criteria:**
+- [ ] `/nexo info` implemented and functional
+- [ ] `/nexo status` shows accurate status
+- [ ] `/nexo config` allows configuration
+- [ ] Original commands maintain functionality
+- [ ] Windows VM testing successful
+- [ ] Documentation updated
+- [ ] GitHub commit completed
 
 ---
 
-### **📋 Fase 3: Preparação para Integração**
-**Início:** Após conclusão Fase 2  
-**Duração Estimada:** 4-5 dias  
-**Status:** 📋 Planeada  
-**Prioridade:** 🟡 Alta
+### **📋 Phase 3: Integration Preparation** (PLANNED)
+**Start:** After Phase 2 completion  
+**Estimated Duration:** 4-5 days  
+**Status:** 📋 Planned  
+**Priority:** 🟡 High
 
-#### **3.1. Objetivos da Fase**
-- Preparar APIs para comunicação com n8n
-- Implementar endpoints básicos de orquestração
-- Configuração modular para integração híbrida
+#### **Phase 3 Objectives:**
+- Prepare APIs for n8n communication
+- Implement basic orchestration endpoints
+- Modular configuration for hybrid integration
 
-#### **3.2. Tasks Específicas**
+#### **Specific Tasks:**
 
 ##### **Task 3.1: API Mode**
 ```bash
 nexocli --api-mode
-# Inicia em modo API para comunicação externa
+# Starts in API mode for external communication
 ```
-- **Estimativa:** 6h
-- **Testes:** Endpoint responde corretamente
+- **Estimate:** 6h
+- **Tests:** Endpoint responds correctly
 
 ##### **Task 3.2: Webhook Configuration**
 ```bash
 nexocli --webhook-url=http://localhost:5678/webhook/nexo
-# Configura URL para receber comandos via webhook
+# Configures URL to receive commands via webhook
 ```
-- **Estimativa:** 4h
-- **Testes:** Recebe e processa webhooks
+- **Estimate:** 4h
+- **Tests:** Receives and processes webhooks
 
 ##### **Task 3.3: Configuration Module**
-- **Ficheiro:** Novo módulo de configuração
-- **Objetivo:** Settings específicos para integração
-- **Estimativa:** 6h
-- **Testes:** Configuração persiste entre sessões
+- **File:** New configuration module
+- **Objective:** Integration-specific settings
+- **Estimate:** 6h
+- **Tests:** Configuration persists across sessions
 
-#### **3.3. Critérios de Conclusão Fase 3**
-- [ ] Modo API implementado
-- [ ] Webhook system funcional
-- [ ] Configuração modular operacional
-- [ ] Comunicação com sistemas externos testada
-- [ ] Testes VM Windows bem-sucedidos
-- [ ] Documentação de APIs criada
-- [ ] Commit no GitHub realizado
+#### **Phase 3 Completion Criteria:**
+- [ ] API mode implemented
+- [ ] Webhook system functional
+- [ ] Modular configuration operational
+- [ ] External system communication tested
+- [ ] Windows VM testing successful
+- [ ] API documentation created
+- [ ] GitHub commit completed
 
 ---
 
-### **📋 Fase 4: Interface Unificada (Base)**
-**Início:** Após conclusão Fase 3  
-**Duração Estimada:** 5-6 dias  
-**Status:** 📋 Planeada  
-**Prioridade:** 🟢 Média
+### **📋 Phase 4: Unified Interface Foundation** (PLANNED)
+**Start:** After Phase 3 completion  
+**Estimated Duration:** 5-6 days  
+**Status:** 📋 Planned  
+**Priority:** 🟢 Medium
 
-#### **4.1. Objetivos da Fase**
-- Criar base para menu unificado
-- Preparar comunicação com outros agentes
-- Interface básica para gestão multi-agente
+#### **Phase 4 Objectives:**
+- Create unified menu foundation
+- Prepare communication with other agents
+- Basic interface for multi-agent management
 
-#### **4.2. Tasks Específicas**
+#### **Specific Tasks:**
 
-##### **Task 4.1: Menu Base**
+##### **Task 4.1: Base Menu**
 ```bash
 nexo-menu
-# Menu consolidado para todos os agentes
+# Consolidated menu for all agents
 ```
-- **Estimativa:** 8h
-- **Testes:** Menu funcional e navegável
+- **Estimate:** 8h
+- **Tests:** Functional and navigable menu
 
 ##### **Task 4.2: Agent Communication**
-- **Objetivo:** Protocolo básico de comunicação
-- **Estimativa:** 10h
-- **Testes:** Comunicação entre agentes
+- **Objective:** Basic communication protocol
+- **Estimate:** 10h
+- **Tests:** Inter-agent communication
 
-#### **4.3. Critérios de Conclusão Fase 4**
-- [ ] Menu unificado base implementado
-- [ ] Comunicação multi-agente funcional
-- [ ] Interface responsive (terminal/web)
-- [ ] Testes VM Windows bem-sucedidos
-- [ ] Documentação completa
-- [ ] Commit no GitHub realizado
-
----
-
-## 📊 **Cronograma Estimado**
-
-### **Timeline Geral**
-```
-Fase 0: ✅ Completa (1 dia)
-│
-├── Fase 1: 🔄 Em desenvolvimento (2-3 dias)
-│   ├── Rebranding básico
-│   └── Testes VM Windows
-│
-├── Fase 2: 📋 Planeada (3-4 dias)
-│   ├── Comandos personalizados
-│   └── Testes compatibilidade
-│
-├── Fase 3: 📋 Planeada (4-5 dias)
-│   ├── APIs integração
-│   └── Comunicação externa
-│
-└── Fase 4: 📋 Planeada (5-6 dias)
-    ├── Interface unificada
-    └── Multi-agente base
-```
-
-### **Marcos Importantes**
-- **✅ 2025-07-14:** Documentação completa
-- **🎯 2025-07-16:** Fase 1 - Rebranding concluído
-- **🎯 2025-07-20:** Fase 2 - Comandos personalizados
-- **🎯 2025-07-25:** Fase 3 - APIs integração
-- **🎯 2025-07-31:** Fase 4 - Interface unificada base
+#### **Phase 4 Completion Criteria:**
+- [ ] Base unified menu implemented
+- [ ] Multi-agent communication functional
+- [ ] Responsive interface (terminal/web)
+- [ ] Windows VM testing successful
+- [ ] Complete documentation
+- [ ] GitHub commit completed
 
 ---
 
-## 🧪 **Estratégia de Testes**
+### **📋 Phase 5: Orchestration Integration** (PLANNED)
+**Start:** After Phase 4 completion  
+**Estimated Duration:** 6-8 days  
+**Status:** 📋 Planned  
+**Priority:** 🟢 Medium
 
-### **Testes por Fase**
+#### **Phase 5 Objectives:**
+- Full n8n orchestration integration
+- Visual workflow management
+- Advanced multi-agent coordination
 
-#### **Testes Obrigatórios (Todas as Fases):**
+#### **Key Features:**
+- **Visual Workflows:** n8n-based agent coordination
+- **REST API:** Full API for external integration
+- **WebSocket Support:** Real-time communication
+- **Configuration Dashboard:** Web-based settings
+- **Monitoring:** Agent status and performance
+
+---
+
+## 📊 **Timeline**
+
+### **Completed Timeline**
+```
+Phase 0: ✅ Completed (July 14, 2025)
+│
+Phase 1: ✅ Completed (July 14-15, 2025)
+├── Professional branding
+├── NPM publication
+├── Authentication separation
+└── Windows VM testing
+```
+
+### **Planned Timeline**
+```
+Phase 2: 📋 Planned (3-4 days)
+├── Custom commands
+└── Compatibility testing
+
+Phase 3: 📋 Planned (4-5 days)
+├── Integration APIs
+└── External communication
+
+Phase 4: 📋 Planned (5-6 days)
+├── Unified interface
+└── Multi-agent foundation
+
+Phase 5: 📋 Planned (6-8 days)
+├── n8n orchestration
+└── Visual workflows
+```
+
+### **Important Milestones**
+- **✅ July 14, 2025:** Complete documentation
+- **✅ July 15, 2025:** Phase 1 - Professional branding completed
+- **🎯 TBD:** Phase 2 - Custom commands
+- **🎯 TBD:** Phase 3 - Integration APIs
+- **🎯 TBD:** Phase 4 - Unified interface foundation
+- **🎯 TBD:** Phase 5 - Orchestration integration
+
+---
+
+## 🧪 **Testing Strategy**
+
+### **Mandatory Tests (All Phases):**
 ```bash
-# Build e funcionamento básico
+# Build and basic functionality
 npm run build
 ./bundle/nexocli.js --version
-./bundle/nexocli.js "Teste de funcionamento"
+./bundle/nexocli.js "Functionality test"
 ./bundle/nexocli.js --help
 
-# Compatibilidade com comandos originais
+# Original command compatibility
 ./bundle/nexocli.js /help
 ./bundle/nexocli.js /clear
 ./bundle/nexocli.js /memory
 ./bundle/nexocli.js /theme
 ```
 
-#### **VM Windows - Teste Crítico:**
-- **Ambiente:** Windows sem WSL
-- **Frequência:** Cada fase
-- **Documentação:** Obrigatória em log
-- **Critério:** 100% funcionamento
+### **Windows VM - Critical Testing:**
+- **Environment:** Windows without WSL
+- **Frequency:** Each phase
+- **Documentation:** Mandatory in logs
+- **Criterion:** 100% functionality
 
-### **Teste de Regressão**
+### **NPM Publication Testing:**
 ```bash
-# Script de teste automático (futuro)
-npm run test:regression
-# Valida todas as funcionalidades das fases anteriores
+# Global installation
+npm install -g @nsalvacao/nexo-cli
+
+# Functionality verification
+nexocli --version
+nexocli "test query"
+nexocli /help
 ```
 
 ---
 
-## 📋 **Gestão de Riscos**
+## 📋 **Risk Management**
 
-### **Riscos Identificados**
+### **Identified Risks**
 
-#### **🔴 Alto Risco**
-- **Breaking changes:** Alterar funcionalidade original
-- **Conflito instalação:** Sobrescrever instalação global
-- **Compliance:** Violação de licenciamento Apache 2.0
+#### **🔴 High Risk**
+- **Breaking changes:** Altering original functionality
+- **Installation conflict:** Overwriting global installation
+- **Compliance:** Apache 2.0 license violation
 
-#### **🟡 Médio Risco**
-- **VM Windows:** Incompatibilidades específicas
-- **Performance:** Degradação após modificações
-- **Dependências:** Conflitos com versões
+#### **🟡 Medium Risk**
+- **Windows VM:** Platform-specific incompatibilities
+- **Performance:** Degradation after modifications
+- **Dependencies:** Version conflicts
 
-#### **🟢 Baixo Risco**
-- **Arte ASCII:** Problemas visuais menores
-- **Documentação:** Inconsistências não críticas
+#### **🟢 Low Risk**
+- **ASCII art:** Minor visual issues
+- **Documentation:** Non-critical inconsistencies
 
-### **Planos de Mitigação**
+### **Mitigation Plans**
 
-#### **Para Breaking Changes:**
-- Testes de regressão obrigatórios
-- Validação de compatibilidade em cada commit
-- Rollback plan documentado
+#### **For Breaking Changes:**
+- Mandatory regression testing
+- Compatibility validation per commit
+- Documented rollback plan
 
-#### **Para Conflitos de Instalação:**
-- Desenvolvimento sempre isolado
-- Nunca usar `npm link`
-- Documentação clara sobre ambiente
+#### **For Installation Conflicts:**
+- Always isolated development
+- Never use `npm link`
+- Clear environment documentation
 
-#### **Para Compliance:**
-- Header de atribuição obrigatório
-- Review de licenciamento em cada PR
-- Documentação legal atualizada
-
----
-
-## 📊 **Métricas de Sucesso**
-
-### **KPIs por Fase**
-
-#### **Fase 1: Rebranding**
-- **✅ Funcionalidade:** 100% comandos originais funcionam
-- **✅ Visual:** Arte ASCII personalizada visível
-- **✅ Comando:** `nexocli` responde corretamente
-- **✅ VM:** Teste Windows bem-sucedido
-
-#### **Fase 2: Comandos**
-- **✅ Novos comandos:** 3 comandos `/nexo` implementados
-- **✅ Compatibilidade:** Comandos originais intactos
-- **✅ Funcionalidade:** Informações accurate e úteis
-
-#### **Fase 3: Integração**
-- **✅ APIs:** Endpoints funcionais
-- **✅ Comunicação:** Webhook system operacional
-- **✅ Configuração:** Settings persistem
-
-#### **Fase 4: Interface**
-- **✅ Menu:** Interface unificada funcional
-- **✅ Multi-agente:** Comunicação básica implementada
-
-### **Métricas de Qualidade**
-- **Build success rate:** 100%
-- **Teste VM Windows:** 100% sucesso
-- **Compatibilidade:** 0 breaking changes
-- **Documentação:** Todos os logs criados
+#### **For Compliance:**
+- Mandatory attribution headers
+- License review per PR
+- Updated legal documentation
 
 ---
 
-## 🔄 **Processo de Iteração**
+## 📊 **Success Metrics**
 
-### **Revisão de Fase**
-Ao final de cada fase:
-1. **Validação completa** de todos os critérios
-2. **Teste VM Windows** obrigatório
-3. **Atualização documentação** (CHANGELOG, logs)
-4. **Review de código** e compliance
-5. **Commit GitHub** com tag de fase
-6. **Planeamento** da próxima fase
+### **Achieved Metrics (Phase 1)**
+- **✅ Functionality:** 100% original commands work
+- **✅ Visual:** Professional ASCII art implemented
+- **✅ Command:** `nexocli` responds correctly
+- **✅ VM:** Windows testing successful
+- **✅ NPM:** Published and accessible globally
+- **✅ Separation:** Complete authentication independence
+
+### **Target Metrics (Future Phases)**
+
+#### **Phase 2: Commands**
+- **✅ New commands:** 3 `/nexo` commands implemented
+- **✅ Compatibility:** Original commands intact
+- **✅ Functionality:** Accurate and useful information
+
+#### **Phase 3: Integration**
+- **✅ APIs:** Functional endpoints
+- **✅ Communication:** Operational webhook system
+- **✅ Configuration:** Persistent settings
+
+#### **Phase 4+: Interface**
+- **✅ Menu:** Functional unified interface
+- **✅ Multi-agent:** Basic communication implemented
+- **✅ Orchestration:** n8n integration functional
+
+---
+
+## 🔄 **Iteration Process**
+
+### **Phase Review**
+At the end of each phase:
+1. **Complete validation** of all criteria
+2. **Mandatory Windows VM testing**
+3. **Documentation updates** (CHANGELOG, logs)
+4. **Code review** and compliance check
+5. **GitHub commit** with phase tag
+6. **Planning** for next phase
 
 ### **Feedback Loop**
-- **Testes contínuos** durante desenvolvimento
-- **Validação incremental** de funcionalidades
-- **Ajustes** baseados em resultados VM Windows
-- **Documentação** em tempo real
+- **Continuous testing** during development
+- **Incremental validation** of functionality
+- **Adjustments** based on Windows VM results
+- **Real-time documentation**
 
 ---
 
-## 📞 **Contactos e Suporte**
+## 📞 **Contact and Support**
 
-### **Maintainer Principal**
-- **Nome:** Nuno Salvação
+### **Primary Maintainer**
+- **Name:** Nuno Salvação
 - **Email:** [nexo-modeling@outlook.com](mailto:nexo-modeling@outlook.com)
 - **GitHub:** [@nsalvacao](https://github.com/nsalvacao)
 
-### **Para Issues e Contribuições**
-- **Issues:** Para bugs e sugestões específicas
-- **Discussions:** Para ideias e questões gerais
-- **Email:** Para questões de roadmap ou arquitetura
+### **For Issues and Contributions**
+- **Issues:** For specific bugs and suggestions
+- **Discussions:** For general ideas and questions
+- **Email:** For roadmap or architecture questions
 
 ---
 
-## 📄 **Recursos e Referências**
+## 📄 **Resources and References**
 
-### **Documentação do Projeto**
-- **[README.md](README.md)** - Documentação principal
-- **[AGENTS.md](AGENTS.md)** - Guia para agentes
-- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Workflow de contribuição
-- **[CHANGELOG.md](CHANGELOG.md)** - Histórico de alterações
+### **Project Documentation**
+- **[README.md](README.md)** - Main documentation
+- **[AGENTS.md](AGENTS.md)** - Agent guide
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Contribution workflow
+- **[CHANGELOG.md](CHANGELOG.md)** - Change history
 
-### **Projeto Original**
-- **[Gemini-CLI](https://github.com/google-gemini/gemini-cli)** - Código base
-- **[Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0)** - Licenciamento
+### **Original Project**
+- **[Gemini-CLI](https://github.com/google-gemini/gemini-cli)** - Code base
+- **[Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0)** - Licensing
 
-### **Ferramentas de Desenvolvimento**
-- **Node.js 20+** - Runtime
-- **TypeScript** - Linguagem principal
-- **esbuild** - Sistema de build
-- **VM Windows** - Ambiente de teste
+### **Development Tools**
+- **Node.js 18+** - Runtime
+- **TypeScript** - Primary language
+- **esbuild** - Build system
+- **Windows VM** - Testing environment
 
 ---
 
-**Este roadmap é um documento vivo e será atualizado conforme o progresso do desenvolvimento.**
+**This roadmap is a living document and will be updated as development progresses.**
 
-*Desenvolvido por [Nuno Salvação](mailto:nexo-modeling@outlook.com) | Baseado em Gemini-CLI (Google LLC, Apache 2.0) | Parte do ecossistema Nexo*
+*Developed by [Nuno Salvação](mailto:nexo-modeling@outlook.com) | Based on Gemini-CLI (Google LLC, Apache 2.0) | Part of the Nexo ecosystem*

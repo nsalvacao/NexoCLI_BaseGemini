@@ -1,293 +1,293 @@
 # Contributing to NexoCLI
 
----
+> **NexoCLI** is a professionally customized fork of [Gemini-CLI](https://github.com/google-gemini/gemini-cli) by Google LLC (Apache 2.0). All contributions must respect the original licensing and follow specific guidelines for the Nexo ecosystem.
 
-> **NexoCLI** é um fork personalizado do [Gemini-CLI](https://github.com/google-gemini/gemini-cli) da Google LLC (Apache 2.0). Todas as contribuições devem respeitar o licenciamento original e seguir as diretrizes específicas para o ecossistema Nexo.
->
-> **🎯 Objetivo:** Personalização mínima do Gemini-CLI mantendo 100% de compatibilidade e preparando integração com solução híbrida.
+**🎯 Objective:** Minimal customization of Gemini-CLI maintaining 100% compatibility and preparing integration with hybrid solution.
 
----
-
-## 📋 **Pré-requisitos para Contribuir**
-
-### **🔍 Leitura Obrigatória**
-Antes de qualquer contribuição, deve ler **integralmente**:
-
-1. **[AGENTS.md](AGENTS.md)** - Guia completo para agentes e colaboradores
-2. **[README.md](README.md)** - Documentação principal do projeto
-3. **[CHANGELOG.md](CHANGELOG.md)** - Histórico de alterações
-4. **Este documento** - Workflow de contribuição
-
-### **📚 Contexto do Projeto**
-- **Projeto Original:** [Gemini-CLI](https://github.com/google-gemini/gemini-cli) (Google LLC)
-- **Licença:** Apache License 2.0 (mantida)
-- **Tipo:** Fork personalizado com personalização mínima
-- **Foco:** Rebranding `gemini` → `nexocli` + integração solução híbrida
-
-### **🏗️ Arquitetura da Solução**
-O NexoCLI faz parte de um ecossistema de 4 subprojetos:
-- **NexoCLI** (Este repo) - Personalização Gemini-CLI
-- **Ollama** - Modelos LLM locais
-- **n8n Orchestrator** - Orquestração visual
-- **Interface Unificada** - Menu consolidado
+**Maintained by** [Nuno Salvação](mailto:nexo-modeling@outlook.com) | **Licensed under** Apache License 2.0
 
 ---
 
-## 🚀 **Setup de Desenvolvimento**
+## 📋 **Prerequisites for Contributing**
 
-### **1. Fork e Clone**
+### **🔍 Required Reading**
+Before any contribution, you must read **completely**:
+
+1. **[AGENTS.md](AGENTS.md)** - Complete guide for agents and collaborators
+2. **[README.md](README.md)** - Main project documentation
+3. **[CHANGELOG.md](CHANGELOG.md)** - Change history
+4. **This document** - Contribution workflow
+
+### **📚 Project Context**
+- **Original Project:** [Gemini-CLI](https://github.com/google-gemini/gemini-cli) (Google LLC)
+- **License:** Apache License 2.0 (maintained)
+- **Type:** Customized fork with minimal personalization
+- **Focus:** Rebranding `gemini` → `nexocli` + hybrid solution integration
+
+### **🏗️ Solution Architecture**
+NexoCLI is part of a 4-component ecosystem:
+- **NexoCLI** (This repo) - Gemini-CLI customization
+- **Ollama** - Local LLM models
+- **n8n Orchestrator** - Visual orchestration
+- **Unified Interface** - Consolidated menu
+
+---
+
+## 🚀 **Development Setup**
+
+### **1. Fork and Clone**
 ```bash
-# Fork no GitHub e clone localmente
+# Fork on GitHub and clone locally
 git clone https://github.com/YOUR_USERNAME/NexoCLI_BaseGemini
 cd NexoCLI_BaseGemini
 
-# Adicionar remote upstream
+# Add upstream remote
 git remote add upstream https://github.com/nsalvacao/NexoCLI_BaseGemini
 ```
 
-### **2. Instalação de Dependências**
+### **2. Dependency Installation**
 ```bash
-# Instalar dependências
+# Install dependencies
 npm install
 
-# Verificar instalação
+# Verify installation
 npm run build
 ./bundle/nexocli.js --version
 ```
 
-### **3. Ambiente de Desenvolvimento Isolado**
+### **3. Isolated Development Environment**
 ```bash
-# ⚠️ IMPORTANTE: Nunca usar npm link
-# Sempre executar localmente para não afetar instalação global
+# ⚠️ IMPORTANT: Never use npm link
+# Always run locally to avoid affecting global installation
 
-# Criar alias para desenvolvimento
+# Create alias for development
 echo 'alias nexocli-dev="./bundle/nexocli.js"' >> ~/.bashrc
 source ~/.bashrc
 
-# Testar funcionamento
-nexocli-dev "Teste de desenvolvimento"
+# Test functionality
+nexocli-dev "Development test"
 ```
 
 ---
 
-## 📝 **Workflow de Contribuição**
+## 📝 **Contribution Workflow**
 
-### **1. Antes de Começar**
+### **1. Before Starting**
 ```bash
-# Sincronizar com upstream
+# Sync with upstream
 git fetch upstream
 git checkout main
 git merge upstream/main
 
-# Criar branch para feature/fix
-git checkout -b tipo/nome-descritivo
+# Create branch for feature/fix
+git checkout -b type/descriptive-name
 
-# Exemplos:
-git checkout -b feat/arte-ascii-nexo
-git checkout -b fix/comando-slash-config
-git checkout -b docs/atualizar-readme
+# Examples:
+git checkout -b feat/nexo-ascii-art
+git checkout -b fix/slash-command-config
+git checkout -b docs/update-readme
 ```
 
-### **2. Desenvolvimento**
+### **2. Development**
 
-#### **2.1. Checklist Pré-Desenvolvimento**
-- [ ] Ler [AGENTS.md](AGENTS.md) para guidelines específicas
-- [ ] Verificar se alteração não quebra compatibilidade
-- [ ] Planear testes em VM Windows
-- [ ] Identificar ficheiros a modificar
+#### **2.1. Pre-Development Checklist**
+- [ ] Read [AGENTS.md](AGENTS.md) for specific guidelines
+- [ ] Verify change doesn't break compatibility
+- [ ] Plan Windows VM testing
+- [ ] Identify files to modify
 
-#### **2.2. Implementação**
+#### **2.2. Implementation**
 ```bash
-# Fazer alterações seguindo AGENTS.md
-# Adicionar header de atribuição em ficheiros modificados:
+# Make changes following AGENTS.md
+# Add attribution header in modified files:
 
-# Exemplo para TypeScript:
-// Modificado por [Seu Nome], 2025
-// Baseado em gemini-cli (Copyright 2025 Google LLC, Apache 2.0)
-// Parte do NexoCLI_BaseGemini - Personalização para ecossistema Nexo
+# Example for TypeScript:
+// Modified by [Your Name], 2025
+// Based on gemini-cli (Copyright 2025 Google LLC, Apache 2.0)
+// Part of NexoCLI_BaseGemini - Customization for Nexo ecosystem
 ```
 
-#### **2.3. Testes Obrigatórios**
+#### **2.3. Mandatory Testing**
 ```bash
-# Testes básicos locais
-npm run build                   # Build sem erros
-./bundle/nexocli.js --version   # Versão correta
-./bundle/nexocli.js "teste"     # Funcionalidade básica
-./bundle/nexocli.js --help      # Help funcional
+# Basic local tests
+npm run build                   # Error-free build
+./bundle/nexocli.js --version   # Correct version
+./bundle/nexocli.js "test"      # Basic functionality
+./bundle/nexocli.js --help      # Functional help
 
-# Verificar rebranding
+# Verify rebranding
 ./bundle/nexocli.js --version | grep -i nexo
 
-# Testar comandos específicos se aplicável
+# Test specific commands if applicable
 ./bundle/nexocli.js /help
 ./bundle/nexocli.js /clear
 ```
 
-### **3. Documentação**
+### **3. Documentation**
 
-#### **3.1. Atualizar Documentação**
-- **README.md:** Se adicionar funcionalidades
-- **CHANGELOG.md:** OBRIGATÓRIO para todas as alterações
-- **AGENTS.md:** Se alterar workflow ou adicionar guidelines
+#### **3.1. Update Documentation**
+- **README.md:** If adding functionality
+- **CHANGELOG.md:** MANDATORY for all changes
+- **AGENTS.md:** If changing workflow or adding guidelines
 
-#### **3.2. Log de Desenvolvimento**
-Criar log detalhado em `0. Log_Dev_NexoCli_BaseGemini/Dev_Logs/`:
+#### **3.2. Development Log**
+Create detailed log in `dev-assets/Dev_Logs/`:
 
-**Formato:** `[Seu Nome]_[acao]_[YYYYMMDD_HHMMSS].md`
+**Format:** `[Your Name]_[action]_[YYYYMMDD_HHMMSS].md`
 
 **Template:**
 ```markdown
-# Log de Desenvolvimento - [ACAO] - [DATA]
+# Development Log - [ACTION] - [DATE]
 
-## Contexto
-- **Feature/Bug:** [Descrição]
-- **Branch:** [nome-branch]
-- **Ficheiros Modificados:** [lista]
+## Context
+- **Feature/Bug:** [Description]
+- **Branch:** [branch-name]
+- **Modified Files:** [list]
 
-## Alterações Implementadas
-- [Detalhe técnico 1]
-- [Detalhe técnico 2]
+## Implemented Changes
+- [Technical detail 1]
+- [Technical detail 2]
 
-## Testes Realizados
+## Tests Performed
 - [ ] npm run build
 - [ ] ./bundle/nexocli.js --version
-- [ ] ./bundle/nexocli.js "teste"
-- [ ] Teste específico da funcionalidade
+- [ ] ./bundle/nexocli.js "test"
+- [ ] Specific functionality test
 
-## Próximos Passos
-- [Se aplicável]
+## Next Steps
+- [If applicable]
 ```
 
-### **4. Commit e Push**
+### **4. Commit and Push**
 ```bash
-# Adicionar alterações
+# Add changes
 git add .
 
-# Commit com mensagem estruturada
-git commit -m "tipo: descrição breve
+# Commit with structured message
+git commit -m "type: brief description
 
-- Detalhe 1 da alteração
-- Detalhe 2 da alteração
-- Log: [nome-do-log-criado].md
+- Change detail 1
+- Change detail 2
+- Log: [created-log-name].md
 
-Refs: #issue-number (se aplicável)"
+Refs: #issue-number (if applicable)"
 
-# Push para seu fork
-git push origin tipo/nome-descritivo
+# Push to your fork
+git push origin type/descriptive-name
 ```
 
 ### **5. Pull Request**
 
-#### **5.1. Criar PR**
-- **Título:** `[TIPO] Descrição clara da alteração`
-- **Descrição:** Usar template abaixo
+#### **5.1. Create PR**
+- **Title:** `[TYPE] Clear description of change`
+- **Description:** Use template below
 
-**Template de PR:**
+**PR Template:**
 ```markdown
-## Alterações Implementadas
-- [ ] Funcionalidade/fix implementado
-- [ ] Testes básicos realizados
-- [ ] Documentação atualizada
-- [ ] Compliance verificado
+## Implemented Changes
+- [ ] Feature/fix implemented
+- [ ] Basic tests performed
+- [ ] Documentation updated
+- [ ] Compliance verified
 
-## Ficheiros Modificados
-- `path/to/file1.ts` - [descrição]
-- `path/to/file2.tsx` - [descrição]
+## Modified Files
+- `path/to/file1.ts` - [description]
+- `path/to/file2.tsx` - [description]
 
-## Testes Realizados
-- [ ] Build local sem erros
-- [ ] Funcionamento básico verificado
-- [ ] Compatibilidade mantida
-- [ ] Teste em VM Windows (se aplicável)
+## Tests Performed
+- [ ] Local build without errors
+- [ ] Basic functionality verified
+- [ ] Compatibility maintained
+- [ ] Windows VM testing (if applicable)
 
 ## Compliance Checklist
-- [ ] Header de atribuição adicionado
-- [ ] Apache 2.0 respeitada
-- [ ] CHANGELOG.md atualizado
-- [ ] Log de desenvolvimento criado
+- [ ] Attribution header added
+- [ ] Apache 2.0 respected
+- [ ] CHANGELOG.md updated
+- [ ] Development log created
 
-## Log de Desenvolvimento
-`0. Log_Dev_NexoCli_BaseGemini/Dev_Logs/[nome-do-log].md`
+## Development Log
+`dev-assets/Dev_Logs/[log-name].md`
 
-## Observações
-[Qualquer informação adicional]
+## Notes
+[Any additional information]
 ```
 
 ---
 
-## ✅ **Guidelines Específicas**
+## ✅ **Specific Guidelines**
 
-### **🔒 Compliance e Licenciamento**
+### **🔒 Compliance and Licensing**
 
-#### **Obrigatório em TODOS os Commits:**
-- [ ] Header de atribuição em ficheiros modificados
-- [ ] Nunca incluir credenciais ou chaves API
-- [ ] CHANGELOG.md atualizado
-- [ ] Log de desenvolvimento criado
+#### **Mandatory in ALL Commits:**
+- [ ] Attribution header in modified files
+- [ ] Never include credentials or API keys
+- [ ] CHANGELOG.md updated
+- [ ] Development log created
 
-#### **Atribuição Legal:**
+#### **Legal Attribution:**
 ```typescript
-// Modificado por [Seu Nome], 2025
-// Baseado em gemini-cli (Copyright 2025 Google LLC, Apache 2.0)
-// Parte do NexoCLI_BaseGemini - Personalização para ecossistema Nexo
+// Modified by [Your Name], 2025
+// Based on gemini-cli (Copyright 2025 Google LLC, Apache 2.0)
+// Part of NexoCLI_BaseGemini - Customization for Nexo ecosystem
 ```
 
-### **🎯 Tipos de Contribuição Aceitas**
+### **🎯 Types of Accepted Contributions**
 
-#### **✅ Bem-vindas:**
+#### **✅ Welcome:**
 - **Rebranding:** `gemini` → `nexocli`
-- **Arte ASCII:** Logo personalizado Nexo
-- **Comandos slash:** `/nexo info`, `/nexo status`, etc.
-- **Interface:** Mensagens de boas-vindas personalizadas
-- **Documentação:** Melhorias e correções
-- **Bug fixes:** Correções que mantêm compatibilidade
+- **ASCII art:** Personalized Nexo logo
+- **Slash commands:** `/nexo info`, `/nexo status`, etc.
+- **Interface:** Personalized welcome messages
+- **Documentation:** Improvements and corrections
+- **Bug fixes:** Corrections that maintain compatibility
 
-#### **⚠️ Requerem Discussão:**
-- **Arquitetura:** Mudanças significativas
-- **Dependências:** Adicionar/remover dependências
-- **API:** Alterações em interfaces públicas
-- **Integração:** Preparação para n8n/solução híbrida
+#### **⚠️ Require Discussion:**
+- **Architecture:** Significant changes
+- **Dependencies:** Adding/removing dependencies
+- **API:** Changes to public interfaces
+- **Integration:** Preparation for n8n/hybrid solution
 
-#### **❌ Não Aceitas:**
-- **Breaking changes** sem justificação
-- **Funcionalidades** que quebrem compatibilidade original
-- **Dependências desnecessárias**
-- **Código** sem atribuição adequada
+#### **❌ Not Accepted:**
+- **Breaking changes** without justification
+- **Features** that break original compatibility
+- **Unnecessary dependencies**
+- **Code** without proper attribution
 
-### **🧪 Testes e Validação**
+### **🧪 Testing and Validation**
 
-#### **Antes de Submeter PR:**
+#### **Before Submitting PR:**
 ```bash
-# Checklist obrigatório
+# Mandatory checklist
 npm run build                   # ✅ Build success
-./bundle/nexocli.js --version   # ✅ Versão OK
-./bundle/nexocli.js "teste"     # ✅ Funcionalidade básica
-grep -r "API_KEY" .            # ✅ Sem credenciais em código
+./bundle/nexocli.js --version   # ✅ Version OK
+./bundle/nexocli.js "test"      # ✅ Basic functionality
+grep -r "API_KEY" .            # ✅ No credentials in code
 ```
 
-#### **Teste em VM Windows:**
-- **Obrigatório** para mudanças significativas
-- **Recomendado** para todas as contribuições
-- **Documentar** resultados no log de desenvolvimento
+#### **Windows VM Testing:**
+- **Mandatory** for significant changes
+- **Recommended** for all contributions
+- **Document** results in development log
 
 ---
 
-## 🚨 **Resolução de Problemas**
+## 🚨 **Troubleshooting**
 
-### **Problemas Comuns**
+### **Common Issues**
 
 #### **"Command not found: nexocli"**
 ```bash
-# ✅ Correto: Usar caminho local
+# ✅ Correct: Use local path
 ./bundle/nexocli.js
 
-# ❌ Incorreto: Tentar usar comando global
+# ❌ Incorrect: Try to use global command
 nexocli
 ```
 
 #### **"Build failed"**
 ```bash
-# Limpar e reinstalar
+# Clean and reinstall
 rm -rf node_modules package-lock.json
 npm install
 npm run build
@@ -295,82 +295,118 @@ npm run build
 
 #### **"Cannot overwrite global installation"**
 ```bash
-# ⚠️ NUNCA usar npm link
-# Sempre desenvolver localmente
+# ⚠️ NEVER use npm link
+# Always develop locally
 cd /path/to/NexoCLI_BaseGemini
 ./bundle/nexocli.js
 ```
 
-### **Obter Ajuda**
-1. **Consultar [AGENTS.md](AGENTS.md)** - Guia completo
-2. **Verificar logs** em `Dev_Logs/` - Histórico detalhado
-3. **Abrir issue** - Para dúvidas específicas
-4. **Email direto** - [nexo-modeling@outlook.com](mailto:nexo-modeling@outlook.com)
+### **Getting Help**
+1. **Consult [AGENTS.md](AGENTS.md)** - Complete guide
+2. **Check logs** in `dev-assets/Dev_Logs/` - Detailed history
+3. **Open issue** - For specific questions
+4. **Direct email** - [nexo-modeling@outlook.com](mailto:nexo-modeling@outlook.com)
 
 ---
 
-## 🎯 **Roadmap de Contribuições**
+## 🎯 **Contribution Roadmap**
 
-### **Fase 1: Rebranding Básico** (Atual)
-- [ ] Alterar `package.json`: `"bin": {"nexocli": "bundle/nexocli.js"}`
-- [ ] Arte ASCII personalizada em `AsciiArt.ts`
-- [ ] Mensagens de boas-vindas em `Header.tsx`
-- [ ] Build configurado para `nexocli.js`
+### **Phase 1: Basic Rebranding** (Current - COMPLETED)
+- ✅ Change `package.json`: `"bin": {"nexocli": "bundle/nexocli.js"}`
+- ✅ Professional ASCII art in `AsciiArt.ts`
+- ✅ Welcome messages in `Header.tsx`
+- ✅ Build configured for `nexocli.js`
+- ✅ NPM publication as `@nsalvacao/nexo-cli`
+- ✅ Complete authentication separation
 
-### **Fase 2: Comandos Personalizados**
-- [ ] `/nexo info` - Informações do sistema
-- [ ] `/nexo status` - Status de agentes
-- [ ] `/nexo config` - Configuração específica
-- [ ] Extensão do `slashCommandProcessor.ts`
+### **Phase 2: Custom Commands** (PLANNED)
+- [ ] `/nexo info` - System information
+- [ ] `/nexo status` - Agent status
+- [ ] `/nexo config` - Specific configuration
+- [ ] Extension of `slashCommandProcessor.ts`
 
-### **Fase 3: Preparação Integração**
-- [ ] Endpoints para n8n
-- [ ] APIs de comunicação
-- [ ] Configuração modular
+### **Phase 3: Integration Preparation** (PLANNED)
+- [ ] n8n endpoints
+- [ ] Communication APIs
+- [ ] Modular configuration
 
-### **Fase 4: Interface Unificada**
-- [ ] Menu consolidado
-- [ ] Integração com outros agentes
+### **Phase 4: Unified Interface** (PLANNED)
+- [ ] Consolidated menu
+- [ ] Integration with other agents
 
 ---
 
-## 👥 **Comunidade e Suporte**
+## 👥 **Community and Support**
 
-### **Maintainer Principal**
-- **Nome:** Nuno Salvação
+### **Primary Maintainer**
+- **Name:** Nuno Salvação
 - **Email:** [nexo-modeling@outlook.com](mailto:nexo-modeling@outlook.com)
 - **GitHub:** [@nsalvacao](https://github.com/nsalvacao)
 
-### **Como Contribuir**
-1. **Issues:** Para bugs e sugestões
-2. **Discussions:** Para ideias e questões gerais
-3. **Pull Requests:** Para contribuições de código
-4. **Email:** Para questões de compliance ou arquitetura
+### **How to Contribute**
+1. **Issues:** For bugs and suggestions
+2. **Discussions:** For general ideas and questions
+3. **Pull Requests:** For code contributions
+4. **Email:** For compliance or architecture questions
 
-### **Código de Conduta**
-- **Respeitoso:** Comunicação profissional
-- **Colaborativo:** Espírito de equipa
-- **Compliance:** Respeitar licenciamento
-- **Qualidade:** Código bem testado e documentado
-
----
-
-## 📄 **Recursos Adicionais**
-
-### **Documentação Oficial**
-- **[Gemini-CLI Original](https://github.com/google-gemini/gemini-cli)** - Projeto base
-- **[Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0)** - Licença
-- **[Keep a Changelog](https://keepachangelog.com/)** - Formato changelog
-- **[Semantic Versioning](https://semver.org/)** - Versionamento
-
-### **Ferramentas de Desenvolvimento**
-- **Node.js 20+** - Runtime necessário
-- **npm** - Gestão de dependências
-- **TypeScript** - Linguagem principal
-- **esbuild** - Sistema de build
+### **Code of Conduct**
+- **Respectful:** Professional communication
+- **Collaborative:** Team spirit
+- **Compliance:** Respect licensing
+- **Quality:** Well-tested and documented code
 
 ---
 
-**Obrigado por contribuir para o NexoCLI! 🚀**
+## 📄 **Additional Resources**
 
-*Desenvolvido por [Nuno Salvação](mailto:nexo-modeling@outlook.com) | Baseado em Gemini-CLI (Google LLC, Apache 2.0) | Parte do ecossistema Nexo*
+### **Official Documentation**
+- **[Original Gemini-CLI](https://github.com/google-gemini/gemini-cli)** - Base project
+- **[Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0)** - License
+- **[Keep a Changelog](https://keepachangelog.com/)** - Changelog format
+- **[Semantic Versioning](https://semver.org/)** - Versioning
+
+### **Development Tools**
+- **Node.js 18+** - Required runtime
+- **npm** - Dependency management
+- **TypeScript** - Primary language
+- **esbuild** - Build system
+
+---
+
+## 📊 **Current Project Status**
+
+### **Completed Features**
+- ✅ **NPM Publication:** Available as `@nsalvacao/nexo-cli`
+- ✅ **Professional Branding:** Complete interface rebranding
+- ✅ **Authentication Separation:** Independent from Gemini-CLI
+- ✅ **Windows Compatibility:** Tested and validated
+- ✅ **Automatic Migration:** Seamless transition from Gemini-CLI
+
+### **Installation and Usage**
+```bash
+# Global installation
+npm install -g @nsalvacao/nexo-cli
+
+# Usage
+nexocli "your query"
+nexocli --version
+nexocli --help
+```
+
+### **Development Installation**
+```bash
+# Clone and build
+git clone https://github.com/nsalvacao/NexoCLI_BaseGemini
+cd NexoCLI_BaseGemini
+npm install
+npm run build
+
+# Use locally
+./bundle/nexocli.js "your query"
+```
+
+---
+
+**Thank you for contributing to NexoCLI! 🚀**
+
+*Developed by [Nuno Salvação](mailto:nexo-modeling@outlook.com) | Based on Gemini-CLI (Google LLC, Apache 2.0) | Part of the Nexo ecosystem*

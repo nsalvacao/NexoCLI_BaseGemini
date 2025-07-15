@@ -1,190 +1,270 @@
-# Changelog - NexoCLI
+# NexoCLI Changelog
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - Desenvolvimento NexoCLI
+---
 
-### Added (Personalização Inicial)
+## [0.1.14] - 2025-07-15 (CURRENT)
 
-- [DOCS] **Documentação Personalizada Completa**
-  - README.md personalizado com foco em NexoCLI
-  - AGENTS.md adaptado para desenvolvimento NexoCLI
-  - CHANGELOG.md estruturado para tracking de modificações
-  - Documentação da solução híbrida (4 subprojetos)
-  - Guias de desenvolvimento isolado e compliance
+### Added
+- **Complete authentication separation** between Gemini-CLI and NexoCLI
+- **Automatic migration system** from `.gemini` to `.nexocli` directories
+- **Migration logging** for transparency during OAuth and account cache migration
+- **Professional project structure** with dev-assets organization
 
-- [STRUCTURE] **Estrutura de Projeto Organizada**
-  - Diretório `0. Log_Dev_NexoCli_BaseGemini/` criado
-  - Subdiretório `Dev_Logs/` para logs de desenvolvimento
-  - Subdiretório `Docs_Exemplo/` com templates de documentação
-  - Estrutura preparada para personalização progressiva
+### Changed
+- **GEMINI_DIR constant** changed from `.gemini` to `.nexocli` in core paths
+- **OAuth credentials storage** now uses `.nexocli/oauth_creds.json`
+- **Google account cache** now uses `.nexocli/google_accounts.json`
+- **User settings** now stored in `.nexocli/settings.json`
+- **Project structure** reorganized with non-executable files in `dev-assets/`
 
-- [COMPLIANCE] **Sistema de Compliance Implementado**
-  - Atribuição legal mantida ao Gemini-CLI (Google LLC, Apache 2.0)
-  - Headers de modificação definidos para todos os ficheiros
-  - Checklist de compliance documentado
-  - Workflow de desenvolvimento estruturado
+### Fixed
+- **Authentication sharing issue** between Gemini-CLI and NexoCLI
+- **Coexistence problem** that prevented true independence
+- **Configuration conflicts** between both CLI tools
+- **Migration edge cases** for existing users
 
-### Changed (Personalizações Planeadas)
-
-- [REBRANDING] **Rebranding gemini → nexocli**
-  - package.json: `"bin": {"nexocli": "bundle/nexocli.js"}`
-  - Nome do comando global alterado
-  - Mantida compatibilidade com funcionalidade original
-
-- [INTEGRATION] **Preparação para Solução Híbrida**
-  - Arquitetura documentada para 4 subprojetos
-  - NexoCLI posicionado como componente Gemini
-  - Preparação para integração n8n
-  - Interface unificada planeada
-
-### Technical (Detalhes Técnicos)
-
-- **Arquitetura**: Fork personalizado mantendo funcionalidade original
-- **Desenvolvimento**: Ambiente isolado sem afetar instalação global
-- **Compliance**: 100% compatível com Apache 2.0
-- **Documentação**: Estrutura completa para agentes e colaboradores
-- **Integração**: Preparado para orquestração via n8n
-
-### Development Environment (Ambiente de Desenvolvimento)
-
-- **Isolamento**: Desenvolvimento em diretório separado
-- **Build**: `npm run build` gera `bundle/nexocli.js`
-- **Testes**: `./bundle/nexocli.js` para validação local
-- **Segurança**: Nunca usar `npm link` para evitar conflitos
-
-### Compliance Notes (Notas de Compliance)
-
-- ✅ **Licença Original**: Apache 2.0 mantida
-- ✅ **Atribuição**: Gemini-CLI (Google LLC) referenciada
-- ✅ **Modificações**: Documentadas e rastreáveis
-- ✅ **Transparência**: Processo completo documentado
-
-### Migration Notes (Notas de Migração)
-
-- ✅ **Zero Breaking Changes**: Funcionalidade original mantida
-- ✅ **Comando Global**: `nexocli` em vez de `gemini`
-- ✅ **Desenvolvimento Isolado**: Não afeta instalação global
-- 💡 **Recomendado**: Usar `./bundle/nexocli.js` para desenvolvimento
+### Technical
+- **Migration system** in `oauth2.ts` and `user_account.ts`
+- **Automatic directory creation** for new `.nexocli` structure
+- **Fallback mechanisms** for migration failures
+- **Compliance headers** added to all modified files
 
 ---
 
-## [Base] - Fork do Gemini-CLI Original
+## [0.1.13] - 2025-07-15
 
-### Inherited (Funcionalidades Herdadas)
+### Added
+- **English internationalization** for complete interface
+- **Professional branding** across all UI components
+- **NEXO.md reference** in tips and documentation
+- **Settings directory separation** from original Gemini-CLI
 
-- [CORE] **Funcionalidade Completa do Gemini-CLI**
-  - Sistema de autenticação OAuth Google
-  - Interface de linha de comandos completa
-  - Gestão de sessões e contexto
-  - Integração com Google Gemini API
-  - Comandos slash (/clear, /help, /memory, /theme)
-  - Sistema de temas e personalização visual
+### Changed
+- **Tips component** fully translated to English
+- **Welcome messages** and interface elements translated
+- **File references** updated from GEMINI.md to NEXO.md
+- **Settings directory** changed to `.nexocli`
 
-- [ARCHITECTURE] **Arquitetura Modular Original**
-  - Separação packages/cli e packages/core
-  - Sistema de build com esbuild
-  - Gestão de dependências workspace
-  - Configuração TypeScript + React (Ink)
-  - Testes com vitest
+### Fixed
+- **Language inconsistencies** in user interface
+- **Mixed Portuguese/English** in welcome messages
+- **Branding inconsistencies** across components
 
-- [FEATURES] **Funcionalidades Avançadas**
-  - Processamento de ficheiros e contexto
-  - Integração MCP (Model Context Protocol)
-  - Ferramentas integradas (grep, edit, shell, etc.)
-  - Sistema de memória e histórico
-  - Suporte multimodal (texto, imagens)
+### Technical
+- **Tips.tsx** completely rewritten in English
+- **Settings.ts** updated with new directory structure
+- **Professional color themes** maintained
 
-### Technical Base (Base Técnica)
+---
 
-- **Node.js**: 20+ (compatível Windows)
-- **TypeScript**: Configuração completa
+## [0.1.12] - 2025-07-14
+
+### Added
+- **NPM publication** as `@nsalvacao/nexo-cli`
+- **Global installation** capability via `npm install -g`
+- **Professional ASCII art** with "NEXO CLI" branding
+- **Custom welcome messages** and interface elements
+- **Professional color themes** (nexoLightTheme, nexoDarkTheme)
+- **Windows compatibility** testing and validation
+
+### Changed
+- **Command name** from `gemini` to `nexocli`
+- **Package configuration** for NPM publication
+- **Build output** to generate `nexocli.js`
+- **Branding elements** throughout the interface
+- **Color palette** to professional themes
+
+### Fixed
+- **Build configuration** for proper executable generation
+- **Windows compatibility** issues
+- **Package.json** configuration for global installation
+
+### Technical
+- **AsciiArt.ts** updated with professional Nexo branding
+- **Theme.ts** updated with professional color schemes
+- **Package.json** configured for NPM publication
+- **Build scripts** updated for nexocli output
+
+---
+
+## [0.1.11] - 2025-07-14
+
+### Added
+- **Initial customization** of Gemini-CLI fork
+- **Project structure** for NexoCLI development
+- **Basic rebranding** from gemini to nexocli
+- **Development environment** setup
+
+### Changed
+- **Initial rebranding** of core components
+- **Package name** preparation for customization
+- **Build configuration** for nexocli output
+
+### Technical
+- **Fork initialization** from Gemini-CLI
+- **Basic structure** for customization
+- **Development environment** configuration
+
+---
+
+## [0.1.10] - 2025-07-14
+
+### Added
+- **Project documentation** complete setup
+- **AGENTS.md** - Agent guide with complete context
+- **README.md** - Customized main documentation
+- **CONTRIBUTING.md** - Contribution workflow
+- **ROADMAP.md** - Development roadmap
+- **Development log structure** for tracking changes
+
+### Changed
+- **Documentation structure** adapted for NexoCLI
+- **Compliance framework** for Apache 2.0
+- **Development methodology** documentation
+
+### Technical
+- **Documentation templates** created
+- **Compliance checklist** established
+- **Development workflow** documented
+
+---
+
+## [Base] - Original Gemini-CLI Fork
+
+### Inherited Features
+- **Complete Gemini-CLI functionality**
+  - Google OAuth authentication system
+  - Complete command-line interface
+  - Session and context management
+  - Google Gemini API integration
+  - Slash commands (/clear, /help, /memory, /theme)
+  - Theme system and visual customization
+
+- **Original modular architecture**
+  - Separation of packages/cli and packages/core
+  - Build system with esbuild
+  - Workspace dependency management
+  - TypeScript + React (Ink) configuration
+  - Testing with vitest
+
+- **Advanced features**
+  - File processing and context
+  - MCP (Model Context Protocol) integration
+  - Integrated tools (grep, edit, shell, etc.)
+  - Memory and history system
+  - Multimodal support (text, images)
+
+### Technical Base
+- **Node.js**: 18+ (Windows compatible)
+- **TypeScript**: Complete configuration
 - **React**: Interface via Ink
-- **Build**: esbuild + scripts automatizados
-- **Testes**: vitest + integração
-- **Licença**: Apache 2.0 (Google LLC)
+- **Build**: esbuild + automated scripts
+- **Tests**: vitest + integration
+- **License**: Apache 2.0 (Google LLC)
 
-### Original Attribution (Atribuição Original)
-
-- **Projeto Original**: [Gemini-CLI](https://github.com/google-gemini/gemini-cli)
-- **Desenvolvedor**: Google LLC
-- **Licença**: Apache License 2.0
-- **Versão Base**: 0.1.12
+### Original Attribution
+- **Original Project**: [Gemini-CLI](https://github.com/google-gemini/gemini-cli)
+- **Developer**: Google LLC
+- **License**: Apache License 2.0
+- **Base Version**: 0.1.12
 
 ---
 
-## Development Log References (Referências de Logs)
+## Development History
 
-### Logs de Desenvolvimento Criados
+### Phase 0: Preparation and Documentation (COMPLETED)
+**Date**: July 14, 2025
+- ✅ Complete Gemini-CLI architecture analysis
+- ✅ Organized project structure
+- ✅ Customized documentation
+- ✅ Configured isolated development environment
+- ✅ Verified legal compliance
 
-- `Nexo_AnalisePersonalizacao_20250714_123545.md` - Análise inicial e roadmap
-- `Nexo_EstrategiaDesenvolvimento_20250714_125457.md` - Estratégia de desenvolvimento
-- `Nexo_DocumentacaoPersonalizada_[timestamp].md` - Este log (a ser criado)
+### Phase 1: Professional Branding (COMPLETED)
+**Dates**: July 14-15, 2025
+- ✅ Global command functional via NPM
+- ✅ Professional ASCII art implemented
+- ✅ Interface fully rebranded
+- ✅ NPM publication achieved
+- ✅ Complete authentication separation
+- ✅ Windows compatibility validated
 
-### Estrutura de Logs
+### Future Phases (PLANNED)
+- **Phase 2**: Custom commands (`/nexo info`, `/nexo status`, `/nexo config`)
+- **Phase 3**: Integration preparation (APIs, webhooks)
+- **Phase 4**: Unified interface foundation
+- **Phase 5**: n8n orchestration integration
 
+---
+
+## Installation and Usage
+
+### Current Installation
+```bash
+# Global installation
+npm install -g @nsalvacao/nexo-cli
+
+# Usage
+nexocli "your query"
+nexocli --version
+nexocli --help
 ```
-0. Log_Dev_NexoCli_BaseGemini/
-├── Dev_Logs/
-│   ├── Nexo_[acao]_[timestamp].md
-│   └── [outros logs futuros]
-└── Docs_Exemplo/
-    ├── README.md (template usado)
-    ├── AGENTS.md (template usado)
-    └── CHANGELOG.md (template usado)
+
+### Development Installation
+```bash
+# Clone and build
+git clone https://github.com/nsalvacao/NexoCLI_BaseGemini
+cd NexoCLI_BaseGemini
+npm install
+npm run build
+
+# Use locally
+./bundle/nexocli.js "your query"
 ```
 
 ---
 
-## Future Phases (Fases Futuras)
+## Compliance and Attribution
 
-### Fase 1: Rebranding Completo
-- [ ] Alteração completa `gemini` → `nexocli`
-- [ ] Arte ASCII personalizada
-- [ ] Mensagens de boas-vindas customizadas
-- [ ] Build configurado para `nexocli.js`
+### Legal Requirements
+- **Original License**: Apache 2.0 maintained
+- **Attribution**: Gemini-CLI (Google LLC) referenced
+- **Modifications**: Documented and traceable
+- **Transparency**: Complete process documented
 
-### Fase 2: Comandos Personalizados
-- [ ] Comandos slash `/nexo info`, `/nexo status`, `/nexo config`
-- [ ] Funcionalidades específicas do ecossistema Nexo
-- [ ] Preparação para integração n8n
+### Attribution Template
+```typescript
+// Modified by [Developer Name], 2025
+// Based on gemini-cli (Copyright 2025 Google LLC, Apache 2.0)
+// Part of NexoCLI_BaseGemini - Customization for Nexo ecosystem
+```
 
-### Fase 3: Integração Híbrida
-- [ ] Endpoints para orquestração n8n
-- [ ] Comunicação com outros agentes
-- [ ] Interface unificada
-
-### Fase 4: Solução Completa
-- [ ] Menu consolidado terminal/web
-- [ ] Orquestração visual completa
-- [ ] Gestão unificada de múltiplos agentes
-
----
-
-## Validation Checklist (Checklist de Validação)
-
-### Desenvolvimento
-- [x] Documentação personalizada criada
-- [x] Estrutura de projeto organizada
-- [x] Compliance legal verificado
-- [x] Ambiente de desenvolvimento isolado
-- [x] Templates de documentação aplicados
-
-### Testes (A implementar)
-- [ ] `npm run build` executa sem erros
-- [ ] `./bundle/nexocli.js --version` mostra versão
-- [ ] `./bundle/nexocli.js "teste"` funciona
-- [ ] Compatibilidade com funcionalidade original
-
-### Compliance
-- [x] Atribuição legal em todos os ficheiros
-- [x] Licença Apache 2.0 mantida
-- [x] Processo documentado em AGENTS.md
-- [x] Modificações rastreáveis
+### Compliance Checklist
+- ✅ Legal attribution in all modified files
+- ✅ Apache 2.0 license maintained
+- ✅ Process documented in AGENTS.md
+- ✅ Modifications traceable
+- ✅ Original copyright preserved
 
 ---
 
-*Desenvolvido por [Nuno Salvação](mailto:nexo-modeling@outlook.com) | Baseado em Gemini-CLI (Google LLC, Apache 2.0) | Parte do ecossistema Nexo*
+## Support and Resources
+
+### Project Links
+- **Repository**: [GitHub](https://github.com/nsalvacao/NexoCLI_BaseGemini)
+- **NPM Package**: [@nsalvacao/nexo-cli](https://www.npmjs.com/package/@nsalvacao/nexo-cli)
+- **Original Project**: [Gemini-CLI](https://github.com/google-gemini/gemini-cli)
+
+### Contact
+- **Maintainer**: [Nuno Salvação](mailto:nexo-modeling@outlook.com)
+- **Issues**: Use GitHub Issues for bug reports
+- **Discussions**: Use GitHub Discussions for questions
+
+---
+
+*Developed by [Nuno Salvação](mailto:nexo-modeling@outlook.com) | Based on Gemini-CLI (Google LLC, Apache 2.0) | Part of the Nexo ecosystem*
