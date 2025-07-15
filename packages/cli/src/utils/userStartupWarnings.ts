@@ -4,6 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+// Modificado por Nexo Agent, 2025
+// Baseado em gemini-cli (Copyright 2025 Google LLC, Apache 2.0)
+// Parte do NexoCLI_BaseGemini - Personalização para ecossistema Nexo
+
 import fs from 'fs/promises';
 import * as os from 'os';
 
@@ -23,7 +27,7 @@ const homeDirectoryCheck: WarningCheck = {
       ]);
 
       if (workspaceRealPath === homeRealPath) {
-        return 'You are running Gemini CLI in your home directory. It is recommended to run in a project-specific directory.';
+        return 'You are running NEXO CLI in your home directory. It is recommended to run in a project-specific directory.';
       }
       return null;
     } catch (_err: unknown) {

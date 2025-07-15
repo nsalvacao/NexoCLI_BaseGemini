@@ -24,7 +24,7 @@ import { WebFetchTool } from '../tools/web-fetch.js';
 import { ReadManyFilesTool } from '../tools/read-many-files.js';
 import {
   MemoryTool,
-  setGeminiMdFilename,
+  setNexoMdFilename,
   GEMINI_CONFIG_DIR as GEMINI_DIR,
 } from '../tools/memoryTool.js';
 import { WebSearchTool } from '../tools/web-search.js';
@@ -236,7 +236,7 @@ export class Config {
     this.noBrowser = params.noBrowser ?? false;
 
     if (params.contextFileName) {
-      setGeminiMdFilename(params.contextFileName);
+      setNexoMdFilename(params.contextFileName);
     }
 
     if (this.telemetrySettings.enabled) {

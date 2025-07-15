@@ -4,6 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+// Modificado por Nexo Agent, 2025
+// Baseado em gemini-cli (Copyright 2025 Google LLC, Apache 2.0)
+// Parte do NexoCLI_BaseGemini - Personalização para ecossistema Nexo
+
 import type { CSSProperties } from 'react';
 
 export type ThemeType = 'light' | 'dark' | 'ansi';
@@ -24,37 +28,43 @@ export interface ColorsTheme {
   GradientColors?: string[];
 }
 
-export const lightTheme: ColorsTheme = {
+// NEXO Professional Theme - Light variant
+export const nexoLightTheme: ColorsTheme = {
   type: 'light',
-  Background: '#FAFAFA',
-  Foreground: '#3C3C43',
-  LightBlue: '#89BDCD',
-  AccentBlue: '#3B82F6',
-  AccentPurple: '#8B5CF6',
-  AccentCyan: '#06B6D4',
-  AccentGreen: '#3CA84B',
-  AccentYellow: '#D5A40A',
-  AccentRed: '#DD4C4C',
-  Comment: '#008000',
-  Gray: '#B7BECC',
-  GradientColors: ['#4796E4', '#847ACE', '#C3677F'],
+  Background: '#f8fafc',           // Slate 50 - Very light gray
+  Foreground: '#1e293b',           // Slate 800 - Dark text
+  LightBlue: '#0ea5e9',           // Sky 500 - Professional blue
+  AccentBlue: '#2563eb',          // Blue 600 - Primary blue
+  AccentPurple: '#7c3aed',        // Violet 600 - Professional purple
+  AccentCyan: '#0891b2',          // Cyan 600 - Professional cyan
+  AccentGreen: '#059669',         // Emerald 600 - Professional green
+  AccentYellow: '#d97706',        // Amber 600 - Professional orange
+  AccentRed: '#dc2626',           // Red 600 - Professional red
+  Comment: '#6b7280',             // Gray 500 - Subtle comments
+  Gray: '#64748b',                // Slate 500 - Medium gray
+  GradientColors: ['#2563eb', '#7c3aed', '#0891b2'], // Professional gradient
 };
 
-export const darkTheme: ColorsTheme = {
+// NEXO Professional Theme - Dark variant
+export const nexoDarkTheme: ColorsTheme = {
   type: 'dark',
-  Background: '#1E1E2E',
-  Foreground: '#CDD6F4',
-  LightBlue: '#ADD8E6',
-  AccentBlue: '#89B4FA',
-  AccentPurple: '#CBA6F7',
-  AccentCyan: '#89DCEB',
-  AccentGreen: '#A6E3A1',
-  AccentYellow: '#F9E2AF',
-  AccentRed: '#F38BA8',
-  Comment: '#6C7086',
-  Gray: '#6C7086',
-  GradientColors: ['#4796E4', '#847ACE', '#C3677F'],
+  Background: '#0f172a',           // Slate 900 - Very dark blue
+  Foreground: '#f1f5f9',           // Slate 100 - Light text
+  LightBlue: '#38bdf8',           // Sky 400 - Bright blue
+  AccentBlue: '#3b82f6',          // Blue 500 - Primary blue
+  AccentPurple: '#8b5cf6',        // Violet 500 - Professional purple
+  AccentCyan: '#06b6d4',          // Cyan 500 - Professional cyan
+  AccentGreen: '#10b981',         // Emerald 500 - Professional green
+  AccentYellow: '#f59e0b',        // Amber 500 - Professional orange
+  AccentRed: '#ef4444',           // Red 500 - Professional red
+  Comment: '#94a3b8',             // Slate 400 - Subtle comments
+  Gray: '#64748b',                // Slate 500 - Medium gray
+  GradientColors: ['#3b82f6', '#8b5cf6', '#06b6d4'], // Professional gradient
 };
+
+// Legacy themes (maintained for compatibility)
+export const lightTheme: ColorsTheme = nexoLightTheme;
+export const darkTheme: ColorsTheme = nexoDarkTheme;
 
 export const ansiTheme: ColorsTheme = {
   type: 'ansi',

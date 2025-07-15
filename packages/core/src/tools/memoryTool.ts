@@ -4,6 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+// Modificado por Nexo Agent, 2025
+// Baseado em gemini-cli (Copyright 2025 Google LLC, Apache 2.0)
+// Parte do NexoCLI_BaseGemini - Personalização para ecossistema Nexo
+
 import { BaseTool, ToolResult } from './tools.js';
 import { FunctionDeclaration, Type } from '@google/genai';
 import * as fs from 'fs/promises';
@@ -46,44 +50,89 @@ Do NOT use this tool:
 - \`fact\` (string, required): The specific fact or piece of information to remember. This should be a clear, self-contained statement. For example, if the user says "My favorite color is blue", the fact would be "My favorite color is blue".
 `;
 
-export const GEMINI_CONFIG_DIR = '.gemini';
-export const DEFAULT_CONTEXT_FILENAME = 'GEMINI.md';
-export const MEMORY_SECTION_HEADER = '## Gemini Added Memories';
+// Configuration migration: .gemini -> .nexocli
+export const OLD_GEMINI_CONFIG_DIR = '.gemini';
+export const NEXOCLI_CONFIG_DIR = '.nexocli';
+export const GEMINI_CONFIG_DIR = NEXOCLI_CONFIG_DIR; // Exported for compatibility
+export const DEFAULT_CONTEXT_FILENAME = 'NEXOCLI.md';
+export const MEMORY_SECTION_HEADER = '## NEXO CLI Added Memories';
 
-// This variable will hold the currently configured filename for GEMINI.md context files.
-// It defaults to DEFAULT_CONTEXT_FILENAME but can be overridden by setGeminiMdFilename.
-let currentGeminiMdFilename: string | string[] = DEFAULT_CONTEXT_FILENAME;
+// This variable will hold the currently configured filename for NEXOCLI.md context files.
+// It defaults to DEFAULT_CONTEXT_FILENAME but can be overridden by setNexoMdFilename.
+let currentNexoMdFilename: string | string[] = DEFAULT_CONTEXT_FILENAME;
 
-export function setGeminiMdFilename(newFilename: string | string[]): void {
+export function setNexoMdFilename(newFilename: string | string[]): void {
   if (Array.isArray(newFilename)) {
     if (newFilename.length > 0) {
-      currentGeminiMdFilename = newFilename.map((name) => name.trim());
+      currentNexoMdFilename = newFilename.map((name) => name.trim());
     }
   } else if (newFilename && newFilename.trim() !== '') {
-    currentGeminiMdFilename = newFilename.trim();
+    currentNexoMdFilename = newFilename.trim();
   }
 }
 
-export function getCurrentGeminiMdFilename(): string {
-  if (Array.isArray(currentGeminiMdFilename)) {
-    return currentGeminiMdFilename[0];
+export function getCurrentNexoMdFilename(): string {
+  if (Array.isArray(currentNexoMdFilename)) {
+    return currentNexoMdFilename[0];
   }
-  return currentGeminiMdFilename;
+  return currentNexoMdFilename;
 }
 
-export function getAllGeminiMdFilenames(): string[] {
-  if (Array.isArray(currentGeminiMdFilename)) {
-    return currentGeminiMdFilename;
+export function getAllNexoMdFilenames(): string[] {
+  if (Array.isArray(currentNexoMdFilename)) {
+    return currentNexoMdFilename;
   }
-  return [currentGeminiMdFilename];
+  return [currentNexoMdFilename];
 }
+
+// Backward compatibility aliases
+export const setGeminiMdFilename = setNexoMdFilename;
+export const getCurrentGeminiMdFilename = getCurrentNexoMdFilename;
+export const getAllGeminiMdFilenames = getAllNexoMdFilenames;
 
 interface SaveMemoryParams {
   fact: string;
 }
 
+/**
+ * Migrates configuration from .gemini to .nexocli automatically
+ * This ensures backward compatibility while transitioning to new naming
+ */
+async function migrateConfigIfNeeded(): Promise<void> {
+  const oldConfigPath = path.join(homedir(), OLD_GEMINI_CONFIG_DIR);
+  const newConfigPath = path.join(homedir(), NEXOCLI_CONFIG_DIR);
+  
+  try {
+    // Check if old config exists and new config doesn't
+    const oldExists = await fs.access(oldConfigPath).then(() => true).catch(() => false);
+    const newExists = await fs.access(newConfigPath).then(() => true).catch(() => false);
+    
+    if (oldExists && !newExists) {
+      // Create new config directory
+      await fs.mkdir(newConfigPath, { recursive: true });
+      
+      // Copy all files from old to new config
+      const oldFiles = await fs.readdir(oldConfigPath);
+      for (const file of oldFiles) {
+        const oldFilePath = path.join(oldConfigPath, file);
+        const newFilePath = path.join(newConfigPath, file);
+        
+        const stats = await fs.stat(oldFilePath);
+        if (stats.isFile()) {
+          await fs.copyFile(oldFilePath, newFilePath);
+        }
+      }
+      
+      console.log('✅ Configuration migrated from .gemini to .nexocli');
+    }
+  } catch (error) {
+    // Silent fail - migration is optional
+    console.log('⚠️  Configuration migration skipped:', (error as Error).message);
+  }
+}
+
 function getGlobalMemoryFilePath(): string {
-  return path.join(homedir(), GEMINI_CONFIG_DIR, getCurrentGeminiMdFilename());
+  return path.join(homedir(), GEMINI_CONFIG_DIR, getCurrentNexoMdFilename());
 }
 
 /**
@@ -107,6 +156,10 @@ export class MemoryTool extends BaseTool<SaveMemoryParams, ToolResult> {
       memoryToolDescription,
       memoryToolSchemaData.parameters as Record<string, unknown>,
     );
+    // Perform migration on instantiation
+    migrateConfigIfNeeded().catch(() => {
+      // Migration failed silently - this is expected behavior
+    });
   }
 
   static async performAddMemoryEntry(

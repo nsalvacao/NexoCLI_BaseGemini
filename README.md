@@ -42,9 +42,14 @@ Este projeto é parte de uma **solução híbrida** composta por 4 subprojetos:
 
 ## ⚡ **Quick Start NexoCLI**
 
-> **💡 Escolha o tipo de instalação:**
-> - **Desenvolvimento local:** Para testar, modificar código
-> - **Instalação global:** Para usar comando `nexocli` em qualquer lugar
+> **✅ READY FOR NPM PUBLICATION**
+> - **Package:** `@nsalvacao/nexo-cli`
+> - **Version:** 0.1.12
+> - **Status:** Fully functional with professional branding
+
+> **💡 Choose installation type:**
+> - **Local development:** For testing and code modification
+> - **Global installation:** For using `nexocli` command anywhere
 
 ### **📁 Opção 1: Desenvolvimento Local**
 
@@ -172,21 +177,24 @@ Se o comando global `nexocli` não funcionar, use a secção **🔄 Desinstalar/
 
 ## 🚀 **Personalização Atual**
 
-### **✅ Implementado**
-- **Rebranding:** `gemini` → `nexocli`
-- **Arte ASCII:** Logo personalizado Nexo
-- **Comandos base:** Todos os comandos originais mantidos
-- **Compatibilidade:** 100% com Gemini-CLI original
+### **✅ Implemented**
+- **Complete rebranding:** `gemini` → `nexocli`
+- **Professional ASCII art:** Custom NEXO logo
+- **Configuration migration:** `.gemini` → `.nexocli` with backward compatibility
+- **Professional color palette:** Tailwind-inspired professional themes
+- **English interface:** Fully internationalized user experience
+- **NPM ready:** Package configured for `@nsalvacao/nexo-cli`
+- **Coexistence tested:** Works alongside original Gemini-CLI
 
-### **🔄 Em Desenvolvimento**
-- **Comandos slash personalizados:** `/nexo`, `/status`, `/config`
-- **Mensagens de boas-vindas:** Interface personalizada
-- **Preparação para orquestração:** APIs para integração n8n
+### **🔄 In Development**
+- **Custom slash commands:** `/nexo`, `/status`, `/config`
+- **Welcome messages:** Personalized interface
+- **Orchestration preparation:** APIs for n8n integration
 
-### **📋 Planeado**
-- **Integração n8n:** Endpoints para orquestração
-- **Interface unificada:** Menu consolidado
-- **Configuração modular:** Settings específicos Nexo
+### **📋 Planned**
+- **n8n integration:** Orchestration endpoints
+- **Unified interface:** Consolidated menu
+- **Modular configuration:** NEXO-specific settings
 
 ---
 
