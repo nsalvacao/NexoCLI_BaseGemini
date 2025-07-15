@@ -1,0 +1,177 @@
+╭───────────────────────────────────────────────────╮
+│ ✻ Welcome to Claude Code!                         │
+│                                                   │
+│   /help for help, /status for your current setup  │
+│                                                   │
+│   cwd: /mnt/d/GitHub/NexoCLI_BaseGemini           │
+╰───────────────────────────────────────────────────╯
+● Compact summary (ctrl+r to expand)
+  ⎿  Read ../../../../home/nsalvacao/drive_d/GitHub/NexoCLI_BaseGemini/packages/cli/src/config/settings.ts (376 lines)
+  ⎿  Read ../../../../home/nsalvacao/drive_d/GitHub/NexoCLI_BaseGemini/packages/core/src/config/config.ts (578 lines)
+  ⎿  Read ../../../../home/nsalvacao/drive_d/GitHub/NexoCLI_BaseGemini/0. Log_Dev_NexoCli_BaseGemini/TestesDeploy_VMWindows_sem_WSL/Fase1_ApósNPM/2025-07-15T13_04_40_559Z-debug-0.log (100+ lines)
+  ⎿  Read ../../../../home/nsalvacao/drive_d/GitHub/NexoCLI_BaseGemini/0. Log_Dev_NexoCli_BaseGemini/TestesDeploy_VMWindows_sem_WSL/Fase1_ApósNPM/20250715_Registo_Consola.md (162 lines)
+  ⎿  Read ../../../../home/nsalvacao/drive_d/GitHub/NexoCLI_BaseGemini/AGENTS.md (419 lines)
+  ⎿  Todo list read (6 items)
+
+● Update Todos
+  ⎿  ☒ Analisar problema de publicação NPM e autenticação compartilhada
+     ☒ Consultar logs dos testes VM Windows
+     ☒ Corrigir problema de instalação global NPM
+     ☒ Implementar autenticação separada entre Gemini-CLI e NexoCLI
+     ☐ Corrigir internacionalização para inglês completo
+     ☐ Republicar solução corrigida no NPM
+     ☐ Gerar log detalhado da sessão
+  ⎿  ../../../../home/nsalvacao/.claude/CLAUDE.md
+
+● Análise dos Problemas Identificados
+
+  Problema
+
+  Com base nos logs da VM Windows, identifiquei três questões críticas que impedem a coexistência adequada entre Gemini-CLI e NexoCLI:
+
+  1. Autenticação Compartilhada: O directório .gemini é usado por ambas as soluções
+  2. Instalação NPM Global: Conflitos durante a instalação global
+  3. Internacionalização Incompleta: Interface mista português/inglês
+
+  Análise
+
+  O problema raiz está em /home/nsalvacao/drive_d/GitHub/NexoCLI_BaseGemini/packages/cli/src/config/settings.ts:23:
+
+  export const SETTINGS_DIRECTORY_NAME = '.gemini';
+
+  Esta constante força ambas as soluções a usar o mesmo directório, causando partilha de autenticação.
+
+  Solução Implementada
+
+● Update(../../../../home/nsalvacao/drive_d/GitHub/NexoCLI_BaseGemini/packages/cli/src/config/settings.ts)
+  ⎿  Updated ../../../../home/nsalvacao/drive_d/GitHub/NexoCLI_BaseGemini/packages/cli/src/config/settings.ts with 1 addition and 1 removal
+       20    import { DefaultLight } from '../ui/themes/default-light.js';
+       21    import { DefaultDark } from '../ui/themes/default.js';
+       22    
+       23 -  export const SETTINGS_DIRECTORY_NAME = '.gemini';
+       23 +  export const SETTINGS_DIRECTORY_NAME = '.nexocli';
+       24    export const USER_SETTINGS_DIR = path.join(homedir(), SETTINGS_DIRECTORY_NAME);
+       25    export const USER_SETTINGS_PATH = path.join(USER_SETTINGS_DIR, 'settings.json');
+       26    
+
+● Update(../../../../home/nsalvacao/drive_d/GitHub/NexoCLI_BaseGemini/packages/cli/src/config/settings.ts)
+  ⎿  Error: String to replace not found in file.
+     String: function getSystemSettingsPath(): string {
+       if (platform() === 'darwin') {
+         return '/Library/Application Support/GeminiCli/settings.json';
+       } else if (platform() === 'win32') {
+         return 'C:\\\\ProgramData\\\\gemini-cli\\\\settings.json';
+       } else {
+         return '/etc/gemini-cli/settings.json';
+       }
+     }
+
+● Read(../../../../home/nsalvacao/drive_d/GitHub/NexoCLI_BaseGemini/packages/cli/src/config/settings.ts)
+  ⎿  Read 10 lines (ctrl+r to expand)
+
+● Update(../../../../home/nsalvacao/drive_d/GitHub/NexoCLI_BaseGemini/packages/cli/src/config/settings.ts)
+  ⎿  Updated ../../../../home/nsalvacao/drive_d/GitHub/NexoCLI_BaseGemini/packages/cli/src/config/settings.ts with 3 additions and 3 removals
+       26    
+       27    function getSystemSettingsPath(): string {
+       28      if (platform() === 'darwin') {
+       29 -      return '/Library/Application Support/GeminiCli/settings.json';
+       29 +      return '/Library/Application Support/NexoCLI/settings.json';
+       30      } else if (platform() === 'win32') {
+       31 -      return 'C:\\ProgramData\\gemini-cli\\settings.json';
+       31 +      return 'C:\\ProgramData\\nexo-cli\\settings.json';
+       32      } else {
+       33 -      return '/etc/gemini-cli/settings.json';
+       33 +      return '/etc/nexo-cli/settings.json';
+       34      }
+       35    }
+       36    
+
+● Correção da Internacionalização
+
+● Search(pattern: "Dicas para começar|Faz perguntas|Sê específico|Cria ficheiros|Usa /help|detalhes do ecossistema")
+  ⎿  Found 1 file (ctrl+r to expand)
+
+● Read(packages/cli/src/ui/components/Tips.tsx)
+  ⎿  Read 54 lines (ctrl+r to expand)
+
+● Update(packages/cli/src/ui/components/Tips.tsx)
+  ⎿  Updated packages/cli/src/ui/components/Tips.tsx with 7 additions and 7 removals          
+       21      const geminiMdFileCount = config.getGeminiMdFileCount();
+       22      return (
+       23        <Box flexDirection="column" marginBottom={1}>
+       24 -        <Text color={Colors.Foreground}>🔧 Dicas para começar com NexoCLI:</Text>
+       24 +        <Text color={Colors.Foreground}>🔧 Tips to get started with NexoCLI:</Text>
+       25          <Text color={Colors.Foreground}>
+       26 -          1. Faz perguntas, edita ficheiros ou executa comandos.
+       26 +          1. Ask questions, edit files, or run commands.
+       27          </Text>
+       28          <Text color={Colors.Foreground}>
+       29 -          2. Sê específico para melhores resultados.
+       29 +          2. Be specific for better results.
+       30          </Text>
+       31          {geminiMdFileCount === 0 && (
+       32            <Text color={Colors.Foreground}>
+       33 -            3. Cria ficheiros{' '}
+       33 +            3. Create files{' '}
+       34              <Text bold color={Colors.AccentPurple}>
+       35                GEMINI.md
+       36              </Text>{' '}
+       37 -            para personalizar as interações com Gemini.
+       37 +            to customize interactions with Gemini.
+       38            </Text>
+       39          )}
+       40          <Text color={Colors.Foreground}>
+     ...
+       42            <Text bold color={Colors.AccentPurple}>
+       43              /help
+       44            </Text>{' '}
+       45 -          para mais informações ou{' '}
+       45 +          for more information or{' '}
+       46            <Text bold color={Colors.AccentPurple}>
+       47              /nexo info
+       48            </Text>{' '}
+       49 -          para detalhes do ecossistema.
+       49 +          for ecosystem details.
+       50          </Text>
+       51        </Box>
+       52      );
+
+● Update(packages/cli/src/ui/components/Tips.tsx)
+  ⎿  Updated packages/cli/src/ui/components/Tips.tsx with 1 addition and 1 removal
+       32            <Text color={Colors.Foreground}>
+       33              3. Create files{' '}
+       34              <Text bold color={Colors.AccentPurple}>
+       35 -              GEMINI.md
+       35 +              NEXO.md
+       36              </Text>{' '}
+       37              to customize interactions with Gemini.
+       38            </Text>
+
+● Update Todos
+  ⎿  ☒ Analisar problema de publicação NPM e autenticação compartilhada
+     ☒ Consultar logs dos testes VM Windows
+     ☒ Corrigir problema de instalação global NPM
+     ☒ Implementar autenticação separada entre Gemini-CLI e NexoCLI
+     ☒ Corrigir internacionalização para inglês completo
+     ☐ Testar e construir solução atualizada
+     ☐ Republicar solução corrigida no NPM
+     ☐ Gerar log detalhado da sessão
+
+● Teste da Solução
+
+● Bash(cd /home/nsalvacao/drive_d/GitHub/NexoCLI_BaseGemini && npm run build)
+  ⎿  > @nsalvacao/nexo-cli@0.1.12 build
+     > node scripts/build.js
+
+     … +14 lines (ctrl+r to expand)
+
+● Bash(cd /home/nsalvacao/drive_d/GitHub/NexoCLI_BaseGemini && ./bundle/nexocli.js --version)
+  ⎿  0.1.12                                                                                                                   
+     (node:5153) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+     (Use `node --trace-deprecation ...` to show where the warning was created)
+
+● Bash(cd /home/nsalvacao/drive_d/GitHub/NexoCLI_BaseGemini && npm version patch)
+  ⎿  Error: npm error Git working directory not clean.
+     npm error A complete log of this run can be found in: /home/nsalvacao/.npm/_logs/2025-07-15T13_58_52_835Z-debug-0.log
+  ⎿  API Error: 529 {"type":"error","error":{"type":"overloaded_error","message":"Overloaded"}}
+

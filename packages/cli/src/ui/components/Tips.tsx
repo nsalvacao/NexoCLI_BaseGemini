@@ -21,20 +21,20 @@ export const Tips: React.FC<TipsProps> = ({ config }) => {
   const geminiMdFileCount = config.getGeminiMdFileCount();
   return (
     <Box flexDirection="column" marginBottom={1}>
-      <Text color={Colors.Foreground}>🔧 Dicas para começar com NexoCLI:</Text>
+      <Text color={Colors.Foreground}>🔧 Tips to get started with NexoCLI:</Text>
       <Text color={Colors.Foreground}>
-        1. Faz perguntas, edita ficheiros ou executa comandos.
+        1. Ask questions, edit files, or run commands.
       </Text>
       <Text color={Colors.Foreground}>
-        2. Sê específico para melhores resultados.
+        2. Be specific for better results.
       </Text>
       {geminiMdFileCount === 0 && (
         <Text color={Colors.Foreground}>
-          3. Cria ficheiros{' '}
+          3. Create files{' '}
           <Text bold color={Colors.AccentPurple}>
-            GEMINI.md
+            NEXO.md
           </Text>{' '}
-          para personalizar as interações com Gemini.
+          to customize interactions with Gemini.
         </Text>
       )}
       <Text color={Colors.Foreground}>
@@ -42,11 +42,11 @@ export const Tips: React.FC<TipsProps> = ({ config }) => {
         <Text bold color={Colors.AccentPurple}>
           /help
         </Text>{' '}
-        para mais informações ou{' '}
+        for more information or{' '}
         <Text bold color={Colors.AccentPurple}>
           /nexo info
         </Text>{' '}
-        para detalhes do ecossistema.
+        for ecosystem details.
       </Text>
     </Box>
   );
