@@ -1,6 +1,6 @@
 {
   "name": "@nsalvacao/nexo-cli",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "description": "NexoCli - Professional AI Assistant powered by Google Gemini",
   "author": "Nuno Salvação <nexo-modeling@outlook.com>",
   "license": "Apache-2.0",
