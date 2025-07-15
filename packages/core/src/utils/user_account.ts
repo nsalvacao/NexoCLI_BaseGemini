@@ -4,6 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+// Modificado por Nexo, 2025
+// Baseado em gemini-cli (Copyright 2025 Google LLC, Apache 2.0)
+// Parte do NexoCLI_BaseGemini - Personalização para ecossistema Nexo
+
 import path from 'node:path';
 import { promises as fsp, existsSync, readFileSync } from 'node:fs';
 import * as os from 'os';
@@ -58,6 +62,34 @@ export async function cacheGoogleAccount(email: string): Promise<void> {
 export function getCachedGoogleAccount(): string | null {
   try {
     const filePath = getGoogleAccountsCachePath();
+    
+    // Migration: Try new location first, then old location
+    if (!existsSync(filePath)) {
+      const oldFilePath = path.join(os.homedir(), '.gemini', GOOGLE_ACCOUNTS_FILENAME);
+      if (existsSync(oldFilePath)) {
+        // Old file exists, migrate it
+        console.log('Migrating Google account cache from .gemini to .nexocli...');
+        try {
+          const oldContent = readFileSync(oldFilePath, 'utf-8');
+          // Ensure new directory exists
+          const newDir = path.dirname(filePath);
+          if (!existsSync(newDir)) {
+            require('fs').mkdirSync(newDir, { recursive: true });
+          }
+          require('fs').writeFileSync(filePath, oldContent);
+          console.log('Google account cache migrated successfully.');
+        } catch (migrationError) {
+          console.debug('Migration failed, continuing with old file:', migrationError);
+          // Continue with old file if migration fails
+          const oldContent = readFileSync(oldFilePath, 'utf-8').trim();
+          if (oldContent) {
+            const accounts: UserAccounts = JSON.parse(oldContent);
+            return accounts.active;
+          }
+        }
+      }
+    }
+    
     if (existsSync(filePath)) {
       const content = readFileSync(filePath, 'utf-8').trim();
       if (!content) {

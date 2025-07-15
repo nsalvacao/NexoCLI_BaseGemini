@@ -4,6 +4,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+// Modificado por Nexo, 2025
+// Baseado em gemini-cli (Copyright 2025 Google LLC, Apache 2.0)
+// Parte do NexoCLI_BaseGemini - Personalização para ecossistema Nexo
+
 import {
   OAuth2Client,
   Credentials,
@@ -53,7 +57,8 @@ const SIGN_IN_SUCCESS_URL =
 const SIGN_IN_FAILURE_URL =
   'https://developers.google.com/gemini-code-assist/auth_failure_gemini';
 
-const GEMINI_DIR = '.gemini';
+const GEMINI_DIR = '.nexocli';
+const OLD_GEMINI_DIR = '.gemini';
 const CREDENTIAL_FILENAME = 'oauth_creds.json';
 
 /**
@@ -288,8 +293,27 @@ export function getAvailablePort(): Promise<number> {
 
 async function loadCachedCredentials(client: OAuth2Client): Promise<boolean> {
   try {
-    const keyFile =
-      process.env.GOOGLE_APPLICATION_CREDENTIALS || getCachedCredentialPath();
+    let keyFile = process.env.GOOGLE_APPLICATION_CREDENTIALS || getCachedCredentialPath();
+    
+    // Migration: Try to load from new location first, then old location
+    if (!process.env.GOOGLE_APPLICATION_CREDENTIALS) {
+      try {
+        await fs.access(keyFile);
+      } catch {
+        // New location doesn't exist, try old location
+        const oldKeyFile = path.join(os.homedir(), OLD_GEMINI_DIR, CREDENTIAL_FILENAME);
+        try {
+          await fs.access(oldKeyFile);
+          // Old file exists, migrate it
+          console.log('Migrating OAuth credentials from .gemini to .nexocli...');
+          await fs.mkdir(path.dirname(keyFile), { recursive: true });
+          await fs.copyFile(oldKeyFile, keyFile);
+          console.log('OAuth credentials migrated successfully.');
+        } catch {
+          // Neither file exists, continue with normal flow
+        }
+      }
+    }
 
     const creds = await fs.readFile(keyFile, 'utf-8');
     client.setCredentials(JSON.parse(creds));

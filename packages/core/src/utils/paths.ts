@@ -4,11 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
+// Modificado por Nexo, 2025
+// Baseado em gemini-cli (Copyright 2025 Google LLC, Apache 2.0)
+// Parte do NexoCLI_BaseGemini - Personalização para ecossistema Nexo
+
 import path from 'node:path';
 import os from 'os';
 import * as crypto from 'crypto';
 
-export const GEMINI_DIR = '.gemini';
+export const GEMINI_DIR = '.nexocli';
 export const GOOGLE_ACCOUNTS_FILENAME = 'google_accounts.json';
 const TMP_DIR_NAME = 'tmp';
 
