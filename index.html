@@ -3,28 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexoCLI - Professional Google Gemini CLI</title>
-    <meta name="description" content="NexoCLI is a professionally customized fork of Gemini-CLI by Google LLC, maintaining full original functionality while adding specific customizations for the Nexo development ecosystem.">
-    <meta name="keywords" content="NexoCLI, Gemini CLI, Google Gemini, AI CLI, Command Line Interface, Nexo, NPM Package">
+    <title>NexoCLI: Your Professional AI Command Line Interface</title>
+    <meta name="description" content="NexoCLI is a professionally customized command-line interface for the Gemini API, designed for the Nexo AI development ecosystem. It offers enhanced features, professional branding, and full compatibility, evolving from the robust Gemini-CLI by Google LLC.">
+    <meta name="keywords" content="NexoCLI, AI CLI, Command Line Interface, Nexo, NPM Package, Gemini API, AI Assistant">
     <meta name="author" content="Nuno Salvação">
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://nsalvacao.github.io/NexoCLI_BaseGemini/">
-    <meta property="og:title" content="NexoCLI - Professional Google Gemini CLI">
-    <meta property="og:description" content="Professional customization of Gemini-CLI with enhanced functionality for the Nexo development ecosystem.">
+    <meta property="og:title" content="NexoCLI: Your Professional AI Command Line Interface">
+    <meta property="og:description" content="NexoCLI is a professionally customized command-line interface for the Gemini API, designed for the Nexo AI development ecosystem with enhanced features and professional branding.">
     
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://nsalvacao.github.io/NexoCLI_BaseGemini/">
-    <meta property="twitter:title" content="NexoCLI - Professional Google Gemini CLI">
-    <meta property="twitter:description" content="Professional customization of Gemini-CLI with enhanced functionality for the Nexo development ecosystem.">
+    <meta property="twitter:title" content="NexoCLI: Your Professional AI Command Line Interface">
+    <meta property="twitter:description" content="NexoCLI is a professionally customized command-line interface for the Gemini API, designed for the Nexo AI development ecosystem with enhanced features and professional branding.">
     
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔧</text></svg>">
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Styles -->
     <style>
@@ -36,30 +36,36 @@
         }
         
         :root {
-            --primary-color: #2563eb;
-            --secondary-color: #1e40af;
-            --accent-color: #3b82f6;
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-            --error-color: #ef4444;
-            --text-primary: #1f2937;
-            --text-secondary: #6b7280;
-            --text-muted: #9ca3af;
-            --bg-primary: #ffffff;
-            --bg-secondary: #f8fafc;
-            --bg-tertiary: #f1f5f9;
-            --border-color: #e2e8f0;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            /* Dark Theme AI-like Color Palette */
+            --primary-color: #00bfff;
+            --secondary-color: #0099cc;
+            --accent-color: #00c0ff;
+            --success-color: #00ff88;
+            --warning-color: #ffcc00;
+            --error-color: #ff4444;
+            --text-primary: #f8f8f8;
+            --text-secondary: #cccccc;
+            --text-muted: #999999;
+            --text-accent: #00bfff;
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #2b2b2b;
+            --bg-card: #1e1e1e;
+            --border-color: #333333;
+            --border-accent: #00bfff;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.5);
+            --shadow-glow: 0 0 20px rgba(0, 191, 255, 0.3);
             --border-radius: 0.75rem;
         }
         
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Poppins', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             line-height: 1.6;
             color: var(--text-primary);
-            background-color: var(--bg-primary);
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            background-attachment: fixed;
             scroll-behavior: smooth;
         }
         
@@ -75,7 +81,7 @@
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(248, 250, 252, 0.95);
+            background: rgba(26, 26, 26, 0.95);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--border-color);
             z-index: 1000;
@@ -95,12 +101,14 @@
             gap: 0.75rem;
             font-weight: 700;
             font-size: 1.5rem;
-            color: var(--primary-color);
+            color: var(--text-accent);
             text-decoration: none;
+            text-shadow: 0 0 10px var(--primary-color);
         }
         
         .logo-icon {
             font-size: 2rem;
+            filter: drop-shadow(0 0 10px var(--primary-color));
         }
         
         .nav-links {
@@ -113,24 +121,30 @@
             color: var(--text-secondary);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
             position: relative;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
         }
         
         .nav-links a:hover,
         .nav-links a.active {
-            color: var(--primary-color);
+            color: var(--text-accent);
+            background: rgba(0, 191, 255, 0.1);
+            text-shadow: 0 0 10px var(--primary-color);
         }
         
         .nav-links a.active::after {
             content: '';
             position: absolute;
             bottom: -0.5rem;
-            left: 0;
-            right: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
             height: 2px;
             background: var(--primary-color);
             border-radius: 1px;
+            box-shadow: 0 0 10px var(--primary-color);
         }
         
         /* Mobile Menu */
@@ -146,7 +160,7 @@
         /* Hero Section */
         .hero {
             padding: 8rem 0 6rem;
-            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            background: radial-gradient(circle at center, rgba(0, 191, 255, 0.1) 0%, transparent 70%);
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -159,8 +173,21 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(37, 99, 235, 0.1) 0%, transparent 70%);
-            animation: rotate 20s linear infinite;
+            background: radial-gradient(circle, rgba(0, 191, 255, 0.05) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 191, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(0, 153, 204, 0.1) 0%, transparent 50%);
+            pointer-events: none;
         }
         
         @keyframes rotate {
@@ -174,120 +201,303 @@
         }
         
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-shadow: 0 0 30px rgba(0, 191, 255, 0.5);
         }
         
         .hero .subtitle {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            margin-bottom: 2rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            font-size: 1.5rem;
+            color: var(--text-accent);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            text-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
         }
         
         .hero .description {
-            font-size: 1.1rem;
-            color: var(--text-muted);
+            font-size: 1.2rem;
+            color: var(--text-secondary);
             margin-bottom: 3rem;
-            max-width: 800px;
+            max-width: 900px;
             margin-left: auto;
             margin-right: auto;
+            line-height: 1.8;
         }
         
         .cta-buttons {
             display: flex;
-            gap: 1rem;
+            gap: 1.5rem;
             justify-content: center;
             flex-wrap: wrap;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
         }
         
         .btn {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.875rem 2rem;
+            padding: 1rem 2.5rem;
             border: none;
             border-radius: var(--border-radius);
             font-weight: 600;
             text-decoration: none;
             transition: all 0.3s ease;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
         }
         
         .btn-primary {
-            background: var(--primary-color);
-            color: white;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--bg-primary);
+            box-shadow: var(--shadow-glow);
         }
         
         .btn-primary:hover {
-            background: var(--secondary-color);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(0, 191, 255, 0.5);
         }
         
         .btn-secondary {
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            border: 2px solid var(--border-color);
+            background: transparent;
+            color: var(--text-accent);
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.2);
         }
         
         .btn-secondary:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
+            background: rgba(0, 191, 255, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(0, 191, 255, 0.4);
         }
         
         .install-command {
             background: var(--bg-tertiary);
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border-accent);
             border-radius: var(--border-radius);
-            padding: 1rem 1.5rem;
+            padding: 1.5rem 2rem;
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.95rem;
+            font-size: 1.1rem;
             color: var(--text-primary);
             margin: 0 auto;
-            max-width: 400px;
+            max-width: 500px;
             position: relative;
             cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 191, 255, 0.2);
         }
         
         .install-command:hover {
-            background: var(--bg-secondary);
-            border-color: var(--primary-color);
+            background: var(--bg-card);
+            box-shadow: 0 0 30px rgba(0, 191, 255, 0.3);
+            transform: translateY(-2px);
         }
         
         .install-command::after {
             content: '📋';
             position: absolute;
-            right: 1rem;
+            right: 1.5rem;
             top: 50%;
             transform: translateY(-50%);
-            opacity: 0.7;
+            font-size: 1.5rem;
+            opacity: 0.8;
+        }
+        
+        /* Quick Start Section */
+        .quick-start {
+            padding: 6rem 0;
+            background: var(--bg-secondary);
+            position: relative;
+        }
+        
+        .quick-start::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-accent), transparent);
+        }
+        
+        .quick-start-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .quick-start-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quick-start-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+        
+        .quick-start-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(0, 191, 255, 0.2);
+            border-color: var(--border-accent);
+        }
+        
+        .quick-start-step {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .step-number {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: var(--bg-primary);
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.3);
+        }
+        
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        /* Why NexoCLI Section */
+        .why-nexocli {
+            padding: 6rem 0;
+            background: var(--bg-primary);
+        }
+        
+        .advantages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .advantage-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .advantage-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 191, 255, 0.05) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .advantage-card:hover::before {
+            opacity: 1;
+        }
+        
+        .advantage-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(0, 191, 255, 0.2);
+            border-color: var(--border-accent);
+        }
+        
+        .advantage-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 10px var(--primary-color));
+        }
+        
+        .advantage-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .advantage-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
         }
         
         /* Features Section */
         .features {
             padding: 6rem 0;
-            background: var(--bg-primary);
+            background: var(--bg-secondary);
         }
         
         .section-title {
             text-align: center;
-            font-size: 2.5rem;
+            font-size: 3rem;
             font-weight: 700;
-            margin-bottom: 3rem;
+            margin-bottom: 1rem;
             color: var(--text-primary);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
         }
         
         .features-grid {
@@ -298,23 +508,42 @@
         }
         
         .feature-card {
-            background: var(--bg-secondary);
+            background: var(--bg-card);
             padding: 2rem;
             border-radius: var(--border-radius);
             border: 1px solid var(--border-color);
             transition: all 0.3s ease;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover::before {
+            transform: scaleX(1);
         }
         
         .feature-card:hover {
             transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--primary-color);
+            box-shadow: 0 0 25px rgba(0, 191, 255, 0.2);
+            border-color: var(--border-accent);
         }
         
         .feature-icon {
             font-size: 3rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 10px var(--primary-color));
         }
         
         .feature-card h3 {
@@ -332,7 +561,7 @@
         /* Architecture Section */
         .architecture {
             padding: 6rem 0;
-            background: var(--bg-secondary);
+            background: var(--bg-primary);
         }
         
         .architecture-diagram {
@@ -343,35 +572,52 @@
         }
         
         .component-card {
-            background: var(--bg-primary);
+            background: var(--bg-card);
             padding: 2rem;
             border-radius: var(--border-radius);
             border: 1px solid var(--border-color);
             text-align: center;
             position: relative;
             transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .component-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 191, 255, 0.05) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .component-card:hover::before {
+            opacity: 1;
         }
         
         .component-card:hover {
             transform: translateY(-3px);
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 0 25px rgba(0, 191, 255, 0.2);
         }
         
         .component-card.active {
             border-color: var(--success-color);
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), var(--bg-primary));
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), var(--bg-card));
         }
         
         .component-card.planned {
             border-color: var(--warning-color);
-            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), var(--bg-primary));
+            background: linear-gradient(135deg, rgba(255, 204, 0, 0.1), var(--bg-card));
         }
         
         .component-status {
             position: absolute;
             top: 1rem;
             right: 1rem;
-            padding: 0.25rem 0.75rem;
+            padding: 0.3rem 0.8rem;
             border-radius: 9999px;
             font-size: 0.75rem;
             font-weight: 600;
@@ -379,12 +625,93 @@
         }
         
         .status-active {
-            background: rgba(16, 185, 129, 0.1);
+            background: rgba(0, 255, 136, 0.2);
             color: var(--success-color);
         }
         
         .status-planned {
-            background: rgba(245, 158, 11, 0.1);
+            background: rgba(255, 204, 0, 0.2);
+            color: var(--warning-color);
+        }
+        
+        /* Roadmap Section */
+        .roadmap {
+            padding: 6rem 0;
+            background: var(--bg-secondary);
+        }
+        
+        .roadmap-timeline {
+            max-width: 800px;
+            margin: 3rem auto 0;
+            position: relative;
+        }
+        
+        .roadmap-timeline::before {
+            content: '';
+            position: absolute;
+            left: 2rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--primary-color), var(--accent-color));
+        }
+        
+        .roadmap-item {
+            position: relative;
+            padding: 2rem 0 2rem 5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .roadmap-item::before {
+            content: '';
+            position: absolute;
+            left: 1.5rem;
+            top: 2.5rem;
+            width: 1rem;
+            height: 1rem;
+            background: var(--primary-color);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(0, 191, 255, 0.5);
+        }
+        
+        .roadmap-item.completed::before {
+            background: var(--success-color);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+        }
+        
+        .roadmap-phase {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .roadmap-phase:hover {
+            transform: translateX(10px);
+            box-shadow: 0 0 25px rgba(0, 191, 255, 0.2);
+            border-color: var(--border-accent);
+        }
+        
+        .phase-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .phase-status {
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        
+        .phase-status.completed {
+            color: var(--success-color);
+        }
+        
+        .phase-status.planned {
             color: var(--warning-color);
         }
         
@@ -402,14 +729,16 @@
         }
         
         .code-block {
-            background: var(--text-primary);
-            color: #e2e8f0;
-            padding: 1.5rem;
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            padding: 2rem 1.5rem 1.5rem;
             border-radius: var(--border-radius);
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.9rem;
             overflow-x: auto;
             position: relative;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 0 20px rgba(0, 191, 255, 0.1);
         }
         
         .code-block::before {
@@ -418,29 +747,31 @@
             top: 0;
             left: 0;
             right: 0;
-            background: rgba(255, 255, 255, 0.1);
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            color: var(--bg-primary);
             padding: 0.5rem 1rem;
             font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.8);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 600;
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
         }
         
         .code-block code {
             display: block;
-            margin-top: 2rem;
             line-height: 1.6;
         }
         
         .code-comment {
-            color: #94a3b8;
+            color: var(--text-muted);
         }
         
         .code-command {
-            color: #60a5fa;
+            color: var(--primary-color);
+            font-weight: 600;
         }
         
         .code-string {
-            color: #34d399;
+            color: var(--success-color);
         }
         
         /* Download Section */
@@ -458,23 +789,41 @@
         }
         
         .download-card {
-            background: var(--bg-primary);
+            background: var(--bg-card);
             padding: 2rem;
             border-radius: var(--border-radius);
             border: 1px solid var(--border-color);
             text-align: center;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .download-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 191, 255, 0.05) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .download-card:hover::before {
+            opacity: 1;
         }
         
         .download-card:hover {
             transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--primary-color);
+            box-shadow: 0 0 25px rgba(0, 191, 255, 0.2);
+            border-color: var(--border-accent);
         }
         
         .download-card.recommended {
             border-color: var(--success-color);
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), var(--bg-primary));
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), var(--bg-card));
         }
         
         .download-card.recommended::before {
@@ -483,23 +832,135 @@
             top: -0.5rem;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--success-color);
-            color: white;
-            padding: 0.25rem 1rem;
+            background: linear-gradient(135deg, var(--success-color), #00cc66);
+            color: var(--bg-primary);
+            padding: 0.3rem 1rem;
             border-radius: 9999px;
             font-size: 0.75rem;
             font-weight: 600;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
         }
         
-        .download-card {
+        /* Community Section */
+        .community {
+            padding: 6rem 0;
+            background: var(--bg-primary);
+        }
+        
+        .community-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .community-card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: all 0.3s ease;
             position: relative;
+            overflow: hidden;
+        }
+        
+        .community-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .community-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .community-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(0, 191, 255, 0.2);
+            border-color: var(--border-accent);
+        }
+        
+        .community-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 0 10px var(--primary-color));
+        }
+        
+        .community-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .community-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .community-card a {
+            color: var(--text-accent);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .community-card a:hover {
+            color: var(--primary-color);
+            text-shadow: 0 0 10px var(--primary-color);
+        }
+        
+        /* Attribution Section */
+        .attribution {
+            padding: 4rem 0;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .attribution-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .attribution h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        
+        .attribution p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .attribution a {
+            color: var(--text-accent);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .attribution a:hover {
+            color: var(--primary-color);
+            text-shadow: 0 0 10px var(--primary-color);
         }
         
         /* Footer */
         footer {
-            background: var(--text-primary);
-            color: #e2e8f0;
+            background: var(--bg-primary);
+            color: var(--text-secondary);
             padding: 3rem 0 2rem;
+            border-top: 1px solid var(--border-color);
         }
         
         .footer-content {
@@ -513,18 +974,20 @@
             font-size: 1.25rem;
             font-weight: 600;
             margin-bottom: 1rem;
-            color: white;
+            color: var(--text-primary);
         }
         
         .footer-section p,
         .footer-section a {
-            color: #94a3b8;
+            color: var(--text-secondary);
             text-decoration: none;
             line-height: 1.6;
+            transition: all 0.3s ease;
         }
         
         .footer-section a:hover {
-            color: var(--accent-color);
+            color: var(--text-accent);
+            text-shadow: 0 0 10px var(--primary-color);
         }
         
         .footer-links {
@@ -537,10 +1000,10 @@
         }
         
         .footer-bottom {
-            border-top: 1px solid #374151;
+            border-top: 1px solid var(--border-color);
             padding-top: 2rem;
             text-align: center;
-            color: #6b7280;
+            color: var(--text-muted);
         }
         
         /* Responsive Design */
@@ -558,7 +1021,7 @@
             }
             
             .hero .subtitle {
-                font-size: 1.1rem;
+                font-size: 1.2rem;
             }
             
             .cta-buttons {
@@ -573,6 +1036,22 @@
             
             .container {
                 padding: 0 1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .roadmap-timeline::before {
+                left: 1rem;
+            }
+            
+            .roadmap-item {
+                padding-left: 3rem;
+            }
+            
+            .roadmap-item::before {
+                left: 0.5rem;
             }
         }
         
@@ -591,6 +1070,24 @@
             50% { transform: scale(1.05); }
             100% { transform: scale(1); }
         }
+        
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color);
+        }
     </style>
 </head>
 <body>
@@ -603,9 +1100,10 @@
             </a>
             <ul class="nav-links">
                 <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#quick-start">Quick Start</a></li>
+                <li><a href="#why-nexocli">Why NexoCLI</a></li>
                 <li><a href="#features">Features</a></li>
-                <li><a href="#architecture">Architecture</a></li>
-                <li><a href="#usage">Usage</a></li>
+                <li><a href="#roadmap">Roadmap</a></li>
                 <li><a href="#download">Download</a></li>
             </ul>
             <button class="mobile-menu-toggle">☰</button>
@@ -617,16 +1115,19 @@
         <div class="container">
             <div class="hero-content">
                 <h1>NexoCLI</h1>
-                <p class="subtitle">Professional Google Gemini CLI</p>
+                <p class="subtitle">Your Professional AI Command Line Interface</p>
                 <p class="description">
-                    A professionally customized fork of Gemini-CLI by Google LLC, maintaining full original functionality while adding specific customizations for the Nexo development ecosystem.
+                    NexoCLI is a robust and customizable command-line tool designed specifically for the Nexo AI development ecosystem. Built upon the solid foundation of Gemini-CLI by Google LLC, NexoCLI elevates your experience with professional customization, enhanced branding, and seamless integration with the complete Nexo component suite.
                 </p>
                 <div class="cta-buttons">
-                    <a href="#download" class="btn btn-primary">
-                        📦 Get Started
+                    <a href="#quick-start" class="btn btn-primary">
+                        🚀 Get Started
                     </a>
                     <a href="https://github.com/nsalvacao/NexoCLI_BaseGemini" class="btn btn-secondary" target="_blank">
                         📚 View on GitHub
+                    </a>
+                    <a href="#download" class="btn btn-secondary">
+                        📖 Documentation
                     </a>
                 </div>
                 <div class="install-command" onclick="copyToClipboard('npm install -g @nsalvacao/nexo-cli')" title="Click to copy">
@@ -636,30 +1137,122 @@
         </div>
     </section>
 
+    <!-- Quick Start Section -->
+    <section id="quick-start" class="quick-start">
+        <div class="container">
+            <h2 class="section-title">Quick Start</h2>
+            <p class="section-subtitle">Get NexoCLI up and running in minutes</p>
+            <div class="quick-start-grid">
+                <div class="quick-start-card">
+                    <div class="quick-start-step">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Install via NPM</div>
+                    </div>
+                    <div class="code-block" data-title="Installation">
+                        <code>
+<span class="code-comment"># Install globally</span>
+<span class="code-command">npm install -g @nsalvacao/nexo-cli</span>
+                        </code>
+                    </div>
+                </div>
+                <div class="quick-start-card">
+                    <div class="quick-start-step">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Authenticate</div>
+                    </div>
+                    <div class="code-block" data-title="First Run">
+                        <code>
+<span class="code-comment"># First run - OAuth authentication</span>
+<span class="code-command">nexocli</span> <span class="code-string">"Hello, NexoCLI!"</span>
+<span class="code-comment"># Browser opens for Google OAuth</span>
+                        </code>
+                    </div>
+                </div>
+                <div class="quick-start-card">
+                    <div class="quick-start-step">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Start Using</div>
+                    </div>
+                    <div class="code-block" data-title="Basic Usage">
+                        <code>
+<span class="code-comment"># Interactive mode</span>
+<span class="code-command">nexocli</span>
+
+<span class="code-comment"># Direct queries</span>
+<span class="code-command">nexocli</span> <span class="code-string">"Explain quantum computing"</span>
+<span class="code-command">nexocli</span> <span class="code-string">"@src/*.js analyze this code"</span>
+                        </code>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why NexoCLI Section -->
+    <section id="why-nexocli" class="why-nexocli">
+        <div class="container">
+            <h2 class="section-title">Why Choose NexoCLI?</h2>
+            <p class="section-subtitle">Discover the advantages of using NexoCLI for your AI development workflow</p>
+            <div class="advantages-grid">
+                <div class="advantage-card">
+                    <div class="advantage-icon">🎯</div>
+                    <h3>Professional Experience</h3>
+                    <p>Enhanced interface with professional branding, improved user experience, and dedicated support for the Nexo ecosystem.</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="advantage-icon">🔒</div>
+                    <h3>Independent Authentication</h3>
+                    <p>Separate authentication system that doesn't interfere with existing Gemini-CLI installations, ensuring smooth coexistence.</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="advantage-icon">🚀</div>
+                    <h3>Hybrid Integration</h3>
+                    <p>Designed as part of a comprehensive 4-component AI solution, with planned integration for visual orchestration and unified interfaces.</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="advantage-icon">📦</div>
+                    <h3>Easy Distribution</h3>
+                    <p>Available on NPM with global installation support, Windows compatibility, and automatic updates.</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="advantage-icon">🔧</div>
+                    <h3>Full Compatibility</h3>
+                    <p>100% compatible with original Gemini-CLI functionality while adding enhanced features and customizations.</p>
+                </div>
+                <div class="advantage-card">
+                    <div class="advantage-icon">🎨</div>
+                    <h3>Customized Interface</h3>
+                    <p>Professional ASCII art, English internationalization, and optimized command structure for better usability.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Features Section -->
     <section id="features" class="features">
         <div class="container">
-            <h2 class="section-title">Key Features</h2>
+            <h2 class="section-title">Core Features</h2>
+            <p class="section-subtitle">Everything you need for professional AI command-line interaction</p>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">🎯</div>
                     <h3>Professional Branding</h3>
-                    <p>Complete rebranding from <code>gemini</code> to <code>nexocli</code> with professional ASCII art and interface customization.</p>
+                    <p>Complete rebranding with custom ASCII art, professional color themes, and enhanced user interface elements.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🔐</div>
                     <h3>Separate Authentication</h3>
-                    <p>Independent authentication system using <code>~/.nexocli/</code> directory with automatic migration from existing Gemini-CLI.</p>
+                    <p>Independent authentication system using <code>~/.nexocli/</code> directory with automatic migration support.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">📦</div>
                     <h3>NPM Distribution</h3>
-                    <p>Available as <code>@nsalvacao/nexo-cli</code> on NPM with global installation support and Windows compatibility.</p>
+                    <p>Available as <code>@nsalvacao/nexo-cli</code> on NPM with global installation and cross-platform compatibility.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🌍</div>
                     <h3>English Interface</h3>
-                    <p>Complete English internationalization with professional terminology and user-friendly messages.</p>
+                    <p>Complete English internationalization with professional terminology and user-friendly help messages.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🔧</div>
@@ -679,9 +1272,7 @@
     <section id="architecture" class="architecture">
         <div class="container">
             <h2 class="section-title">Solution Architecture</h2>
-            <p style="text-align: center; color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem;">
-                NexoCLI is part of a comprehensive 4-component hybrid solution for AI development
-            </p>
+            <p class="section-subtitle">NexoCLI is part of a comprehensive 4-component hybrid AI solution</p>
             <div class="architecture-diagram">
                 <div class="component-card active">
                     <div class="component-status status-active">Active</div>
@@ -719,10 +1310,56 @@
         </div>
     </section>
 
+    <!-- Roadmap Section -->
+    <section id="roadmap" class="roadmap">
+        <div class="container">
+            <h2 class="section-title">Development Roadmap</h2>
+            <p class="section-subtitle">Our journey towards a complete AI development ecosystem</p>
+            <div class="roadmap-timeline">
+                <div class="roadmap-item completed">
+                    <div class="roadmap-phase">
+                        <div class="phase-title">Phase 1: Professional Branding</div>
+                        <div class="phase-status completed">✅ Completed</div>
+                        <p>Complete rebranding, NPM publication, authentication separation, and Windows compatibility. Far exceeded original objectives with global distribution.</p>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-phase">
+                        <div class="phase-title">Phase 2: Custom Commands</div>
+                        <div class="phase-status planned">🔄 Planned</div>
+                        <p>Implementation of custom slash commands (<code>/nexo info</code>, <code>/nexo status</code>, <code>/nexo config</code>) with ecosystem-specific functionality.</p>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-phase">
+                        <div class="phase-title">Phase 3: Integration Preparation</div>
+                        <div class="phase-status planned">🔄 Planned</div>
+                        <p>API endpoints for n8n communication, webhook configuration, and modular settings for hybrid solution integration.</p>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-phase">
+                        <div class="phase-title">Phase 4: Unified Interface</div>
+                        <div class="phase-status planned">🔄 Planned</div>
+                        <p>Consolidated menu foundation for multi-agent management and communication protocol implementation.</p>
+                    </div>
+                </div>
+                <div class="roadmap-item">
+                    <div class="roadmap-phase">
+                        <div class="phase-title">Phase 5: Orchestration Integration</div>
+                        <div class="phase-status planned">🔄 Planned</div>
+                        <p>Full n8n orchestration integration with visual workflows and advanced multi-agent coordination.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Usage Section -->
     <section id="usage" class="usage">
         <div class="container">
             <h2 class="section-title">Usage Examples</h2>
+            <p class="section-subtitle">Explore different ways to use NexoCLI in your workflow</p>
             <div class="usage-examples">
                 <div class="code-block" data-title="Basic Usage">
                     <code>
@@ -761,7 +1398,7 @@
 <span class="code-comment"># First run - OAuth authentication</span>
 <span class="code-command">nexocli</span> <span class="code-string">"test authentication"</span>
 
-<span class="code-comment"># Browser will open automatically</span>
+<span class="code-comment"># Browser opens automatically</span>
 <span class="code-comment"># Credentials stored in ~/.nexocli/</span>
                     </code>
                 </div>
@@ -772,12 +1409,13 @@
     <!-- Download Section -->
     <section id="download" class="download">
         <div class="container">
-            <h2 class="section-title">Get Started</h2>
+            <h2 class="section-title">Get Started Today</h2>
+            <p class="section-subtitle">Choose your preferred installation method</p>
             <div class="download-options">
                 <div class="download-card recommended">
                     <div class="feature-icon">📦</div>
                     <h3>NPM Installation</h3>
-                    <p>Install globally via NPM for immediate use</p>
+                    <p>Install globally via NPM for immediate use across your system</p>
                     <div class="code-block" data-title="NPM Install">
                         <code>
 <span class="code-comment"># Install globally</span>
@@ -788,13 +1426,13 @@
                         </code>
                     </div>
                     <a href="https://www.npmjs.com/package/@nsalvacao/nexo-cli" class="btn btn-primary" target="_blank">
-                        View on NPM
+                        📦 View on NPM
                     </a>
                 </div>
                 <div class="download-card">
                     <div class="feature-icon">🔧</div>
                     <h3>Development Setup</h3>
-                    <p>Clone repository for local development</p>
+                    <p>Clone repository for local development and contribution</p>
                     <div class="code-block" data-title="Local Development">
                         <code>
 <span class="code-comment"># Clone repository</span>
@@ -809,9 +1447,65 @@
                         </code>
                     </div>
                     <a href="https://github.com/nsalvacao/NexoCLI_BaseGemini" class="btn btn-secondary" target="_blank">
-                        View Repository
+                        🔧 View Repository
                     </a>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section id="community" class="community">
+        <div class="container">
+            <h2 class="section-title">Community & Contributions</h2>
+            <p class="section-subtitle">Join the NexoCLI community and help shape the future of AI CLI tools</p>
+            <div class="community-grid">
+                <div class="community-card">
+                    <div class="community-icon">🐛</div>
+                    <h3>Report Issues</h3>
+                    <p>Found a bug or have a feature request? Let us know!</p>
+                    <a href="https://github.com/nsalvacao/NexoCLI_BaseGemini/issues" target="_blank">Report Issue</a>
+                </div>
+                <div class="community-card">
+                    <div class="community-icon">💡</div>
+                    <h3>Discussions</h3>
+                    <p>Join conversations about features, usage, and ideas.</p>
+                    <a href="https://github.com/nsalvacao/NexoCLI_BaseGemini/discussions" target="_blank">Start Discussion</a>
+                </div>
+                <div class="community-card">
+                    <div class="community-icon">🤝</div>
+                    <h3>Contribute</h3>
+                    <p>Help improve NexoCLI by contributing code or documentation.</p>
+                    <a href="https://github.com/nsalvacao/NexoCLI_BaseGemini/blob/main/CONTRIBUTING.md" target="_blank">Contributing Guide</a>
+                </div>
+                <div class="community-card">
+                    <div class="community-icon">📚</div>
+                    <h3>Documentation</h3>
+                    <p>Comprehensive guides and technical documentation.</p>
+                    <a href="https://github.com/nsalvacao/NexoCLI_BaseGemini/blob/main/README.md" target="_blank">Read Docs</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Attribution Section -->
+    <section id="attribution" class="attribution">
+        <div class="container">
+            <div class="attribution-content">
+                <h3>Legal Attribution</h3>
+                <p>
+                    NexoCLI is based on <a href="https://github.com/google-gemini/gemini-cli" target="_blank">Gemini-CLI</a> 
+                    by Google LLC and is licensed under the <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">Apache License 2.0</a>.
+                </p>
+                <p>
+                    <strong>Original Copyright:</strong> 2025 Google LLC<br>
+                    <strong>Modifications:</strong> 2025 Nuno Salvação<br>
+                    <strong>License:</strong> Apache License 2.0
+                </p>
+                <p>
+                    All modifications are documented and traceable in the project repository. 
+                    The original license terms are maintained and respected.
+                </p>
             </div>
         </div>
     </section>
@@ -822,8 +1516,8 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>NexoCLI</h3>
-                    <p>Professional Google Gemini CLI customized for the Nexo development ecosystem.</p>
-                    <p>Based on Gemini-CLI by Google LLC (Apache 2.0)</p>
+                    <p>Your Professional AI Command Line Interface designed for the Nexo development ecosystem.</p>
+                    <p>Built upon the robust foundation of Gemini-CLI by Google LLC.</p>
                 </div>
                 <div class="footer-section">
                     <h3>Links</h3>
@@ -868,7 +1562,7 @@
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
                 const sectionHeight = section.clientHeight;
-                if (pageYOffset >= sectionTop - 150) {
+                if (pageYOffset >= sectionTop - 200) {
                     current = section.getAttribute('id');
                 }
             });
@@ -889,7 +1583,7 @@
                 
                 // Show feedback
                 const originalText = element.textContent;
-                element.textContent = 'Copied to clipboard!';
+                element.textContent = 'Copied to clipboard! ✓';
                 
                 setTimeout(() => {
                     element.textContent = originalText;
@@ -918,7 +1612,7 @@
         // Initialize
         updateActiveLink();
         
-        // Mobile menu toggle (basic implementation)
+        // Mobile menu toggle
         document.querySelector('.mobile-menu-toggle').addEventListener('click', function() {
             const navLinks = document.querySelector('.nav-links');
             navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
@@ -928,10 +1622,18 @@
         window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
             if (window.scrollY > 100) {
-                header.style.background = 'rgba(248, 250, 252, 0.98)';
+                header.style.background = 'rgba(26, 26, 26, 0.98)';
             } else {
-                header.style.background = 'rgba(248, 250, 252, 0.95)';
+                header.style.background = 'rgba(26, 26, 26, 0.95)';
             }
+        });
+        
+        // Add click handlers to all code blocks for copying
+        document.querySelectorAll('.code-block').forEach(block => {
+            block.addEventListener('click', function() {
+                const code = this.querySelector('code').textContent;
+                copyToClipboard(code);
+            });
         });
     </script>
 </body>
